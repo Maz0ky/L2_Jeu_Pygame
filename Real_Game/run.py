@@ -6,8 +6,8 @@ pygame.init()
 screen = pygame.display.set_mode((800,400))
 pygame.display.set_caption("Zeta Jeu de la muerta")
 clock = pygame.time.Clock()
-path_for_files = "Visi301_Mathieu_Teva/First_Steps"
-speed = 30
+fps = 60
+speed = 10
 
 sky_surf = pygame.image.load(path_for_files + '/graphics/Sky.png').convert()
 ground_surf = pygame.image.load(path_for_files + '/graphics/ground.png').convert()
@@ -16,20 +16,33 @@ player_surf = pygame.image.load(path_for_files + '/graphics/Player/player_walk_1
 player_rect = player_surf.get_rect(midbottom = (80,300)) #assigne un rect à player un sprite où le midbottom sera aux co 80 300
 player_gravity = 0
 
-#[{"mouvement":str,"temps":float},{}]
-ex_tab_mouv = File([{"mouvement":"r","temps":4}, {"mouvement":"r","temps":4},
-{"mouvement":"j","temps":4}])
+#[{"mouvement":str,"temps":int},{}]
+ex_tab_mouv = File_mouv([{"mouvement":"r","temps":30}, {"mouvement":"l","temps":3},
+{"mouvement":"j","temps":4}, {"mouvement":"l","temps":23}])
 
-def traite_mouv(File:File,rect):
+def bouge(mouv,rect):
     global player_gravity
-    mouvement = File.defiler()
-    mouv = mouvement["mouvement"]
     if mouv == "r":#droite
         rect.right += speed
     elif mouv == "l":#gauche
         rect.right -= speed
     elif mouv == "j":#jump
         player_gravity = -15
+
+def traite_mouv(File:File_mouv,rect):
+    mouv = File.get_mouv()["mouvement"]
+    File.affiche()
+    if File.est_ecoule():
+        File.defiler_mouv()
+        mouv = File.get_mouv()
+    File.defiler_temps()
+    bouge(mouv,rect)
+
+
+def tick_mouv(periode):
+    tps = periode * fps #car nous sommes en 60fps
+    pass
+            
             
 
 list_moving = []
@@ -56,6 +69,7 @@ while True:
     #     player_rect.right += speed
     # if keys[pygame.K_LEFT] or keys[pygame.K_q]:
     #     player_rect.right -= speed
+    
     if not ex_tab_mouv.est_vide():
         traite_mouv(ex_tab_mouv, player_rect)
     
@@ -63,4 +77,4 @@ while True:
     screen.blit(player_surf, player_rect)
         
     pygame.display.flip() #update tout l'ecran
-    clock.tick(60) # max 60fps pour le jeu
+    clock.tick(fps) # max 60fps pour le jeu
