@@ -1,6 +1,5 @@
 path_for_files = "Visi301_Mathieu_Teva/First_Steps"
 
-"""
 class Player:
     def __init__(self,coo,hp) -> None:
         self.coo = coo
@@ -13,7 +12,7 @@ class Player:
         
     def move_of(self, vect):
         self.rect.move(vect)
-"""
+        
         
 class File_mouv:
     
