@@ -1,10 +1,12 @@
 import pygame
 from mouvement import *
+from liste_elements import *
 from sys import exit
 
 pygame.init()
 screen = pygame.display.set_mode((800,400))
 pygame.display.set_caption("Zeta Jeu de la muerta")
+initialiser_interface(screen) # Ajout du code de création de la liste d'élément
 clock = pygame.time.Clock()
 fps = 60
 speed = 10
@@ -74,7 +76,11 @@ while True:
     if not ex_tab_mouv.est_vide():
         traite_mouv(ex_tab_mouv, player_rect)
     
-    
+    liste_mouvements = interface_ajout_mouvements(screen)
+    if liste_mouvements:  # Si des mouvements sont générés
+        for mouvement in liste_mouvements:
+            ex_tab_mouv.enfiler_mouv(mouvement)  # Ajoute à la file des mouvements
+
     screen.blit(player_surf, player_rect)
         
     pygame.display.flip() #update tout l'ecran
