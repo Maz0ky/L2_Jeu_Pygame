@@ -31,7 +31,6 @@ def bouge(mouv,rect):
 
 def traite_mouv(File:File_mouv,rect):
     mouv = File.get_mouv()["mouvement"]
-    File.affiche()
     if File.est_ecoule():
         File.defiler_mouv()
         mouv = File.get_mouv()
@@ -59,16 +58,18 @@ while True:
     screen.blit(sky_surf,(0,0))#pose une surface sur l'ecran du jeu
     screen.blit(ground_surf,(0,300))
     
-    player_gravity += 0.5
     player_rect.y += player_gravity
     if player_rect.bottom >= 300:
         player_rect.bottom = 300
+        player_gravity = 0
+    else:
+        player_gravity += 0.5
     
-    # keys = pygame.key.get_pressed()
-    # if keys[pygame.K_RIGHT] or keys[pygame.K_d]: 
-    #     player_rect.right += speed
-    # if keys[pygame.K_LEFT] or keys[pygame.K_q]:
-    #     player_rect.right -= speed
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_RIGHT] or keys[pygame.K_d]: 
+        player_rect.right += speed
+    if keys[pygame.K_LEFT] or keys[pygame.K_q]:
+        player_rect.right -= speed
     
     if not ex_tab_mouv.est_vide():
         traite_mouv(ex_tab_mouv, player_rect)
@@ -78,3 +79,4 @@ while True:
         
     pygame.display.flip() #update tout l'ecran
     clock.tick(fps) # max 60fps pour le jeu
+    
