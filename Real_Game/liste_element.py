@@ -11,23 +11,48 @@ elements_fixes = []  # Blocs fixes
 elements_deplacables = []  # Blocs créés et déplaçables
 
 # Fonction pour créer des surfaces
-def cree_surf(color: str, width, height, pos_x, pos_y):
-    surf = pygame.Surface((width, height))
-    surf.fill(color)
-    rect = surf.get_rect(bottomright=(pos_x, pos_y))
-    return surf, rect
 
-# Création des blocs fixes
-surf_1, rect_1 = cree_surf('yellow', 100, 200, 300, 400)
-surf_2, rect_2 = cree_surf('purple', 100, 100, 100, 400)
+def cree_surf_img(chemin: str, width, height, pos_x, pos_y):
+    surf = pygame.image.load(chemin).convert_alpha()
+    surf = pygame.transform.scale(surf, (width, height))
+    rect = surf.get_rect(topleft=(pos_x, pos_y))
+    img = chemin
+    return surf, rect, img 
 
-# Ajouter les blocs fixes à la liste
-elements_fixes.append((surf_1, rect_1))
-elements_fixes.append((surf_2, rect_2))
+# Création du bouton envoie 
+button_font = pygame.font.Font(None, 36)
+button_text = button_font.render("Envoie", True, (255, 255, 255))
+button_rect = pygame.Rect(700, 350, 90, 40)
+
+# Eléments de mouvements
+surf_1, rect_1, img1 = cree_surf_img('elem/left-arrow.png', 100, 100, 0, 300)
+surf_2, rect_2, img2 = cree_surf_img('elem/up-arrow.png', 100, 100, 90, 300)
+surf_3, rect_3, img3 = cree_surf_img('elem/right-arrow.png', 100, 100, 180, 300)
+elements_fixes.append((surf_1, rect_1, img1))
+elements_fixes.append((surf_2, rect_2, img2))
+elements_fixes.append((surf_3, rect_3, img3))
 
 selected_element = None  # Bloc sélectionné
 mouse_offset = (0, 0)  # Décalage entre la souris et l'élément sélectionné
 
+def obtenir_position_x(element):
+    return element[1].x #Position x de élément déplaçable
+
+def generer_liste_elements():
+    elements_triee = sorted(elements_deplacables, key=obtenir_position_x) # Je Trie les éléments de gauche à droite en fonction de leur position x
+    liste_elements = []
+    for elem in elements_triee:
+        if elem[2] == "elem/up-arrow.png":
+            mouv = "j"
+        elif elem[2] == "elem/right-arrow.png":
+            mouv = "r"
+        elif elem[2] == "elem/left-arrow.png":
+            mouv = "l"
+        
+        temps = 10
+            
+        liste_elements.append([mouv, temps])
+    print("Liste des éléments dans l'ordre de gauche à droite :", liste_elements)
 
 while True:
     for event in pygame.event.get():
@@ -39,13 +64,17 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
+            # Vérification du clic sur le bouton Envoi
+            if button_rect.collidepoint(mouse_pos):
+                generer_liste_elements()  # Génére et affiche la liste des éléments déplaçables
+
             # Vérification des blocs fixes
             for element in elements_fixes:
                 if element[1].collidepoint(mouse_pos):  # Si on clique sur un bloc fixe
                     # Créer un nouveau bloc à la même position
-                    new_surf, new_rect = cree_surf(element[0].get_at((0, 0)), element[1].width, element[1].height, element[1].x, element[1].y)
-                    elements_deplacables.append((new_surf, new_rect))  # Ajouter à la liste des déplaçables
-                    selected_element = (new_surf, new_rect)  # Sélectionner ce nouvel élément
+                    new_surf, new_rect, new_img = cree_surf_img(element[2], element[1].width, element[1].height, element[1].x, element[1].y)
+                    elements_deplacables.append((new_surf, new_rect, new_img))  # Ajouter à la liste des déplaçables
+                    selected_element = (new_surf, new_rect, new_img)  # Sélectionner ce nouvel élément
                     mouse_offset = (mouse_pos[0] - new_rect.x, mouse_pos[1] - new_rect.y)
                     break  # On arrête de vérifier une fois qu'on a cliqué sur un élément fixe
 
@@ -73,12 +102,15 @@ while True:
     screen.fill((30, 30, 30))  # Remplit l'écran avec une couleur de fond
 
     # Dessiner tous les blocs fixes
-    for surf, rect in elements_fixes:
+    for surf, rect, img in elements_fixes:
         screen.blit(surf, rect)
 
     # Dessiner tous les blocs déplaçables
-    for surf, rect in elements_deplacables:
+    for surf, rect, img in elements_deplacables:
         screen.blit(surf, rect)
+
+    # Dessin du bouton envoie
+    screen.blit(button_text, (button_rect.x + 10, button_rect.y + 5))
 
     pygame.display.update()  # Maj de la fenêtre
     clock.tick(60)  # Notre boucle ne s'effectuera pas plus rapidemment que 60 fois par seconde
