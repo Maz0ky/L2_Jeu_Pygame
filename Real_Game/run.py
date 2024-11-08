@@ -74,14 +74,15 @@ while True:
     else:
         player_gravity += 0.5
     
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-        player_rect.right += speed
-    if keys[pygame.K_LEFT] or keys[pygame.K_q]:
-        player_rect.right -= speed
+    # keys = pygame.key.get_pressed()
+    # if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+    #     player_rect.right += speed
+    # if keys[pygame.K_LEFT] or keys[pygame.K_q]:
+    #     player_rect.right -= speed
     
     # Si des mouvements sont dans la file, on les traite
     if not ex_tab_mouv.est_vide():
+        
         traite_mouv(ex_tab_mouv, player_rect)
 
     ### [liste_element]

@@ -52,8 +52,6 @@ def affiche_menu(screen, menu_rect):
     return menu_rect, option_supprimer, option_temps
 ####
 
-
-
 def eventss(screen, event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne):
     """Gestion des évènements"""
     genere_liste_elements = False # Indique si l'on doit envoyer la liste
@@ -77,6 +75,12 @@ def eventss(screen, event, elements_fixes, elements_deplacables, selected_elemen
 
         # Vérification des blocs déplaçables pour les déplacer si besoin
         for element in elements_deplacables:
+
+            if element[1].x < -20 or element[1].x > 720:
+                elements_deplacables.remove(element)
+                
+                break
+
             if element[1].collidepoint(mouse_pos):
                 if event.button == 1: # event.button == 1 désigne le clique gauche
                     selected_element = element
@@ -86,7 +90,6 @@ def eventss(screen, event, elements_fixes, elements_deplacables, selected_elemen
                 if event.button == 3:  # Clic droit
                     # Afficher un menu contextuel
                     menu_visible = True
-                    print("Affichage du menu contextuel")
                     element_concerne = element
                     menu_rect, option_supprimer, option_temps = affiche_menu(screen, menu_rect)
                     break
@@ -101,7 +104,6 @@ def eventss(screen, event, elements_fixes, elements_deplacables, selected_elemen
             if menu_rect.collidepoint(mouse_pos):
                 # Supprimer l'élément sélectionné si "Supprimer" est cliqué
                 if option_supprimer.get_rect(topleft=(menu_rect.x + 10, menu_rect.y + 10)).collidepoint(mouse_pos):
-                    
                     elements_deplacables.remove(element_concerne)
                     menu_visible = False
                 
@@ -111,7 +113,7 @@ def eventss(screen, event, elements_fixes, elements_deplacables, selected_elemen
                     nouveau_temps = int(input("Entrez le nouveau temps : "))
                     for element in elements_deplacables:
                         if element == element_concerne:
-                            element[3] = nouveau_temps  # Mise à jour du temps dans les données de l'élément
+                            element[3] = nouveau_temps # Mise à jour du temps dans les données de l'élément
                             break
                     menu_visible = False
 
