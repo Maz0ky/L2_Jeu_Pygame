@@ -1,52 +1,56 @@
 import pygame
 from mouvement import *
-from liste_elements import *
+from liste_element import *
 from sys import exit
 
 pygame.init()
-screen = pygame.display.set_mode((800,400))
+screen = pygame.display.set_mode((1600, 400))  # Nouvelle taille de fenêtre
 pygame.display.set_caption("Zeta Jeu de la muerta")
-initialiser_interface(screen) # Ajout du code de création de la liste d'élément
+
 clock = pygame.time.Clock()
 fps = 60
 speed = 10
 
-sky_surf = pygame.image.load(path_for_files + '/graphics/Sky.png').convert()
-ground_surf = pygame.image.load(path_for_files + '/graphics/ground.png').convert()
+sky_surf = pygame.image.load('graphics/Sky.png').convert()
+ground_surf = pygame.image.load('graphics/ground.png').convert()
 
-player_surf = pygame.image.load(path_for_files + '/graphics/Player/player_walk_1.png').convert_alpha()
-player_rect = player_surf.get_rect(midbottom = (80,300)) #assigne un rect à player un sprite où le midbottom sera aux co 80 300
+player_surf = pygame.image.load('graphics/Player/player_walk_1.png').convert_alpha()
+player_rect = player_surf.get_rect(midbottom=(880, 300))  # Position initiale du joueur
 player_gravity = 0
 
-#[{"mouvement":str,"temps":int},{}]
-ex_tab_mouv = File_mouv([{"mouvement":"r","temps":30}, {"mouvement":"l","temps":3},
-{"mouvement":"j","temps":4}, {"mouvement":"l","temps":23}])
+# Initialisation de la file des mouvements
+ex_tab_mouv = File_mouv([])
+# ex_tab_mouv = File_mouv([{"mouvement": "r", "temps": 30}, {"mouvement": "l", "temps": 3},
+#                         {"mouvement": "j", "temps": 4}, {"mouvement": "l", "temps": 23}])
 
-def bouge(mouv,rect):
+def bouge(mouv, rect):
     global player_gravity
-    if mouv == "r":#droite
+    if mouv == "r":  # Droite
         rect.right += speed
-    elif mouv == "l":#gauche
+    elif mouv == "l":  # Gauche
         rect.right -= speed
-    elif mouv == "j":#jump
+    elif mouv == "j":  # Saut
         player_gravity = -15
 
-def traite_mouv(File:File_mouv,rect):
+def traite_mouv(File: File_mouv, rect):
     mouv = File.get_mouv()["mouvement"]
     if File.est_ecoule():
         File.defiler_mouv()
         mouv = File.get_mouv()
     File.defiler_temps()
-    bouge(mouv,rect)
+    bouge(mouv, rect)
 
 
-def tick_mouv(periode):
-    tps = periode * fps #car nous sommes en 60fps
-    pass
-            
-            
+### [liste_element]
+# Variables de configuration initiale (générales pour une exécution persistante)
+elements_fixes = initaliser_elements()
+elements_deplacables = []
+selected_element = None
+mouse_offset = (0, 0)
+button_font, button_text, button_rect = initialiser_interface()  # Initialisation de l'interface avec les éléments
+### [liste_element]
 
-list_moving = []
+# Game loop principal
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -56,9 +60,13 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and player_rect.bottom >= 300:
                 player_gravity = -15
-    
-    screen.blit(sky_surf,(0,0))#pose une surface sur l'ecran du jeu
-    screen.blit(ground_surf,(0,300))
+
+        ### [liste_element]
+        elements_deplacables, mouse_offset, genere_liste_elements, selected_element = eventss(event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect)
+        ### [liste_element]
+
+    screen.blit(sky_surf, (0, 0))  # Affichage de l'arrière-plan
+    screen.blit(ground_surf, (0, 300))  # Affichage du sol
     
     player_rect.y += player_gravity
     if player_rect.bottom >= 300:
@@ -68,21 +76,27 @@ while True:
         player_gravity += 0.5
     
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_RIGHT] or keys[pygame.K_d]: 
+    if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
         player_rect.right += speed
     if keys[pygame.K_LEFT] or keys[pygame.K_q]:
         player_rect.right -= speed
     
+    # Si des mouvements sont dans la file, on les traite
     if not ex_tab_mouv.est_vide():
         traite_mouv(ex_tab_mouv, player_rect)
-    
-    liste_mouvements = interface_ajout_mouvements(screen)
-    if liste_mouvements:  # Si des mouvements sont générés
+
+    ### [liste_element]
+    # Récupérer et appliquer les mouvements générés par l'interface
+    selected_element, button_rect = interface_ajout_mouvements(screen, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_text, button_rect)
+    if genere_liste_elements:  # Si des mouvements sont générés
+        liste_mouvements = generer_liste_elements(elements_deplacables)  # Retourne la liste des mouvements pour l'utiliser dans Code 3
+        print("Mouvements générés :", liste_mouvements)
         for mouvement in liste_mouvements:
             ex_tab_mouv.enfiler_mouv(mouvement)  # Ajoute à la file des mouvements
+    ### [liste_element]
 
+    # Afficher le joueur
     screen.blit(player_surf, player_rect)
-        
-    pygame.display.flip() #update tout l'ecran
-    clock.tick(fps) # max 60fps pour le jeu
     
+    pygame.display.flip()  # Met à jour l'écran
+    clock.tick(fps)  # Limite à 60 FPS
