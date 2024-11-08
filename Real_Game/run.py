@@ -43,11 +43,10 @@ def traite_mouv(File: File_mouv, rect):
 
 ### [liste_element]
 # Variables de configuration initiale (générales pour une exécution persistante)
-elements_fixes = initaliser_elements()
-elements_deplacables = []
-selected_element = None
-mouse_offset = (0, 0)
-button_font, button_text, button_rect = initialiser_interface()  # Initialisation de l'interface avec les éléments
+
+elements_fixes, elements_deplacables, selected_element, mouse_offset = initialiser_interface() # Initialisation de divers élements
+button_font, button_text, button_rect = initialiser_bouton_envoi()  # Initialisation de l'interface avec les éléments
+menu_visible, menu_rect, option_supprimer, option_temps, element_concerne = initialiser_menu() # Initialisation du menu (suppression et temps)
 ### [liste_element]
 
 # Game loop principal
@@ -62,7 +61,7 @@ while True:
                 player_gravity = -15
 
         ### [liste_element]
-        elements_deplacables, mouse_offset, genere_liste_elements, selected_element = eventss(event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect)
+        elements_deplacables, mouse_offset, genere_liste_elements, selected_element, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne = eventss(screen, event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne)
         ### [liste_element]
 
     screen.blit(sky_surf, (0, 0))  # Affichage de l'arrière-plan
@@ -87,7 +86,7 @@ while True:
 
     ### [liste_element]
     # Récupérer et appliquer les mouvements générés par l'interface
-    selected_element, button_rect = interface_ajout_mouvements(screen, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_text, button_rect)
+    selected_element, button_rect, menu_visible, menu_rect, option_supprimer, option_temps = interface_ajout_mouvements(screen, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps)
     if genere_liste_elements:  # Si des mouvements sont générés
         liste_mouvements = generer_liste_elements(elements_deplacables)  # Retourne la liste des mouvements pour l'utiliser dans Code 3
         print("Mouvements générés :", liste_mouvements)
