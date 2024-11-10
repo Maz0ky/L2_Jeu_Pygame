@@ -24,9 +24,9 @@ def initialisation_de_base():
 
 def initaliser_elements_fixes():
     """Création des éléments de mouvements"""
-    surf_1, rect_1, img1 = cree_surf_img('elem/left-arrow.png', 100, 100, 40 , 300)
-    surf_2, rect_2, img2 = cree_surf_img('elem/up-arrow.png', 100, 100, 120, 300)
-    surf_3, rect_3, img3 = cree_surf_img('elem/right-arrow.png', 100, 100, 200, 300)
+    surf_1, rect_1, img1 = cree_surf_img('elem/left-arrow.png', 100, 100, 40 , 572)
+    surf_2, rect_2, img2 = cree_surf_img('elem/up-arrow.png', 100, 100, 120, 572)
+    surf_3, rect_3, img3 = cree_surf_img('elem/right-arrow.png', 100, 100, 200, 572)
     elements_fixes = [(surf_1, rect_1, img1), (surf_2, rect_2, img2), (surf_3, rect_3, img3)]
     return elements_fixes
 
@@ -42,8 +42,8 @@ def cree_surf_img(chemin: str, width, height, pos_x, pos_y):
 def initialiser_bouton_envoi():
     """Création du bouton "Envoi"""
     button_font = pygame.font.Font(None, 36)
-    button_text = button_font.render("Envoie", True, (255, 255, 255))
-    button_rect = pygame.Rect(700, 360, 90, 40)
+    button_text = button_font.render("Envoie", True, (0, 0, 0))
+    button_rect = pygame.Rect(700, 632, 90, 40)
     return button_font, button_text, button_rect
 
 # Initialisation du menu (suppression et temps)

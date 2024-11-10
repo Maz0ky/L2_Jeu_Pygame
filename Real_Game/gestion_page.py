@@ -1,5 +1,6 @@
 # Import
 import pygame
+from pygame.locals import *
 from Initialisations import *
 
 # Gestion des évènements
@@ -106,6 +107,7 @@ def affiche_menu(screen, menu_rect):
     
     return menu_rect, option_supprimer, option_temps
 
+
 # Mise à jour de la page
 
 def mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps):
@@ -113,6 +115,8 @@ def mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, 
 
     # Mise à jour de l'affichage
     screen.fill((30, 30, 30))
+
+    pygame.draw.rect(screen, (232,195,158), Rect(0, 0, 800, 672))
 
     # Met à jour les éléments sur la page
     for surf, rect, img in elements_fixes:
@@ -131,8 +135,6 @@ def mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, 
     if menu_visible:
         screen.blit(option_supprimer, (menu_rect.x + 10, menu_rect.y + 10))
         screen.blit(option_temps, (menu_rect.x + 10, menu_rect.y + 40))
-    
-    pygame.draw.line(screen, (255, 255, 255), (800, 0), (800, 400), 5) # Divise l'écran en deux sections
 
     pygame.display.flip()  # Met à jour l'écran
     clock.tick(fps)  # Limite à 60 FPS

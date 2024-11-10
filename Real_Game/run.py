@@ -7,7 +7,7 @@ from sys import exit
 
 # Gestion de la fenêtre
 pygame.init()
-screen = pygame.display.set_mode((1600, 400))  # Nouvelle taille de fenêtre
+screen = pygame.display.set_mode((1600, 672))  # Nouvelle taille de fenêtre
 pygame.display.set_caption("Zeta Jeu de la muerta")
 clock = pygame.time.Clock()
 fps = 60
@@ -29,5 +29,3 @@ while True:
 
     # Mise à jour de la page
     button_rect, menu_visible, menu_rect, option_supprimer, option_temps = mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps)
-    
-    
