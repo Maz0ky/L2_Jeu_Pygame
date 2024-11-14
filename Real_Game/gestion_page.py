@@ -5,7 +5,7 @@ from Initialisations import *
 
 # Gestion des évènements
 
-def gestion_evenements(screen, event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf):
+def gestion_evenements(screen, event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus):
     """Gestion des évènements"""
 
     if event.type == pygame.QUIT:
@@ -38,6 +38,7 @@ def gestion_evenements(screen, event, elements_fixes, elements_deplacables, sele
                     selected_element = element
                     mouse_offset = (mouse_pos[0] - element[1].x, mouse_pos[1] - element[1].y)
                     break
+
                 if event.button == 3:  # Clic droit
                     # Afficher un menu contextuel
                     menu_visible = True
@@ -60,12 +61,27 @@ def gestion_evenements(screen, event, elements_fixes, elements_deplacables, sele
                 # Modifier le temps si "Modifier le temps" est cliqué
                 if option_temps.get_rect(topleft=(menu_rect.x + 10, menu_rect.y + 40)).collidepoint(mouse_pos):
                     # Champ pour saisir le temps
-                    nouveau_temps = int(input("Entrez le nouveau temps : "))
-                    for element in elements_deplacables:
-                        if element == element_concerne:
-                            element[3] = nouveau_temps # Mise à jour du temps dans les données de l'élément
-                            break
+                    
+
+                    menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps = affiche_menu_temps(screen, menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps)
+
                     menu_visible = False
+                    menu_temps_visible = True
+        
+    if menu_temps_visible:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+
+            if option_moins.get_rect(topleft=(menu_temps_rect.x + 10, menu_temps_rect.y + 10)).collidepoint(mouse_pos):
+                element_concerne[3] -= 1
+                menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps = affiche_menu_temps(screen, menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps)
+                
+            if option_plus.get_rect(topleft=(menu_temps_rect.x + 85, menu_temps_rect.y + 10)).collidepoint(mouse_pos):
+                element_concerne[3] += 1
+                menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps = affiche_menu_temps(screen, menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps)
+
+            if option_fermer_temps.get_rect(topleft=(menu_temps_rect.x + 10, menu_temps_rect.y + 40)).collidepoint(mouse_pos):
+                menu_temps_visible = False
 
     # Relâchement du clic gauche : arrêt du déplacement
     if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
@@ -86,14 +102,14 @@ def gestion_evenements(screen, event, elements_fixes, elements_deplacables, sele
         selected_element[1].x = mouse_pos[0] - mouse_offset[0]
         selected_element[1].y = mouse_pos[1] - mouse_offset[1]
 
-    return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, player_rect, click_again
+    return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, player_rect, click_again, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus
 
 def affiche_menu(screen, menu_rect):
     """Affiche un menu contextuel pour l'élément sélectionné."""
     font = pygame.font.Font(None, 36)
     # Création des options de menu
     option_supprimer = font.render("Supprimer", True, (255, 255, 255))
-    option_temps = font.render("Modifier le temps", True, (255, 255, 255))
+    option_temps = font.render("Modifier temps", True, (255, 255, 255))
     
     # Position du menu contextuel
     menu_rect = pygame.Rect(350, 320, 200, 80)
@@ -103,9 +119,24 @@ def affiche_menu(screen, menu_rect):
     return menu_rect, option_supprimer, option_temps
 
 
+def affiche_menu_temps(screen, menu_temps_rect, temps, option_fermer_temps, option_moins, option_plus, option_de_temps):
+    font = pygame.font.Font(None, 36)
+    # Création des options de menu
+    option_moins  = font.render("-", True, (255, 255, 255))
+    option_de_temps = font.render(str(temps), True, (255, 255, 255))
+    option_plus = font.render("+", True, (255, 255, 255))
+    option_fermer_temps  = font.render("Fermer", True, (255, 255, 255))
+    
+    # Position du menu contextuel
+    menu_temps_rect = pygame.Rect(350, 320, 200, 80)
+    pygame.draw.rect(screen, (50, 50, 50), menu_temps_rect)  # Fond du menu contextuel
+    pygame.draw.rect(screen, (200, 200, 200), menu_temps_rect, 2)  # Bordure du menu contextuel
+    
+    return menu_temps_rect, temps, option_fermer_temps, option_moins, option_plus, option_de_temps
+
 # Mise à jour de la page
 
-def mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps):
+def mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect):
     """Met à jour la page"""
 
     # Mise à jour de l'affichage
@@ -131,6 +162,12 @@ def mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, 
         screen.blit(option_supprimer, (menu_rect.x + 10, menu_rect.y + 10))
         screen.blit(option_temps, (menu_rect.x + 10, menu_rect.y + 40))
 
+    if menu_temps_visible:
+        screen.blit(option_moins, (menu_temps_rect.x + 10, menu_temps_rect.y + 10))
+        screen.blit(option_de_temps, (menu_temps_rect.x + 40, menu_temps_rect.y + 10))
+        screen.blit(option_plus, (menu_temps_rect.x + 85, menu_temps_rect.y + 10))
+        screen.blit(option_fermer_temps, (menu_temps_rect.x + 10, menu_temps_rect.y + 40))
+
     pygame.display.flip()  # Met à jour l'écran
     clock.tick(fps)  # Limite à 60 FPS
-    return button_rect, menu_visible, menu_rect, option_supprimer, option_temps
+    return button_rect, menu_visible, menu_rect, option_supprimer, option_temps, menu_temps_rect, option_moins, option_de_temps, option_plus, option_fermer_temps

@@ -7,9 +7,9 @@ from mouvement import *
 def init():
     elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv = initialisation_de_base()
     button_font, button_text, button_rect = initialiser_bouton_envoi()
-    menu_visible, menu_rect, option_supprimer, option_temps, element_concerne = initialisation_menu()
+    menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, menu_temps_visible, menu_temps_rect, option_de_temps, option_fermer_temps, option_moins, option_plus = initialisation_menu()
     player_surf, player_rect, player_gravity, speed = initialisation_joueur()
-    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again,button_font, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, player_surf, player_rect, player_gravity, speed
+    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again,button_font, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, player_surf, player_rect, player_gravity, speed, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible
 
 # Initialisation des éléments de bases
 
@@ -51,9 +51,11 @@ def initialiser_bouton_envoi():
 
 def initialisation_menu():
     menu_visible = False # Indique si le menu (temps et suppression) doit être affiché
+    menu_temps_visible = False # Indique si le menu temps doit être affiché
     element_concerne = None
     menu_rect, option_supprimer, option_temps = None, None, None # A l'état "None" puisque Faux par défaut
-    return menu_visible, menu_rect, option_supprimer, option_temps, element_concerne
+    option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps = None, None, None, None, None
+    return menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, menu_temps_visible, menu_temps_rect, option_de_temps, option_fermer_temps, option_moins, option_plus
 
 # Initialisation du joueur et de sa vitesse
 
