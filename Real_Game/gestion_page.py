@@ -16,8 +16,7 @@ def gestion_evenements(screen, event, elements_fixes, elements_deplacables, sele
     # Clic pour sélectionner une surface ou le bouton
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
-
-
+        
         # Vérification des blocs fixes pour créer des blocs déplaçables si besoin
         for element in elements_fixes:
             if element[1].collidepoint(mouse_pos): # element[1] est sa surface
@@ -30,10 +29,8 @@ def gestion_evenements(screen, event, elements_fixes, elements_deplacables, sele
 
         # Vérification des blocs déplaçables pour les déplacer si besoin
         for element in elements_deplacables:
-
             if element[1].x < -20 or element[1].x > 720:
                 elements_deplacables.remove(element)
-                
                 break
 
             if element[1].collidepoint(mouse_pos):
@@ -41,14 +38,12 @@ def gestion_evenements(screen, event, elements_fixes, elements_deplacables, sele
                     selected_element = element
                     mouse_offset = (mouse_pos[0] - element[1].x, mouse_pos[1] - element[1].y)
                     break
-                
                 if event.button == 3:  # Clic droit
                     # Afficher un menu contextuel
                     menu_visible = True
                     element_concerne = element
                     menu_rect, option_supprimer, option_temps = affiche_menu(screen, menu_rect)
                     break
-        
 
     if menu_visible:
         menu_rect, option_supprimer, option_temps = affiche_menu(screen, menu_rect)
@@ -76,7 +71,7 @@ def gestion_evenements(screen, event, elements_fixes, elements_deplacables, sele
     if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
         selected_element = None
 
-    if event.type == pygame.MOUSEBUTTONDOWN:
+    if event.type == pygame.MOUSEBUTTONUP:
         mouse_pos = pygame.mouse.get_pos()
     # Vérification du clic sur le bouton Envoi
         if button_rect.collidepoint(mouse_pos):
@@ -116,8 +111,8 @@ def mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, 
     # Mise à jour de l'affichage
     screen.fill((30, 30, 30))
 
-    pygame.draw.rect(screen, (232,195,158), Rect(0, 0, 800, 672))
-
+    pygame.draw.rect(screen, (232,195,158), Rect(0, 0, 800, 800))
+    
     # Met à jour les éléments sur la page
     for surf, rect, img in elements_fixes:
         screen.blit(surf, rect)

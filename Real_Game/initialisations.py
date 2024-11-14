@@ -27,7 +27,8 @@ def initaliser_elements_fixes():
     surf_1, rect_1, img1 = cree_surf_img('elem/left-arrow.png', 100, 100, 40 , 572)
     surf_2, rect_2, img2 = cree_surf_img('elem/up-arrow.png', 100, 100, 120, 572)
     surf_3, rect_3, img3 = cree_surf_img('elem/right-arrow.png', 100, 100, 200, 572)
-    elements_fixes = [(surf_1, rect_1, img1), (surf_2, rect_2, img2), (surf_3, rect_3, img3)]
+    surf_4, rect_4, img4 = cree_surf_img('elem/pause.png', 70, 80, 310, 582)
+    elements_fixes = [(surf_1, rect_1, img1), (surf_2, rect_2, img2), (surf_3, rect_3, img3), (surf_4, rect_4, img4)]
     return elements_fixes
 
 def cree_surf_img(chemin: str, width, height, pos_x, pos_y):

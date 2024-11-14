@@ -93,6 +93,8 @@ def generer_liste_elements(elements_deplacables):
             mouv = "r"
         elif elem[2] == "elem/left-arrow.png":
             mouv = "l"
+        elif elem[2] == "elem/pause.png":
+            mouv = "p"
         
         liste_elements.append({"mouvement": mouv, "temps": elem[3]})
     return liste_elements
