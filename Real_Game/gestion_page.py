@@ -5,12 +5,23 @@ from Initialisations import *
 
 # Gestion des évènements
 
-def gestion_evenements(screen, event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus):
-    """Gestion des évènements"""
-
+def gestion_evenement_base(screen, event):
     if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+
+def gestion_evenements_menu(screen, event, start_rect, level):
+    gestion_evenement_base(screen, event)
+
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        mouse_pos = pygame.mouse.get_pos()
+        if start_rect.collidepoint(mouse_pos):
+            level = 1
+    return level
+
+def gestion_evenements_level_1(screen, event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus):
+    """Gestion des évènements"""
+    gestion_evenement_base(screen, event)
 
     genere_liste_elements = False # Indique si l'on doit envoyer la liste
     # Clic pour sélectionner une surface ou le bouton
@@ -104,6 +115,9 @@ def gestion_evenements(screen, event, elements_fixes, elements_deplacables, sele
 
     return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, player_rect, click_again, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus
 
+
+# Les menus de la partie création de liste
+
 def affiche_menu(screen, menu_rect):
     """Affiche un menu contextuel pour l'élément sélectionné."""
     font = pygame.font.Font(None, 36)
@@ -117,7 +131,6 @@ def affiche_menu(screen, menu_rect):
     pygame.draw.rect(screen, (200, 200, 200), menu_rect, 2)  # Bordure du menu contextuel
     
     return menu_rect, option_supprimer, option_temps
-
 
 def affiche_menu_temps(screen, menu_temps_rect, temps, option_fermer_temps, option_moins, option_plus, option_de_temps):
     font = pygame.font.Font(None, 36)
@@ -136,12 +149,29 @@ def affiche_menu_temps(screen, menu_temps_rect, temps, option_fermer_temps, opti
 
 # Mise à jour de la page
 
-def mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect):
-    """Met à jour la page"""
-
+def mise_a_jour_page_base_debut(screen):
     # Mise à jour de l'affichage
     screen.fill((30, 30, 30))
 
+def mise_a_jour_page_base_fin(clock, fps):
+    pygame.display.flip()  # Met à jour l'écran
+    clock.tick(fps)  # Limite à 60 FPS
+
+def mise_a_jour_page_menu(screen, clock, fps, start_surf, start_rect):
+    """Met à jour la page"""
+
+    mise_a_jour_page_base_debut(screen)
+
+    screen.blit(start_surf, start_rect)
+
+    mise_a_jour_page_base_fin(clock, fps)
+
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect):
+    """Met à jour la page"""
+
+    mise_a_jour_page_base_debut(screen)
+
+    # Séparation des deux interfaces
     pygame.draw.rect(screen, (232,195,158), Rect(0, 0, 800, 800))
     
     # Met à jour les éléments sur la page
@@ -168,6 +198,6 @@ def mise_a_jour_page(screen, elements_fixes, elements_deplacables, button_text, 
         screen.blit(option_plus, (menu_temps_rect.x + 85, menu_temps_rect.y + 10))
         screen.blit(option_fermer_temps, (menu_temps_rect.x + 10, menu_temps_rect.y + 40))
 
-    pygame.display.flip()  # Met à jour l'écran
-    clock.tick(fps)  # Limite à 60 FPS
+    mise_a_jour_page_base_fin(clock, fps)
+
     return button_rect, menu_visible, menu_rect, option_supprimer, option_temps, menu_temps_rect, option_moins, option_de_temps, option_plus, option_fermer_temps

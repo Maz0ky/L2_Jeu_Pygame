@@ -2,14 +2,32 @@
 import pygame
 from mouvement import *
 
-# Initialisations
+# [1] Initialisation du menu de début et de fin
 
-def init():
+def init_page_debut_et_fin(screen):
+    level = niveau_actuel()
+    start_surf, start_rect = page_accueil(screen)
+    return level, start_surf, start_rect
+
+def niveau_actuel():
+    level = -1
+    return level
+
+def page_accueil(screen):
+    start_surf = pygame.image.load('elem/start.png').convert_alpha()
+    start_surf = pygame.transform.scale(start_surf, (200, 200))
+    start_rect = start_surf.get_rect(midbottom=(screen.get_width()/2, screen.get_height()*5/6))  # Position du bouton start
+    return start_surf, start_rect
+    
+
+# [2] Initialisations du niveau
+
+def init_levels():
     elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv = initialisation_de_base()
-    button_font, button_text, button_rect = initialiser_bouton_envoi()
+    button_font, button_text, button_rect, genere_liste_elements = initialiser_bouton_envoi()
     menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, menu_temps_visible, menu_temps_rect, option_de_temps, option_fermer_temps, option_moins, option_plus = initialisation_menu()
     player_surf, player_rect, player_gravity, speed = initialisation_joueur()
-    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again,button_font, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, player_surf, player_rect, player_gravity, speed, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible
+    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again,button_font, button_text, button_rect, genere_liste_elements, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, player_surf, player_rect, player_gravity, speed, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible
 
 # Initialisation des éléments de bases
 
@@ -45,7 +63,8 @@ def initialiser_bouton_envoi():
     button_font = pygame.font.Font(None, 36)
     button_text = button_font.render("Envoie", True, (0, 0, 0))
     button_rect = pygame.Rect(700, 632, 90, 40)
-    return button_font, button_text, button_rect
+    genere_liste_elements = False
+    return button_font, button_text, button_rect, genere_liste_elements
 
 # Initialisation du menu (suppression et temps)
 
