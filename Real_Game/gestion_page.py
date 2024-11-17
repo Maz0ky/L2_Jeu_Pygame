@@ -19,13 +19,17 @@ def gestion_evenements_accueil(screen, event, level, start_rect):
             level = 0
     return level
 
-def gestion_evenements_choix_niveau(screen, event, level, level_1_rect):
+def gestion_evenements_choix_niveau(screen, event, level, level_1_rect, level_2_rect, level_3_rect):
     gestion_evenement_base(screen, event)
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
         if level_1_rect.collidepoint(mouse_pos):
             level = 1
+        if level_1_rect.collidepoint(mouse_pos):
+            pass
+        if level_1_rect.collidepoint(mouse_pos):
+            pass
     return level
 
 def gestion_evenements_level_1(screen, event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus):
@@ -174,12 +178,14 @@ def mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect):
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect):
+def mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
 
     screen.blit(level_1_surf, level_1_rect)
+    screen.blit(level_2_surf, level_2_rect)
+    screen.blit(level_3_surf, level_3_rect)
 
     mise_a_jour_page_base_fin(clock, fps)
 
