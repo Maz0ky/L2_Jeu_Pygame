@@ -10,12 +10,21 @@ def gestion_evenement_base(screen, event):
             pygame.quit()
             exit()
 
-def gestion_evenements_menu(screen, event, start_rect, level):
+def gestion_evenements_accueil(screen, event, level, start_rect):
     gestion_evenement_base(screen, event)
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
         if start_rect.collidepoint(mouse_pos):
+            level = 0
+    return level
+
+def gestion_evenements_choix_niveau(screen, event, level, level_1_rect):
+    gestion_evenement_base(screen, event)
+
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        mouse_pos = pygame.mouse.get_pos()
+        if level_1_rect.collidepoint(mouse_pos):
             level = 1
     return level
 
@@ -115,7 +124,6 @@ def gestion_evenements_level_1(screen, event, elements_fixes, elements_deplacabl
 
     return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, player_rect, click_again, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus
 
-
 # Les menus de la partie création de liste
 
 def affiche_menu(screen, menu_rect):
@@ -157,12 +165,21 @@ def mise_a_jour_page_base_fin(clock, fps):
     pygame.display.flip()  # Met à jour l'écran
     clock.tick(fps)  # Limite à 60 FPS
 
-def mise_a_jour_page_menu(screen, clock, fps, start_surf, start_rect):
+def mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
 
     screen.blit(start_surf, start_rect)
+
+    mise_a_jour_page_base_fin(clock, fps)
+
+def mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect):
+    """Met à jour la page"""
+
+    mise_a_jour_page_base_debut(screen)
+
+    screen.blit(level_1_surf, level_1_rect)
 
     mise_a_jour_page_base_fin(clock, fps)
 

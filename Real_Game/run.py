@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 fps = 60
 
 # Initialisation
-level, start_surf, start_rect = init_page_debut_et_fin(screen)
+level, start_surf, start_rect, level_1_surf, level_1_rect = init_page_debut_et_fin(screen)
 elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, button_font, button_text, button_rect, genere_liste_elements, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, player_surf, player_rect, player_gravity, speed, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible = init_levels()
 
 # Game loop principal
@@ -22,10 +22,19 @@ while True:
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
-            level = gestion_evenements_menu(screen, event, start_rect, level)
+            level = gestion_evenements_accueil(screen, event, level, start_rect)
 
         # [FIN] Mise à Jour de la page
-        mise_a_jour_page_menu(screen, clock, fps, start_surf, start_rect)
+        mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect)
+
+    if level == 0:
+
+        # [DEBUT] Gestion des évènements
+        for event in pygame.event.get():
+            level = gestion_evenements_choix_niveau(screen, event, level, level_1_rect)
+
+        # [FIN] Mise à Jour de la page
+        mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect)
 
     if level == 1:
 

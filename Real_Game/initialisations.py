@@ -7,7 +7,8 @@ from mouvement import *
 def init_page_debut_et_fin(screen):
     level = niveau_actuel()
     start_surf, start_rect = page_accueil(screen)
-    return level, start_surf, start_rect
+    level_1_surf, level_1_rect = boutons_levels(screen)
+    return level, start_surf, start_rect, level_1_surf, level_1_rect
 
 def niveau_actuel():
     level = -1
@@ -18,6 +19,12 @@ def page_accueil(screen):
     start_surf = pygame.transform.scale(start_surf, (200, 200))
     start_rect = start_surf.get_rect(midbottom=(screen.get_width()/2, screen.get_height()*5/6))  # Position du bouton start
     return start_surf, start_rect
+
+def boutons_levels(screen):
+    level_1_surf = pygame.image.load('elem/level_1.png').convert_alpha()
+    level_1_surf = pygame.transform.scale(level_1_surf, (200, 200))
+    level_1_rect = level_1_surf.get_rect(midtop=(screen.get_width()/6, screen.get_height()/6))  # Position du bouton start
+    return level_1_surf, level_1_rect
     
 
 # [2] Initialisations du niveau
