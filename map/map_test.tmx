@@ -101,7 +101,4 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <objectgroup id="6" name="Player">
-  <object id="1" name="Roger" type="Player" gid="58" x="0" y="640" width="48" height="48"/>
- </objectgroup>
 </map>
