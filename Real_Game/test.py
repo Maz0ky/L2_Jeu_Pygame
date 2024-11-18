@@ -8,6 +8,7 @@ fps = 60
 
 J = pygame.Surface((50,50))
 J.fill('red')
+J_rect = J.get_rect()
 while True:
     deltatime = clock.tick(60) * .001 * fps #stabilise les frames de l'image à 60 fps
     
@@ -19,14 +20,14 @@ while True:
     
     keys = pygame.key.get_pressed()
     if keys[pygame.K_d]:
-        print("caca")
-        J.x += 5
+        print("hop")
+        J_rect.x += 5
     if keys[pygame.K_q]:
-        J.x -= 5
+        J_rect.x -= 5
     if keys[pygame.K_z]:
-        J.y += 5
+        J_rect.y += 5
     if keys[pygame.K_s]:
-        J.y -= 5
+        J_rect.y -= 5
         
-    screen.blit(J)
+    screen.blit(J,J_rect)
     pygame.display.flip() #update tout l'ecran

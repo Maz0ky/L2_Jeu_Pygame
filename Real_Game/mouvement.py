@@ -1,17 +1,4 @@
 path_for_files = "Visi301_Mathieu_Teva/First_Steps"
-
-class Player:
-    def __init__(self,coo,hp) -> None:
-        self.coo = coo
-        self.hp = hp
-        self.surf = pygame.image.load(path_for_files + '/graphics/Player/player_walk_1.png').convert_alpha()
-        self.rect = self.surf.get_rect(bottomleft = self.coo )
-        
-    def kill(self):
-        self.hp -= 1
-        
-    def move_of(self, vect):
-        self.rect.move(vect)
             
 class File_mouv:
     
