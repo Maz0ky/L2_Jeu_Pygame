@@ -1,6 +1,6 @@
 # Import
 import pygame
-from Initialisations import *
+from initialisations import *
 from mouvement import *
 from gestion_page import *
 from sys import exit

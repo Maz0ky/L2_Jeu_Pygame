@@ -1,7 +1,7 @@
 # Import
 import pygame
 from pygame.locals import *
-from Initialisations import *
+from initialisations import *
 
 # Gestion des évènements
 
