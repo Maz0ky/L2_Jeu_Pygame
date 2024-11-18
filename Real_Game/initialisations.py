@@ -15,21 +15,21 @@ def niveau_actuel():
     return level
 
 def page_accueil(screen):
-    start_surf = pygame.image.load('elem/start.png').convert_alpha()
+    start_surf = pygame.image.load('Real_Game/elem/start.png').convert_alpha()
     start_surf = pygame.transform.scale(start_surf, (200, 200))
     start_rect = start_surf.get_rect(midbottom=(screen.get_width()/2, screen.get_height()*5/6))  # Position du bouton start
     return start_surf, start_rect
 
 def boutons_levels(screen):
-    level_1_surf = pygame.image.load('elem/level_1.png').convert_alpha()
+    level_1_surf = pygame.image.load('Real_Game/elem/level_1.png').convert_alpha()
     level_1_surf = pygame.transform.scale(level_1_surf, (200, 200))
     level_1_rect = level_1_surf.get_rect(midtop=(screen.get_width()/6, screen.get_height()/6))  # Position du bouton start
 
-    level_2_surf = pygame.image.load('elem/level_2.png').convert_alpha()
+    level_2_surf = pygame.image.load('Real_Game/elem/level_2.png').convert_alpha()
     level_2_surf = pygame.transform.scale(level_2_surf, (200, 200))
     level_2_rect = level_2_surf.get_rect(midtop=(screen.get_width()*3/6, screen.get_height()/6))  # Position du bouton start
 
-    level_3_surf = pygame.image.load('elem/level_3.png').convert_alpha()
+    level_3_surf = pygame.image.load('Real_Game/elem/level_3.png').convert_alpha()
     level_3_surf = pygame.transform.scale(level_3_surf, (200, 200))
     level_3_rect = level_3_surf.get_rect(midtop=(screen.get_width()*5/6, screen.get_height()/6))  # Position du bouton start
     return level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect
@@ -56,10 +56,10 @@ def initialisation_de_base():
 
 def initaliser_elements_fixes():
     """Création des éléments de mouvements"""
-    surf_1, rect_1, img1 = cree_surf_img('elem/left-arrow.png', 100, 100, 40 , 572)
-    surf_2, rect_2, img2 = cree_surf_img('elem/up-arrow.png', 100, 100, 120, 572)
-    surf_3, rect_3, img3 = cree_surf_img('elem/right-arrow.png', 100, 100, 200, 572)
-    surf_4, rect_4, img4 = cree_surf_img('elem/pause.png', 70, 80, 310, 582)
+    surf_1, rect_1, img1 = cree_surf_img('Real_Game/elem/left-arrow.png', 100, 100, 40 , 572)
+    surf_2, rect_2, img2 = cree_surf_img('Real_Game/elem/up-arrow.png', 100, 100, 120, 572)
+    surf_3, rect_3, img3 = cree_surf_img('Real_Game/elem/right-arrow.png', 100, 100, 200, 572)
+    surf_4, rect_4, img4 = cree_surf_img('Real_Game/elem/pause.png', 70, 80, 310, 582)
     elements_fixes = [(surf_1, rect_1, img1), (surf_2, rect_2, img2), (surf_3, rect_3, img3), (surf_4, rect_4, img4)]
     return elements_fixes
 
@@ -93,7 +93,7 @@ def initialisation_menu():
 # Initialisation du joueur et de sa vitesse
 
 def initialisation_joueur():
-    player_surf = pygame.image.load('graphics/Player/player_walk_1.png').convert_alpha()
+    player_surf = pygame.image.load('Real_Game/graphics/Player/player_walk_1.png').convert_alpha()
     player_rect = player_surf.get_rect(midbottom=(880, 300))  # Position initiale du joueur
     player_gravity = 0
     speed = 10

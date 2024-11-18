@@ -74,13 +74,13 @@ def generer_liste_elements(elements_deplacables):
     elements_triee = sorted(elements_deplacables, key=lambda elem: elem[1].x)
     liste_elements = []
     for elem in elements_triee:
-        if elem[2] == "elem/up-arrow.png":
+        if elem[2] == "Real_Game/elem/up-arrow.png":
             mouv = "j"
-        elif elem[2] == "elem/right-arrow.png":
+        elif elem[2] == "Real_Game/elem/right-arrow.png":
             mouv = "r"
-        elif elem[2] == "elem/left-arrow.png":
+        elif elem[2] == "Real_Game/elem/left-arrow.png":
             mouv = "l"
-        elif elem[2] == "elem/pause.png":
+        elif elem[2] == "Real_Game/elem/pause.png":
             mouv = "p"
         
         liste_elements.append({"mouvement": mouv, "temps": elem[3]})
