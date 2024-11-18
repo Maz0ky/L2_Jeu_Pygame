@@ -19,11 +19,13 @@ def gestion_evenements_accueil(screen, event, level, start_rect):
             level = 0
     return level
 
-def gestion_evenements_choix_niveau(screen, event, level, level_1_rect, level_2_rect, level_3_rect):
+def gestion_evenements_choix_niveau(screen, event, level, level_1_rect, level_2_rect, level_3_rect, button_retour_de_choixlvl_rect):
     gestion_evenement_base(screen, event)
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
+        if button_retour_de_choixlvl_rect.collidepoint(mouse_pos):
+            level = -1
         if level_1_rect.collidepoint(mouse_pos):
             level = 1
         if level_1_rect.collidepoint(mouse_pos):
@@ -32,7 +34,7 @@ def gestion_evenements_choix_niveau(screen, event, level, level_1_rect, level_2_
             pass
     return level
 
-def gestion_evenements_level_1(screen, event, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus):
+def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus, button_retour_de_page_rect):
     """Gestion des évènements"""
     gestion_evenement_base(screen, event)
 
@@ -40,6 +42,9 @@ def gestion_evenements_level_1(screen, event, elements_fixes, elements_deplacabl
     # Clic pour sélectionner une surface ou le bouton
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
+
+        if button_retour_de_page_rect.collidepoint(mouse_pos):
+            level = 0
         
         # Vérification des blocs fixes pour créer des blocs déplaçables si besoin
         for element in elements_fixes:
@@ -85,8 +90,6 @@ def gestion_evenements_level_1(screen, event, elements_fixes, elements_deplacabl
                 # Modifier le temps si "Modifier le temps" est cliqué
                 if option_temps.get_rect(topleft=(menu_rect.x + 10, menu_rect.y + 40)).collidepoint(mouse_pos):
                     # Champ pour saisir le temps
-                    
-
                     menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps = affiche_menu_temps(screen, menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps)
 
                     menu_visible = False
@@ -126,7 +129,7 @@ def gestion_evenements_level_1(screen, event, elements_fixes, elements_deplacabl
         selected_element[1].x = mouse_pos[0] - mouse_offset[0]
         selected_element[1].y = mouse_pos[1] - mouse_offset[1]
 
-    return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, player_rect, click_again, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus
+    return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, player_rect, click_again, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus, level
 
 # Les menus de la partie création de liste
 
@@ -137,10 +140,11 @@ def affiche_menu(screen, menu_rect):
     option_supprimer = font.render("Supprimer", True, (255, 255, 255))
     option_temps = font.render("Modifier temps", True, (255, 255, 255))
     
+    option_supprimer_rect = ...
+    option_temps_rect = ...
+
     # Position du menu contextuel
     menu_rect = pygame.Rect(350, 320, 200, 80)
-    pygame.draw.rect(screen, (50, 50, 50), menu_rect)  # Fond du menu contextuel
-    pygame.draw.rect(screen, (200, 200, 200), menu_rect, 2)  # Bordure du menu contextuel
     
     return menu_rect, option_supprimer, option_temps
 
@@ -152,10 +156,13 @@ def affiche_menu_temps(screen, menu_temps_rect, temps, option_fermer_temps, opti
     option_plus = font.render("+", True, (255, 255, 255))
     option_fermer_temps  = font.render("Fermer", True, (255, 255, 255))
     
+
+    option_moins_rect = ...
+    option_de_temps_rect = ...
+    option_plus_rect = ...
+    option_fermer_temps_rect = ...
     # Position du menu contextuel
     menu_temps_rect = pygame.Rect(350, 320, 200, 80)
-    pygame.draw.rect(screen, (50, 50, 50), menu_temps_rect)  # Fond du menu contextuel
-    pygame.draw.rect(screen, (200, 200, 200), menu_temps_rect, 2)  # Bordure du menu contextuel
     
     return menu_temps_rect, temps, option_fermer_temps, option_moins, option_plus, option_de_temps
 
@@ -178,7 +185,7 @@ def mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect):
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect):
+def mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -186,10 +193,11 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect
     screen.blit(level_1_surf, level_1_rect)
     screen.blit(level_2_surf, level_2_rect)
     screen.blit(level_3_surf, level_3_rect)
+    screen.blit(button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect)
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -207,6 +215,10 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
     # Met à jour le bouton envoie
     screen.blit(button_text, (button_rect.x + 10, button_rect.y + 5))
 
+    # Met à jour le bouton retour menu choix niveau
+    pygame.draw.rect(screen, (200, 200, 200), button_retour_de_page_rect)
+    screen.blit(button_retour_de_page_text, button_retour_de_page_rect)
+
     # Afficher le joueur
     screen.blit(player_surf, player_rect)
     
@@ -222,5 +234,3 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
         screen.blit(option_fermer_temps, (menu_temps_rect.x + 10, menu_temps_rect.y + 40))
 
     mise_a_jour_page_base_fin(clock, fps)
-
-    return button_rect, menu_visible, menu_rect, option_supprimer, option_temps, menu_temps_rect, option_moins, option_de_temps, option_plus, option_fermer_temps
