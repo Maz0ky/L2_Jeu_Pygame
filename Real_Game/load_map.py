@@ -31,7 +31,7 @@ class Fatal_Block(Tile):
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
-        self.image = pygame.image.load("Visi301_Mathieu_Teva/Tuile//Image/Sprite_Player_72x72/tile011.png")
+        self.image = pygame.image.load("Visi301_Mathieu_Teva/Tuile/Image/Sprite_Player_72x72/tile011.png")
         self.rect = self.image.get_rect()
         self.rect.bottomleft = pos
         self.blocked = [False for i in range(4)]#represente les 4 sens où le joueur peut être bloqué(right,left,bottom,top)
@@ -52,51 +52,39 @@ class Player(pygame.sprite.Sprite):
         
     def update(self):
         group_collision = pygame.sprite.spritecollide(self,block_group,False)
-        if group_collision:
-            self.collisiondroite(group_collision)
-            self.collisiongauche(group_collision)
+        
+        self.collisiondroite(group_collision)
+        self.collisiongauche(group_collision)
+        print(self.blocked)
     
     def collisiondroite(self,group_col:list):
         i = 0
         res = False
         while not res and i < len(group_col):
             block = group_col[i].get_rect()
-            if self.rect.right >= block.left and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+            if (self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+                #verfie dans un premier temps que la collision s'effectue bien à droite et ensuite que le bloque est bien à la hauteur du joueur
                 res = True
                 self.rect.right = block.left
             i+=1
         self.blocked[RIGHT] = res
     
-    def collisiongauche(self,group_col:list):
+    def collisiongauche(self,group_col):
         i = 0
         res = False
         while not res and i < len(group_col):
             block = group_col[i].get_rect()
-            if self.rect.left <= block.right and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+            if (self.rect.left <= block.right and not self.rect.left < block.left) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
                 res = True
                 self.rect.left = block.right
             i+=1
         self.blocked[LEFT] = res
-        
-    # def collision_side(self, side:int, group_col:list)->bool:
-    #     i = 0
-    #     while self.blocked[side] != True or i == len(group_col):
-    #         match side:
-    #             case 0:
-    #                 if self.rect.right >= group_col[i].get_rect().left:#s'il touche à droite
-    #                     self.blocked[0] = True
-    #             case 1:
-    #                 if self.rect.left <= group_col[i].get_rect().left:#s'il touche à gauche
-    #                     self.blocked[1] = True
-    #             case 2:
-    #                 if self.rect.bottom >= group_col[i].get_rect().top:#s'il touche en bas
-    #                     self.blocked[2] = True
-    #             case 3:
-    #                 if self.rect.top <= group_col[i].get_rect().bottom:#s'il touche en haut
-    #                     self.blocked[3] = True
+    
+    def collisiony(self,group_col):
+        pass
         
     def move(self,sens:str):
-        assert sens in ('j','l','r'), "Doit appartenir à un mouvement connu"
+        assert sens in ('j','l','r','d'), "Doit appartenir à un mouvement connu"
         match sens:
             case 'r':
                 if not self.blocked[RIGHT]:#s'il n'y a pas de block à droite
@@ -105,7 +93,11 @@ class Player(pygame.sprite.Sprite):
                 if not self.blocked[LEFT]:#s'il n'y a pas de block à droite
                     self.rect.x -= 5
             case 'j':
-                self.rect.y += 5
+                if not self.blocked[TOP]:
+                    self.rect.y -= 5
+            case 'd':
+                    if not self.blocked[TOP]:
+                        self.rect.y += 5
 
     
 pygame.init()
@@ -113,7 +105,7 @@ screen = pygame.display.set_mode((800,672))
 clock = pygame.time.Clock()
 fps = 60
 size_tileset = 32
-tmx_data = load_pygame('Visi301_Mathieu_Teva/map/map_test.tmx')
+map = load_pygame('Visi301_Mathieu_Teva/map/map_test.tmx')
 sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
 block_group = pygame.sprite.Group()
 
@@ -130,7 +122,7 @@ def creer_tuile(tuiles, attribut:str=''):
                     Tile(pos = pos, surf = surf, groups = sprite_group)
 
 # parcours toutes les couches
-for layer in tmx_data.visible_layers:
+for layer in map.visible_layers:
     if layer.name == 'Block':
         creer_tuile(layer.tiles(),'block')
     elif layer.name == 'Deathful':
@@ -153,6 +145,15 @@ while True:
     sprite_group.draw(screen)
     Joueur.show()
     Joueur.update()
-    Joueur.move('r')
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_d]:
+        Joueur.move('r')
+    if keys[pygame.K_q]:
+        Joueur.move('l')
+    if keys[pygame.K_z]:
+        Joueur.move('j')
+    if keys[pygame.K_s]:
+        Joueur.move('d')
+    
     pygame.display.flip() #update tout l'ecran
     
