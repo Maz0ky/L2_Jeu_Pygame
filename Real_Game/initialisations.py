@@ -13,7 +13,7 @@ def init_page_debut_et_fin(screen):
     return level, start_surf, start_rect, level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect, button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect, level_1_accessible, level_2_accessible, level_3_accessible
 
 def niveau_actuel():
-    level = -1
+    level = 1
     return level
 
 def page_accueil(screen):

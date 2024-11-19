@@ -174,7 +174,7 @@ def mise_a_jour_page_base_debut(screen):
 
 def mise_a_jour_page_base_fin(clock, fps):
     pygame.display.flip()  # Met à jour l'écran
-    clock.tick(fps)  # Limite à 60 FPS
+    clock.tick(fps) * .001 * fps  # Limite à 60 FPS
 
 def mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect):
     """Met à jour la page"""
@@ -225,7 +225,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur, block_group):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -260,4 +260,11 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
         screen.blit(option_plus, (menu_temps_rect.x + 85, menu_temps_rect.y + 10))
         screen.blit(option_fermer_temps, (menu_temps_rect.x + 10, menu_temps_rect.y - 20))
 
+
+    # Partie map
+
+    sprite_group.draw(screen)
+    Joueur.show(screen)
+    Joueur.update(block_group)
+        
     mise_a_jour_page_base_fin(clock, fps)
