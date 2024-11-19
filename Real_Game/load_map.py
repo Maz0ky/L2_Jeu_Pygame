@@ -110,6 +110,16 @@ class Player(pygame.sprite.Sprite):
             case 'd':
                     if not self.blocked[TOP]:
                         self.rect.y += self.vitesse.y
+       
+    #ne pas oublier d'importer la classe File_mouv dans le dossier                 
+    def move_from_File(self, File: File_mouv):
+        sens = File.get_mouv()["mouvement"]
+        if File.est_ecoule():#si le temps du premier mouvement est terminé passe au suivant
+            File.defiler_mouv()
+            sens = File.get_mouv()
+        File.defiler_temps()
+        self.move(sens)
+        return File
 
 def add_list(list1,list2):
     assert len(list1) == len(list2), "les deux tableaux ne s'additionnent pas"
