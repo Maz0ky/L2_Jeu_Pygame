@@ -1,6 +1,7 @@
 import pygame
 from sys import exit
 from pytmx.util_pygame import load_pygame
+
 RIGHT,LEFT,BOTTOM,TOP = 0,1,2,3
 class Tile(pygame.sprite.Sprite):
     #sera toutes les tuiles construisant la map
@@ -31,7 +32,7 @@ class Fatal_Block(Tile):
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
-        self.image = pygame.image.load("Visi301_Mathieu_Teva/Tuile/Image/Sprite_Player_72x72/tile011.png")
+        self.image = pygame.image.load("Tuile/Image/Sprite_Player_72x72/tile011.png")
         self.rect = self.image.get_rect()
         self.rect.bottomleft = pos
         self.blocked = [False for i in range(4)]#represente les 4 sens où le joueur peut être bloqué(right,left,bottom,top)
@@ -41,7 +42,7 @@ class Player(pygame.sprite.Sprite):
         self.is_jumping, self.on_ground = False, False
 
         self.pos =  pygame.math.Vector2(pos)
-        self.vitesse = pygame.math.Vector2(0,0)
+        self.vitesse = pygame.math.Vector2(5,5)
         self.force = pygame.math.Vector2(0,0) 
     
     def show(self):
@@ -55,14 +56,17 @@ class Player(pygame.sprite.Sprite):
         
         self.collisiondroite(group_collision)
         self.collisiongauche(group_collision)
-        print(self.blocked)
+        self.collisionbas(group_collision)
+        if len(group_collision)>1:
+            print(group_collision)
     
     def collisiondroite(self,group_col:list):
         i = 0
         res = False
         while not res and i < len(group_col):
             block = group_col[i].get_rect()
-            if (self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+            print(block.topleft)
+            if self.rect.collidepoint(add_list(block.topleft,(0,1))) or self.rect.collidepoint(block.bottomleft):#(self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
                 #verfie dans un premier temps que la collision s'effectue bien à droite et ensuite que le bloque est bien à la hauteur du joueur
                 res = True
                 self.rect.right = block.left
@@ -80,32 +84,46 @@ class Player(pygame.sprite.Sprite):
             i+=1
         self.blocked[LEFT] = res
     
-    def collisiony(self,group_col):
-        pass
+    def collisionbas(self,group_col):
+        i = 0
+        res = False
+        while not res and i < len(group_col):
+            block = group_col[i].get_rect()
+            if self.rect.collidepoint(block.topleft) or self.rect.collidepoint(block.topright):#(self.rect.bottom >= block.top and not self.rect.bottom > block.bottom) and not( self.rect.right < block.left or self.rect.left > block.right):
+                res = True
+                self.rect.bottom = block.top
+            i+=1
+        self.blocked[BOTTOM] = res
         
     def move(self,sens:str):
         assert sens in ('j','l','r','d'), "Doit appartenir à un mouvement connu"
         match sens:
             case 'r':
                 if not self.blocked[RIGHT]:#s'il n'y a pas de block à droite
-                    self.rect.x += 5
+                    self.rect.x += self.vitesse.x
             case 'l':
                 if not self.blocked[LEFT]:#s'il n'y a pas de block à droite
-                    self.rect.x -= 5
+                    self.rect.x -= self.vitesse.x
             case 'j':
                 if not self.blocked[TOP]:
-                    self.rect.y -= 5
+                    self.rect.y -= self.vitesse.y
             case 'd':
                     if not self.blocked[TOP]:
-                        self.rect.y += 5
+                        self.rect.y += self.vitesse.y
 
-    
+def add_list(list1,list2):
+    assert len(list1) == len(list2), "les deux tableaux ne s'additionnent pas"
+    res = []
+    for i in range(len(list1)):
+        res = list1[i] + list2[i]
+    return res
+        
 pygame.init()
 screen = pygame.display.set_mode((800,672))
 clock = pygame.time.Clock()
 fps = 60
 size_tileset = 32
-map = load_pygame('Visi301_Mathieu_Teva/map/map_test.tmx')
+map = load_pygame('map/map_test.tmx')
 sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
 block_group = pygame.sprite.Group()
 
