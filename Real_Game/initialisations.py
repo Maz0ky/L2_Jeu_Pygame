@@ -96,7 +96,7 @@ def initialiser_bouton_retour_de_choixlvl():
 def initialiser_bouton_retour_de_page():
     """Création du bouton Retour"""
     button_retour_de_page_font = pygame.font.Font(None, 36)
-    button_retour_de_page_text = button_retour_de_page_font.render("Menu choix niveaux", True, (0, 0, 0))
+    button_retour_de_page_text = button_retour_de_page_font.render("Menu choix level", True, (0, 0, 0))
     button_retour_de_page_rect = pygame.Rect(20, 20, button_retour_de_page_text.get_width(), button_retour_de_page_text.get_height())
     return button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect
 

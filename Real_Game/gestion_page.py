@@ -83,15 +83,15 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
             # Gestion du menu
             if menu_rect.collidepoint(mouse_pos):
                 # Supprimer l'élément sélectionné si "Supprimer" est cliqué
-                if option_supprimer.get_rect(topleft=(menu_rect.x + 10, menu_rect.y + 10)).collidepoint(mouse_pos):
+                if option_supprimer.get_rect(topleft=(menu_rect.x, menu_rect.y)).collidepoint(mouse_pos):
                     elements_deplacables.remove(element_concerne)
                     menu_visible = False
                 
                 # Modifier le temps si "Modifier le temps" est cliqué
-                if option_temps.get_rect(topleft=(menu_rect.x + 10, menu_rect.y + 40)).collidepoint(mouse_pos):
+                if option_temps.get_rect(topleft=(menu_rect.x, menu_rect.y + 40)).collidepoint(mouse_pos):
                     # Champ pour saisir le temps
                     menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps = affiche_menu_temps(screen, menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps)
-
+                    
                     menu_visible = False
                     menu_temps_visible = True
         
@@ -107,8 +107,9 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
                 element_concerne[3] += 1
                 menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps = affiche_menu_temps(screen, menu_temps_rect, element_concerne[3], option_fermer_temps, option_moins, option_plus, option_de_temps)
 
-            if option_fermer_temps.get_rect(topleft=(menu_temps_rect.x + 10, menu_temps_rect.y + 40)).collidepoint(mouse_pos):
+            if option_fermer_temps.get_rect(topleft=(menu_temps_rect.x + 10, menu_temps_rect.y + -20)).collidepoint(mouse_pos):
                 menu_temps_visible = False
+                
 
     # Relâchement du clic gauche : arrêt du déplacement
     if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
@@ -139,9 +140,6 @@ def affiche_menu(screen, menu_rect):
     # Création des options de menu
     option_supprimer = font.render("Supprimer", True, (255, 255, 255))
     option_temps = font.render("Modifier temps", True, (255, 255, 255))
-    
-    option_supprimer_rect = ...
-    option_temps_rect = ...
 
     # Position du menu contextuel
     menu_rect = pygame.Rect(350, 320, 200, 80)
@@ -155,14 +153,9 @@ def affiche_menu_temps(screen, menu_temps_rect, temps, option_fermer_temps, opti
     option_de_temps = font.render(str(temps), True, (255, 255, 255))
     option_plus = font.render("+", True, (255, 255, 255))
     option_fermer_temps  = font.render("Fermer", True, (255, 255, 255))
-    
 
-    option_moins_rect = ...
-    option_de_temps_rect = ...
-    option_plus_rect = ...
-    option_fermer_temps_rect = ...
     # Position du menu contextuel
-    menu_temps_rect = pygame.Rect(350, 320, 200, 80)
+    menu_temps_rect = pygame.Rect(350, 320, 0, 0)
     
     return menu_temps_rect, temps, option_fermer_temps, option_moins, option_plus, option_de_temps
 
@@ -216,7 +209,6 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
     screen.blit(button_text, (button_rect.x + 10, button_rect.y + 5))
 
     # Met à jour le bouton retour menu choix niveau
-    pygame.draw.rect(screen, (200, 200, 200), button_retour_de_page_rect)
     screen.blit(button_retour_de_page_text, button_retour_de_page_rect)
 
     # Afficher le joueur
@@ -231,6 +223,6 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
         screen.blit(option_moins, (menu_temps_rect.x + 10, menu_temps_rect.y + 10))
         screen.blit(option_de_temps, (menu_temps_rect.x + 40, menu_temps_rect.y + 10))
         screen.blit(option_plus, (menu_temps_rect.x + 85, menu_temps_rect.y + 10))
-        screen.blit(option_fermer_temps, (menu_temps_rect.x + 10, menu_temps_rect.y + 40))
+        screen.blit(option_fermer_temps, (menu_temps_rect.x + 10, menu_temps_rect.y - 20))
 
     mise_a_jour_page_base_fin(clock, fps)
