@@ -62,11 +62,10 @@ class Player(pygame.sprite.Sprite):
         res = False
         while not res and i < len(group_col):
             block = group_col[i].get_rect()
-            print(block.topleft)
-            if self.rect.collidepoint(add_list(block.topleft,(0,1))) or self.rect.collidepoint(block.bottomleft):#(self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+            if self.rect.collidepoint(add_list_int(block.topleft,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomleft,(0,-6))):#(self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
                 #verfie dans un premier temps que la collision s'effectue bien à droite et ensuite que le bloque est bien à la hauteur du joueur
                 res = True
-                self.rect.right = block.left
+                self.rect.x = block.x - self.rect.width
             i+=1
         self.blocked[self.RIGHT] = res
     
@@ -75,9 +74,9 @@ class Player(pygame.sprite.Sprite):
         res = False
         while not res and i < len(group_col):
             block = group_col[i].get_rect()
-            if (self.rect.left <= block.right and not self.rect.left < block.left) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+            if self.rect.collidepoint(add_list_int(block.topright,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomright,(0,-6))):#if (self.rect.left <= block.right and not self.rect.left < block.left) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
                 res = True
-                self.rect.left = block.right
+                self.rect.x = block.x + block.width
             i+=1
         self.blocked[self.LEFT] = res
     
@@ -141,3 +140,11 @@ def creer_tuile(tuiles, size_tileset, sprite_group, block_group, attribut:str=''
                 Fatal_Block(pos = pos, surf = surf, groups = sprite_group)
             case _:
                 Tile(pos = pos, surf = surf, groups = sprite_group)
+                
+                
+def add_list_int(list1,list2):
+    assert len(list1) == len(list2), "les deux tableaux ne s'additionnent pas"
+    res = []
+    for i in range(len(list1)):
+        res += [list1[i] + list2[i]]
+    return res
