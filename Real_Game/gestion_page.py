@@ -262,7 +262,6 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
 
 
     # Partie map
-
     sprite_group.draw(screen)
     Joueur.show(screen)
     Joueur.update(block_group)

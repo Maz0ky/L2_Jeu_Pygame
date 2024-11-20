@@ -34,9 +34,16 @@ while True:
     pygame.display.flip() #update tout l'ecran
 
 
+# Gestion de la gravité
 
-
-    # Au cas où
+def gestion_gravitee(player_rect, player_gravity):
+    player_rect.y += player_gravity
+    if player_rect.bottom >= 300:
+        player_rect.bottom = 300
+        player_gravity = 0
+    else:
+        player_gravity += 0.5
+    return player_rect, player_gravity
 """
 import pygame
 from sys import exit

@@ -44,8 +44,7 @@ def init_levels():
     elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv = initialisation_de_base()
     button_font, button_text, button_rect, genere_liste_elements = initialiser_bouton_envoi()
     menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, menu_temps_visible, menu_temps_rect, option_de_temps, option_fermer_temps, option_moins, option_plus = initialisation_menu()
-    player_surf, player_rect, player_gravity, speed = initialisation_joueur()
-    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again,button_font, button_text, button_rect, genere_liste_elements, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, player_surf, player_rect, player_gravity, speed, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible
+    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again,button_font, button_text, button_rect, genere_liste_elements, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible
 
 # Initialisation des éléments de bases
 
@@ -111,12 +110,3 @@ def initialisation_menu():
     menu_rect, option_supprimer, option_temps = None, None, None # A l'état "None" puisque Faux par défaut
     option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps = None, None, None, None, None
     return menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, menu_temps_visible, menu_temps_rect, option_de_temps, option_fermer_temps, option_moins, option_plus
-
-# Initialisation du joueur et de sa vitesse
-
-def initialisation_joueur():
-    player_surf = pygame.image.load('Real_Game/graphics/Player/player_walk_1.png').convert_alpha()
-    player_rect = player_surf.get_rect(midbottom=(880, 300))  # Position initiale du joueur
-    player_gravity = 0
-    speed = 10
-    return player_surf, player_rect, player_gravity, speed

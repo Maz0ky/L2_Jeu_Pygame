@@ -56,16 +56,6 @@ def bouge(mouv, rect, speed, player_gravity):
         player_gravity = -5
     return player_gravity
 
-# Gestion de la gravité
-
-def gestion_gravitee(player_rect, player_gravity):
-    player_rect.y += player_gravity
-    if player_rect.bottom >= 300:
-        player_rect.bottom = 300
-        player_gravity = 0
-    else:
-        player_gravity += 0.5
-    return player_rect, player_gravity
 
 # Generation de la liste des éléments déplaçables
 
