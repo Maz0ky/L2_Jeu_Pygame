@@ -1,3 +1,4 @@
+"""
 import pygame
 from sys import exit
 
@@ -36,7 +37,7 @@ while True:
 
 
     # Au cas où
-
+"""
 import pygame
 from sys import exit
 from pytmx.util_pygame import load_pygame
@@ -96,20 +97,19 @@ class Player(pygame.sprite.Sprite):
         
         self.collisiondroite(group_collision)
         self.collisiongauche(group_collision)
-        self.collisionbas(group_collision)
-        if len(group_collision)>1:
-            print(group_collision)
+        #self.collisionbas(group_collision)
+        # if len(group_collision)>1:
+        #     print(group_collision)
     
     def collisiondroite(self,group_col:list):
         i = 0
         res = False
         while not res and i < len(group_col):
             block = group_col[i].get_rect()
-            print(block.topleft)
-            if self.rect.collidepoint(add_list(block.topleft,(0,1))) or self.rect.collidepoint(block.bottomleft):#(self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+            if self.rect.collidepoint(add_list_int(block.topleft,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomleft,(0,-6))):#(self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
                 #verfie dans un premier temps que la collision s'effectue bien à droite et ensuite que le bloque est bien à la hauteur du joueur
                 res = True
-                self.rect.right = block.left
+                self.rect.x = block.x - self.rect.width
             i+=1
         self.blocked[RIGHT] = res
     
@@ -118,9 +118,9 @@ class Player(pygame.sprite.Sprite):
         res = False
         while not res and i < len(group_col):
             block = group_col[i].get_rect()
-            if (self.rect.left <= block.right and not self.rect.left < block.left) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+            if self.rect.collidepoint(add_list_int(block.topright,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomright,(0,-6))):#if (self.rect.left <= block.right and not self.rect.left < block.left) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
                 res = True
-                self.rect.left = block.right
+                self.rect.x = block.x + block.width
             i+=1
         self.blocked[LEFT] = res
     
@@ -129,9 +129,9 @@ class Player(pygame.sprite.Sprite):
         res = False
         while not res and i < len(group_col):
             block = group_col[i].get_rect()
-            if self.rect.collidepoint(block.topleft) or self.rect.collidepoint(block.topright):#(self.rect.bottom >= block.top and not self.rect.bottom > block.bottom) and not( self.rect.right < block.left or self.rect.left > block.right):
+            if self.rect.collidepoint(add_list_int(block.topleft,(6,0))) or self.rect.collidepoint(add_list_int(block.topright,(-6,0))):#(self.rect.bottom >= block.top and not self.rect.bottom > block.bottom) and not( self.rect.right < block.left or self.rect.left > block.right):
                 res = True
-                self.rect.bottom = block.top
+                self.rect.y = block.y - self.rect.height
             i+=1
         self.blocked[BOTTOM] = res
         
@@ -160,12 +160,16 @@ class Player(pygame.sprite.Sprite):
         File.defiler_temps()
         self.move(sens)
         return File
+    
+    def teleport_player(self,co):
+        self.rect.x = co[0]
+        self.rect.y = co[1]
 
-def add_list(list1,list2):
+def add_list_int(list1,list2):
     assert len(list1) == len(list2), "les deux tableaux ne s'additionnent pas"
     res = []
     for i in range(len(list1)):
-        res = list1[i] + list2[i]
+        res += [list1[i] + list2[i]]
     return res
         
 pygame.init()

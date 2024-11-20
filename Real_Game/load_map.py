@@ -119,6 +119,9 @@ class Player(pygame.sprite.Sprite):
         File.defiler_temps()
         self.move(sens)
         return File
+    
+    def teleport_player(self,co):
+        self.rect.bottomleft = co
 
 def add_list(list1,list2):
     assert len(list1) == len(list2), "les deux tableaux ne s'additionnent pas"
