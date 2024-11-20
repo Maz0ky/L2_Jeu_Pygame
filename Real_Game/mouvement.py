@@ -36,27 +36,6 @@ class File_mouv:
         if not self.est_vide():
             return self.file[0]
 
-# Mouvement du joueur
-
-def traite_mouv(File: File_mouv, rect, speed, player_gravity):
-    mouv = File.get_mouv()["mouvement"]
-    if File.est_ecoule():
-        File.defiler_mouv()
-        mouv = File.get_mouv()
-    File.defiler_temps()
-    player_gravity = bouge(mouv, rect, speed, player_gravity)
-    return player_gravity
-
-def bouge(mouv, rect, speed, player_gravity):
-    if mouv == "r":  # Droite
-        rect.right += speed
-    elif mouv == "l":  # Gauche
-        rect.right -= speed
-    elif mouv == "j":  # Saut
-        player_gravity = -5
-    return player_gravity
-
-
 # Generation de la liste des éléments déplaçables
 
 def generer_liste_elements(elements_deplacables):
@@ -76,13 +55,12 @@ def generer_liste_elements(elements_deplacables):
         liste_elements.append({"mouvement": mouv, "temps": elem[3]})
     return liste_elements
 
-def traiter_envoie(genere_liste_elements, elements_deplacables, player_gravity, click_again, ex_tab_mouv, player_rect, speed, Joueur):
+def traiter_envoie(genere_liste_elements, elements_deplacables, click_again, ex_tab_mouv, Joueur):
     """Gère l'envoi d'une liste d'éléments"""
     if not ex_tab_mouv.est_vide():
-        # player_gravity = traite_mouv(ex_tab_mouv, player_rect, speed, player_gravity)
         ex_tab_mouv = Joueur.move_from_File(ex_tab_mouv)
     else:
-        click_again = True #Réactive envoie
+        click_again = True # Réactive envoie
     
     if genere_liste_elements:
         liste_mouvements = generer_liste_elements(elements_deplacables)  # Retourne la liste des mouvements pour l'utiliser dans Code 3
@@ -91,4 +69,4 @@ def traiter_envoie(genere_liste_elements, elements_deplacables, player_gravity, 
             ex_tab_mouv.enfiler_mouv(mouvement)  # Ajoute à la file des mouvements
         genere_liste_elements = False
 
-    return genere_liste_elements, player_gravity, click_again
+    return genere_liste_elements, click_again

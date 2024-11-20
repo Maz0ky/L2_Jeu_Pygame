@@ -41,7 +41,7 @@ def gestion_evenements_choix_niveau(screen, event, level, level_1_rect, level_2_
             level_1_survol = False
     return level, level_1_survol
 
-def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus, button_retour_de_page_rect):
+def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus, button_retour_de_page_rect, Joueur):
     """Gestion des évènements"""
     gestion_evenement_base(screen, event)
 
@@ -128,7 +128,7 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
         if button_rect.collidepoint(mouse_pos):
             if click_again == True:
                 click_again = False
-                player_rect = player_surf.get_rect(midbottom=(880, 300))
+                Joueur.teleport_player((0,640))
                 genere_liste_elements = True
     
     # Déplacement de l'élément sélectionné avec la souris
@@ -225,7 +225,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, player_surf, player_rect, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur, block_group):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur, block_group):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -245,9 +245,6 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
 
     # Met à jour le bouton retour menu choix niveau
     screen.blit(button_retour_de_page_text, button_retour_de_page_rect)
-
-    # Afficher le joueur
-    screen.blit(player_surf, player_rect)
     
     # Met à jour le menu si il est affiché
     if menu_visible:
