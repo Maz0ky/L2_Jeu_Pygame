@@ -90,7 +90,7 @@ class Player(pygame.sprite.Sprite):
         self.blocked[self.BOTTOM] = res
         
     def move(self,sens:str):
-        assert sens in ('j','l','r','d'), "Doit appartenir à un mouvement connu"
+        assert sens in ('j','l','r','d', 'p'), "Doit appartenir à un mouvement connu"
         match sens:
             case 'r':
                 if not self.blocked[self.RIGHT]:#s'il n'y a pas de block à droite
