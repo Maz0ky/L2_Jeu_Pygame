@@ -44,8 +44,8 @@ def gestion_evenements_choix_niveau(screen, event, level, level_1_rect, level_2_
 def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus, button_retour_de_page_rect, Joueur):
     """Gestion des évènements"""
     gestion_evenement_base(screen, event)
-
     genere_liste_elements = False # Indique si l'on doit envoyer la liste
+
     # Clic pour sélectionner une surface ou le bouton
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
@@ -128,7 +128,7 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
         if button_rect.collidepoint(mouse_pos):
             if click_again == True:
                 click_again = False
-                Joueur.teleport_player((0,640))
+                Joueur.teleport_player((800,640))
                 genere_liste_elements = True
     
     # Déplacement de l'élément sélectionné avec la souris
@@ -261,6 +261,5 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
     # Partie map
     sprite_group.draw(screen)
     Joueur.show(screen)
-    Joueur.update(block_group)
         
     mise_a_jour_page_base_fin(clock, fps)

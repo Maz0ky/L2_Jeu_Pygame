@@ -55,13 +55,15 @@ def generer_liste_elements(elements_deplacables):
         liste_elements.append({"mouvement": mouv, "temps": elem[3]})
     return liste_elements
 
-def traiter_envoie(genere_liste_elements, elements_deplacables, click_again, ex_tab_mouv, Joueur):
+def traiter_envoie(genere_liste_elements, elements_deplacables, click_again, ex_tab_mouv, Joueur, block_group):
     """Gère l'envoi d'une liste d'éléments"""
     if not ex_tab_mouv.est_vide():
-        ex_tab_mouv = Joueur.move_from_File(ex_tab_mouv)
+        Joueur.update(block_group)
+        Joueur.move_from_File(ex_tab_mouv)
     else:
         click_again = True # Réactive envoie
     
+
     if genere_liste_elements:
         liste_mouvements = generer_liste_elements(elements_deplacables)  # Retourne la liste des mouvements pour l'utiliser dans Code 3
         print("Mouvements générés :", liste_mouvements)

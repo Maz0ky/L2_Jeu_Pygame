@@ -43,17 +43,17 @@ class Player(pygame.sprite.Sprite):
         self.RIGHT, self.LEFT, self.BOTTOM, self.TOP = 0,1,2,3
     
     def show(self, screen):
-        screen.blit(self.image, (self.rect.x+800, self.rect.y))
+        screen.blit(self.image, (self.rect.x, self.rect.y))
         
     def get_rect(self):
         return self.rect
         
     def update(self, block_group):
-        group_collision = pygame.sprite.spritecollide(self,block_group,False)
-        
+        group_collision = pygame.sprite.spritecollide(self, block_group, False)
+
         self.collisiondroite(group_collision)
         self.collisiongauche(group_collision)
-        self.collisionbas(group_collision)
+        # self.collisionbas(group_collision)
     
     def collisiondroite(self,group_col:list):
         i = 0
@@ -102,8 +102,8 @@ class Player(pygame.sprite.Sprite):
                 if not self.blocked[self.TOP]:
                     self.rect.y -= self.vitesse.y
             case 'd':
-                    if not self.blocked[self.TOP]:
-                        self.rect.y += self.vitesse.y
+                if not self.blocked[self.TOP]:
+                    self.rect.y += self.vitesse.y
        
     #ne pas oublier d'importer la classe File_mouv dans le dossier                 
     def move_from_File(self, File):
@@ -138,6 +138,7 @@ def creer_tuile(tuiles, size_tileset, sprite_group, block_group, attribut:str=''
                 Fatal_Block(pos = pos, surf = surf, groups = sprite_group)
             case _:
                 Tile(pos = pos, surf = surf, groups = sprite_group)
+    return block_group
                 
                 
 def add_list_int(list1,list2):
