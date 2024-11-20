@@ -54,8 +54,6 @@ class Player(pygame.sprite.Sprite):
         self.collisiondroite(group_collision)
         self.collisiongauche(group_collision)
         self.collisionbas(group_collision)
-        if len(group_collision)>1:
-            print(group_collision)
     
     def collisiondroite(self,group_col:list):
         i = 0
