@@ -19,27 +19,35 @@ def gestion_evenements_accueil(screen, event, level, start_rect):
             level = 0
     return level
 
-def gestion_evenements_choix_niveau(screen, event, level, level_1_rect, level_2_rect, level_3_rect, button_retour_de_choixlvl_rect, level_1_survol):
+def gestion_evenements_choix_niveau(screen, event, level, button_retour_de_choixlvl_rect, levels_info):
     gestion_evenement_base(screen, event)
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
         if button_retour_de_choixlvl_rect.collidepoint(mouse_pos):
             level = -1
-        if level_1_rect.collidepoint(mouse_pos):
+        if levels_info[0][1].collidepoint(mouse_pos):
             level = 1
-        if level_2_rect.collidepoint(mouse_pos):
+        if levels_info[1][1].collidepoint(mouse_pos):
             pass
-        if level_3_rect.collidepoint(mouse_pos):
+        if levels_info[2][1].collidepoint(mouse_pos):
             pass
     
     if event.type == pygame.MOUSEMOTION:  # Détecte les mouvements de la souris
         mouse_pos = pygame.mouse.get_pos()
-        if level_1_rect.collidepoint(mouse_pos):
-            level_1_survol = True  # Active l'effet de survol
+        if levels_info[0][1].collidepoint(mouse_pos):
+            levels_info[0][2] = True  # Active l'effet de survol
         else:
-            level_1_survol = False
-    return level, level_1_survol
+            levels_info[0][2] = False
+        if levels_info[1][1].collidepoint(mouse_pos):
+            levels_info[1][2] = True  # Active l'effet de survol
+        else:
+            levels_info[1][2] = False
+        if levels_info[2][1].collidepoint(mouse_pos):
+            levels_info[2][2] = True  # Active l'effet de survol
+        else:
+            levels_info[2][2] = False
+    return level
 
 def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus, button_retour_de_page_rect, Joueur):
     """Gestion des évènements"""
@@ -185,47 +193,38 @@ def mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect):
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, level_1_accessible, level_2_accessible, level_3_accessible, level_1_survol):
+def levels_verifications(screen, levels_info, niveau):
+    """Pour rendre la vérification des niveaux plus compacte"""
+    indice = niveau - 1
+    if levels_info[indice][3]:
+        if levels_info[indice][2]:
+            level_scaled_rect = levels_info[indice][1].inflate(levels_info[indice][1].width * 0.2, levels_info[indice][1].height * 0.2)
+            pygame.draw.circle(screen, (240, 240, 240), level_scaled_rect.center, max(level_scaled_rect.width, level_scaled_rect.height) // 2 + 40)
+            screen.blit(pygame.transform.scale(levels_info[indice][0], level_scaled_rect.size), level_scaled_rect)
+        else:
+            pygame.draw.circle(screen, (240, 240,240), levels_info[indice][1].center, max(levels_info[indice][1].width, levels_info[indice][1].height) // 2 + 40)
+            screen.blit(levels_info[indice][0], levels_info[indice][1])
+    else:
+        if niveau != 1: 
+            screen.blit(levels_info[indice][0], levels_info[indice][1])
+            overlay = pygame.Surface((screen.get_width(), screen.get_height()), pygame.SRCALPHA)  # Surface transparente
+            pygame.draw.circle(overlay, (100, 40, 40, 240), levels_info[indice][1].center, max(levels_info[indice][1].width, levels_info[indice][1].height) // 2 + 40)  # Cercle semi-transparent
+            screen.blit(overlay, (0, 0))
+
+def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, levels_info):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
-
-    if level_1_accessible:
-        if level_1_survol:
-            level_1_scaled_rect = level_1_rect.inflate(level_1_rect.width * 0.2, level_1_rect.height * 0.2)
-            pygame.draw.circle(screen, (240, 240, 240), level_1_scaled_rect.center, max(level_1_scaled_rect.width, level_1_scaled_rect.height) // 2 + 40)
-            screen.blit(pygame.transform.scale(level_1_surf, level_1_scaled_rect.size), level_1_scaled_rect)
-        else:
-        
-            pygame.draw.circle(screen, (240, 240,240), level_1_rect.center, max(level_1_rect.width, level_1_rect.height) // 2 + 40)
-            screen.blit(level_1_surf, level_1_rect)
-    else: 
-        pass
-
-    if level_2_accessible:
-        pygame.draw.circle(screen, (240, 240,240), level_2_rect.center, max(level_2_rect.width, level_2_rect.height) // 2 + 40)
-        screen.blit(level_2_surf, level_2_rect)
-    else: 
-        screen.blit(level_2_surf, level_2_rect)
-        overlay = pygame.Surface((screen.get_width(), screen.get_height()), pygame.SRCALPHA)  # Surface transparente
-        pygame.draw.circle(overlay, (100, 40, 40, 240), level_2_rect.center, max(level_2_rect.width, level_2_rect.height) // 2 + 40)  # Cercle semi-transparent
-        screen.blit(overlay, (0, 0))
     
-    if level_3_accessible:
-        pygame.draw.circle(screen, (240, 240,240), level_3_rect.center, max(level_3_rect.width, level_3_rect.height) // 2 + 40)
-        screen.blit(level_3_surf, level_3_rect)
-    else: 
-        screen.blit(level_3_surf, level_3_rect)
-        overlay = pygame.Surface((screen.get_width(), screen.get_height()), pygame.SRCALPHA)  # Surface transparente
-        pygame.draw.circle(overlay, (100, 40, 40, 240), level_3_rect.center, max(level_3_rect.width, level_3_rect.height) // 2 + 40)  # Cercle semi-transparent
-        screen.blit(overlay, (0, 0))
-    
+    levels_verifications(screen, levels_info, 1)
+    levels_verifications(screen, levels_info, 2)
+    levels_verifications(screen, levels_info, 3)
 
     screen.blit(button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect)
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur, block_group):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -256,7 +255,6 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
         screen.blit(option_de_temps, (menu_temps_rect.x + 40, menu_temps_rect.y + 10))
         screen.blit(option_plus, (menu_temps_rect.x + 85, menu_temps_rect.y + 10))
         screen.blit(option_fermer_temps, (menu_temps_rect.x + 10, menu_temps_rect.y - 20))
-
 
     # Partie map
     sprite_group.draw(screen)

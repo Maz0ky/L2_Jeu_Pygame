@@ -4,13 +4,14 @@ from mouvement import *
 
 # [1] Initialisation du menu de début et de fin
 
+# Note : condenser les options de temps + start surf, start rect + button retour de choix + de page + buton tout cour
 def init_page_debut_et_fin(screen):
     level = niveau_actuel()
     start_surf, start_rect = page_accueil(screen)
-    level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect, level_1_accessible, level_2_accessible, level_3_accessible = boutons_levels(screen)
+    levels_info = boutons_levels(screen)
     button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect = initialiser_bouton_retour_de_choixlvl()
     button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect = initialiser_bouton_retour_de_page()
-    return level, start_surf, start_rect, level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect, button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect, level_1_accessible, level_2_accessible, level_3_accessible
+    return level, start_surf, start_rect, button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect, levels_info
 
 def niveau_actuel():
     level = 1
@@ -35,8 +36,11 @@ def boutons_levels(screen):
     level_3_surf = pygame.transform.scale(level_3_surf, (200, 200))
     level_3_rect = level_3_surf.get_rect(midtop=(screen.get_width()*5/6, screen.get_height()/6))  # Position du bouton start
 
+    level_1_survol, level_2_survol, level_3_survol = False, False, False
     level_1_accessible, level_2_accessible, level_3_accessible = True, False, False
-    return level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect, level_1_accessible, level_2_accessible, level_3_accessible
+
+    levels_info = [[level_1_surf, level_1_rect, level_1_survol, level_1_accessible], [level_2_surf, level_2_rect, level_2_survol, level_2_accessible], [level_3_surf, level_3_rect, level_3_survol, level_3_accessible]]
+    return levels_info
 
 # [2] Initialisations du niveau
 

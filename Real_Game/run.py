@@ -15,9 +15,8 @@ clock = pygame.time.Clock()
 fps = 60
 
 # Initialisation
-level, start_surf, start_rect, level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect, button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect, level_1_accessible, level_2_accessible, level_3_accessible = init_page_debut_et_fin(screen)
+level, start_surf, start_rect, button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect, levels_info = init_page_debut_et_fin(screen)
 elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, button_font, button_text, button_rect, genere_liste_elements, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible = init_levels()
-level_1_survol = False
 
 player_surf, player_rect, player_gravity, speed = None, None, None, None
 
@@ -52,10 +51,10 @@ while True:
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
-            level, level_1_survol = gestion_evenements_choix_niveau(screen, event, level, level_1_rect, level_2_rect, level_3_rect, button_retour_de_choixlvl_rect, level_1_survol)
+            level = gestion_evenements_choix_niveau(screen, event, level, button_retour_de_choixlvl_rect, levels_info)
 
         # [FIN] Mise à Jour de la page
-        mise_a_jour_page_choix_niveau(screen, clock, fps, level_1_surf, level_1_rect, level_2_surf, level_2_rect, level_3_surf, level_3_rect, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, level_1_accessible, level_2_accessible, level_3_accessible, level_1_survol)
+        mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, levels_info)
 
     if level == 1:
         
@@ -69,4 +68,4 @@ while True:
         genere_liste_elements, click_again = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, ex_tab_mouv, Joueur, block_group)
 
         # [FIN] Mise à jour de la page
-        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur, block_group)
+        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur)
