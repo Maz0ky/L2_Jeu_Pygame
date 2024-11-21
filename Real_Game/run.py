@@ -23,7 +23,7 @@ player_surf, player_rect, player_gravity, speed = None, None, None, None
 
 # Code partie map
 size_tileset = 32
-map = load_pygame('map/map_test.tmx')
+map = load_pygame('Real_Game/map/map_test.tmx')
 sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
 block_group = pygame.sprite.Group()
 # parcours toutes les couches

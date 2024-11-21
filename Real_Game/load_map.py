@@ -28,7 +28,7 @@ class Fatal_Block(Tile):
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
-        self.image = pygame.image.load("Tuile/Image/Sprite_Player_72x72/tile011.png")
+        self.image = pygame.image.load("Real_Game/Tuile/Image/Sprite_Player_72x72/tile011.png")
         self.rect = self.image.get_rect()
         self.rect.bottomleft = pos
         self.blocked = [False for i in range(4)]#represente les 4 sens où le joueur peut être bloqué(right,left,bottom,top)
