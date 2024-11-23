@@ -10,6 +10,14 @@ fps = 60
 J = pygame.Surface((50,50))
 J.fill('red')
 J_rect = J.get_rect()
+
+block = pygame.Surface((60,30))
+block.fill('blue')
+block_rect = block.get_rect()
+block_rect.x = 200
+block_rect.y = 100
+collisiond,collisionb = False, False
+
 while True:
     deltatime = clock.tick(60) * .001 * fps #stabilise les frames de l'image à 60 fps
     
@@ -18,19 +26,29 @@ while True:
             pygame.quit()
             exit()
     
+    screen.fill('black')
     
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_d]:
-        print("hop")
+    if keys[pygame.K_d] and not collisiond:
         J_rect.x += 5
     if keys[pygame.K_q]:
         J_rect.x -= 5
     if keys[pygame.K_z]:
-        J_rect.y += 5
-    if keys[pygame.K_s]:
         J_rect.y -= 5
-        
+    if keys[pygame.K_s] and not collisionb:
+        J_rect.y += 5
+    
+    collisiond = J_rect.collidepoint(block_rect.topleft) or J_rect.collidepoint(block_rect.bottomleft) 
+    if collisiond:
+        J_rect.x = block_rect.x - J_rect.width
+    
+    collisionb = J_rect.collidepoint(block_rect.topleft) or J_rect.collidepoint(block_rect.topright)
+    if collisionb:
+        J_rect.x = block_rect.top
+    
     screen.blit(J,J_rect)
+    screen.blit(block,block_rect)
+    
     pygame.display.flip() #update tout l'ecran
 
 
@@ -80,17 +98,17 @@ class Fatal_Block(Tile):
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
-        self.image = pygame.image.load("Tuile/Image/Sprite_Player_72x72/tile011.png")
+        self.image = pygame.image.load("Real_Game/Tuile/Image/Sprite_Player_72x72/tile011.png")
         self.rect = self.image.get_rect()
         self.rect.bottomleft = pos
         self.blocked = [False for i in range(4)]#represente les 4 sens où le joueur peut être bloqué(right,left,bottom,top)
         
         #______affichage_____
-        self.LEFT_KEY, self.RIGHT_KEY, self.FACING_LEFT = False, False, False
+        #self.LEFT_KEY, self.RIGHT_KEY, self.FACING_LEFT = False, False, False
         self.is_jumping, self.on_ground = False, False
 
-        self.pos =  pygame.math.Vector2(pos)
-        self.vitesse = pygame.math.Vector2(5,5)
+        self.co = pygame.math.Vector2(pos)
+        self.vitesse = pygame.math.Vector2(0,0)
         self.force = pygame.math.Vector2(0,0) 
     
     def show(self):
@@ -99,37 +117,59 @@ class Player(pygame.sprite.Sprite):
     def get_rect(self):
         return self.rect
         
-    def update(self):
-        group_collision = pygame.sprite.spritecollide(self,block_group,False)
+    def update(self):     
         
-        self.collisiondroite(group_collision)
-        self.collisiongauche(group_collision)
+        self.applique_vitesse()
         #self.collisionbas(group_collision)
         # if len(group_collision)>1:
         #     print(group_collision)
     
-    def collisiondroite(self,group_col:list):
-        i = 0
-        res = False
-        while not res and i < len(group_col):
-            block = group_col[i].get_rect()
-            if self.rect.collidepoint(add_list_int(block.topleft,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomleft,(0,-6))):#(self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
-                #verfie dans un premier temps que la collision s'effectue bien à droite et ensuite que le bloque est bien à la hauteur du joueur
-                res = True
-                self.rect.x = block.x - self.rect.width
-            i+=1
-        self.blocked[RIGHT] = res
+    def applique_co(self):
+        self.rect.x = self.co.x
+        self.rect.y = self.co.y
+        
+    def applique_vitesse(self):
+        self.co += self.vitesse
+        self.applique_vitesse()
+
+        
+        
+        
+    def get_hit(self, sprite_grp):
+        return pygame.sprite.spritecollide(self,sprite_grp,False)
     
-    def collisiongauche(self,group_col):
-        i = 0
-        res = False
-        while not res and i < len(group_col):
-            block = group_col[i].get_rect()
-            if self.rect.collidepoint(add_list_int(block.topright,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomright,(0,-6))):#if (self.rect.left <= block.right and not self.rect.left < block.left) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
-                res = True
-                self.rect.x = block.x + block.width
-            i+=1
-        self.blocked[LEFT] = res
+    def collisionx(self, sprite_grp):
+        collision = self.get_hit(sprite_grp)
+        for block in sprite_group:
+            if collision:
+                vitx = self.vitesse.x
+                if vitx > 0:#si touche un block de la droite
+                    self.rect.x = block.x - self.rect.width
+                elif vitx < 0:
+                    self.rect.x = block.right
+        
+    # def collisiondroite(self,group_col:list):
+    #     i = 0
+    #     res = False
+    #     while not res and i < len(group_col):
+    #         block = group_col[i].get_rect()
+    #         if self.rect.collidepoint(add_list_int(block.topleft,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomleft,(0,-6))):#(self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+    #             #verfie dans un premier temps que la collision s'effectue bien à droite et ensuite que le bloque est bien à la hauteur du joueur
+    #             res = True
+    #             self.rect.x = block.x - self.rect.width
+    #         i+=1
+    #     self.blocked[RIGHT] = res
+    
+    # def collisiongauche(self,group_col):
+    #     i = 0
+    #     res = False
+    #     while not res and i < len(group_col):
+    #         block = group_col[i].get_rect()
+    #         if self.rect.collidepoint(add_list_int(block.topright,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomright,(0,-6))):#if (self.rect.left <= block.right and not self.rect.left < block.left) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
+    #             res = True
+    #             self.rect.x = block.x + block.width
+    #         i+=1
+    #     self.blocked[LEFT] = res
     
     def collisionbas(self,group_col):
         i = 0
@@ -147,16 +187,16 @@ class Player(pygame.sprite.Sprite):
         match sens:
             case 'r':
                 if not self.blocked[RIGHT]:#s'il n'y a pas de block à droite
-                    self.rect.x += self.vitesse.x
+                    self.vitesse.x = 4
             case 'l':
                 if not self.blocked[LEFT]:#s'il n'y a pas de block à droite
-                    self.rect.x -= self.vitesse.x
+                    self.vitesse.x = -4
             case 'j':
                 if not self.blocked[TOP]:
-                    self.rect.y -= self.vitesse.y
+                    self.vitesse.y = -4
             case 'd':
-                    if not self.blocked[TOP]:
-                        self.rect.y += self.vitesse.y
+                if not self.blocked[TOP]:
+                    self.vitesse.y = 4
        
     #ne pas oublier d'importer la classe File_mouv dans le dossier                 
     def move_from_File(self, File: File_mouv):
@@ -184,7 +224,7 @@ screen = pygame.display.set_mode((800,672))
 clock = pygame.time.Clock()
 fps = 60
 size_tileset = 32
-map = load_pygame('map/map_test.tmx')
+map = load_pygame('Real_Game/map/map_test.tmx')
 sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
 block_group = pygame.sprite.Group()
 
@@ -235,3 +275,4 @@ while True:
         Joueur.move('d')
     
     pygame.display.flip() #update tout l'ecran
+    
