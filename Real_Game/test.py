@@ -118,10 +118,10 @@ class Player(pygame.sprite.Sprite):
         
     def update(self,b_grp):     
         
-        
         self.collisionx(b_grp)
         self.collisiony(b_grp)
         self.applique_vitesse()
+        
         
         
     def applique_vitesse(self):
@@ -145,9 +145,13 @@ class Player(pygame.sprite.Sprite):
     def collisionx(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            if self.vitesse.x > 0:#si touche un block de la droite
+            if (self.vitesse.x > 0 and 
+                (self.rect.collidepoint(block.rect.topleft) or 
+                   self.rect.collidepoint(block.rect.bottomleft))):#si touche un block de la droiteq
                 self.rect.x = block.rect.x - self.rect.width
-            elif self.vitesse.x < 0:#si touche un block de la gauche
+            elif (self.vitesse.x < 0 and 
+                  (self.rect.collidepoint(block.rect.topright) or 
+                   self.rect.collidepoint(block.rect.bottomright))):#si touche un block de la gauche
                 self.rect.x = block.rect.right
     
     def collisiony(self, sprite_grp):
@@ -155,12 +159,12 @@ class Player(pygame.sprite.Sprite):
         #self.rect.bottom += 1
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            if self.vitesse.y > 0:#si touche un block du bas
+            if (self.vitesse.y > 0):#si touche un block du bas
                 self.is_jumping = False
                 self.on_ground = True
                 self.vitesse.y = 0
                 self.rect.bottom = block.rect.y
-            elif self.vitesse.y < 0:#si touche un block du haut
+            elif (self.vitesse.y < 0):#si touche un block du haut
                 self.vitesse.y = 0
                 self.rect.y = block.rect.bottom + self.rect.height
         
