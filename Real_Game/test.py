@@ -105,11 +105,10 @@ class Player(pygame.sprite.Sprite):
         
         #______affichage_____
         #self.LEFT_KEY, self.RIGHT_KEY, self.FACING_LEFT = False, False, False
-        self.is_jumping, self.on_ground = False, False
+        self.is_jumping, self.on_ground = False, True
 
-        self.co = pygame.math.Vector2(pos)
         self.vitesse = pygame.math.Vector2(0,0)
-        self.force = pygame.math.Vector2(0,0) 
+        #self.force = pygame.math.Vector2(0,0) 
     
     def show(self):
         screen.blit(self.image, self.rect)
@@ -123,30 +122,48 @@ class Player(pygame.sprite.Sprite):
         #self.collisionbas(group_collision)
         # if len(group_collision)>1:
         #     print(group_collision)
-    
-    def applique_co(self):
-        self.rect.x = self.co.x
-        self.rect.y = self.co.y
         
     def applique_vitesse(self):
-        self.co += self.vitesse
-        self.applique_vitesse()
-
+        self.rect.x  += self.vitesse.x
+        self.rect.y  += self.vitesse.y
+        self.vitesse.update(0,0)
         
-        
-        
+    def jump(self):
+        # block_group
+        if self.on_ground :
+            self.is_jumping, self.on_ground = True, False
+            self.vitesse.y = -20
+    
+    def gravity(self):
+        if self.is_jumping :
+            self.vitesse.y += 1
+    
     def get_hit(self, sprite_grp):
         return pygame.sprite.spritecollide(self,sprite_grp,False)
     
     def collisionx(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
-        for block in sprite_group:
-            if collision:
-                vitx = self.vitesse.x
-                if vitx > 0:#si touche un block de la droite
-                    self.rect.x = block.x - self.rect.width
-                elif vitx < 0:
-                    self.rect.x = block.right
+        for block in collision:
+            vitx = self.vitesse.x
+            if vitx > 0:#si touche un block de la droite
+                self.rect.x = block.x - self.rect.width
+            elif vitx < 0:
+                self.rect.x = block.right
+    
+    def collisiony(self, sprite_grp):
+        self.on_ground = False
+        self.rect.bottom += 1 
+        collision = self.get_hit(sprite_grp)
+        for block in collision:
+            vity = self.vitesse.y
+            if vity > 0:#si touche un block du bas
+                self.is_jumping = False
+                self.on_ground = True
+                self.vitesse.y = 0
+                self.rect.bottom = block.y
+            elif vity < 0:#si touche un block du haut
+                self.vitesse.y = 0
+                self.rect.y = block.bottom + self.rect.height
         
     # def collisiondroite(self,group_col:list):
     #     i = 0
@@ -193,7 +210,7 @@ class Player(pygame.sprite.Sprite):
                     self.vitesse.x = -4
             case 'j':
                 if not self.blocked[TOP]:
-                    self.vitesse.y = -4
+                    self.jump()
             case 'd':
                 if not self.blocked[TOP]:
                     self.vitesse.y = 4
@@ -263,7 +280,7 @@ while True:
         
     sprite_group.draw(screen)
     Joueur.show()
-    Joueur.update()
+    Joueur.update(block_group)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_d]:
         Joueur.move('r')
