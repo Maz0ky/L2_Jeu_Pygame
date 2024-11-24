@@ -116,20 +116,21 @@ class Player(pygame.sprite.Sprite):
     def get_rect(self):
         return self.rect
         
-    def update(self):     
+    def update(self,b_grp):     
         
+        
+        self.collisionx(b_grp)
+        self.collisiony(b_grp)
         self.applique_vitesse()
-        #self.collisionbas(group_collision)
-        # if len(group_collision)>1:
-        #     print(group_collision)
+        
         
     def applique_vitesse(self):
         self.rect.x  += self.vitesse.x
         self.rect.y  += self.vitesse.y
-        self.vitesse.update(0,0)
+        self.vitesse.x = 0
+        self.gravity()
         
     def jump(self):
-        # block_group
         if self.on_ground :
             self.is_jumping, self.on_ground = True, False
             self.vitesse.y = -20
@@ -144,26 +145,24 @@ class Player(pygame.sprite.Sprite):
     def collisionx(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            vitx = self.vitesse.x
-            if vitx > 0:#si touche un block de la droite
-                self.rect.x = block.x - self.rect.width
-            elif vitx < 0:
-                self.rect.x = block.right
+            if self.vitesse.x > 0:#si touche un block de la droite
+                self.rect.x = block.rect.x - self.rect.width
+            elif self.vitesse.x < 0:#si touche un block de la gauche
+                self.rect.x = block.rect.right
     
     def collisiony(self, sprite_grp):
-        self.on_ground = False
-        self.rect.bottom += 1 
+        #self.on_ground = False
+        #self.rect.bottom += 1
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            vity = self.vitesse.y
-            if vity > 0:#si touche un block du bas
+            if self.vitesse.y > 0:#si touche un block du bas
                 self.is_jumping = False
                 self.on_ground = True
                 self.vitesse.y = 0
-                self.rect.bottom = block.y
-            elif vity < 0:#si touche un block du haut
+                self.rect.bottom = block.rect.y
+            elif self.vitesse.y < 0:#si touche un block du haut
                 self.vitesse.y = 0
-                self.rect.y = block.bottom + self.rect.height
+                self.rect.y = block.rect.bottom + self.rect.height
         
     # def collisiondroite(self,group_col:list):
     #     i = 0
@@ -211,9 +210,6 @@ class Player(pygame.sprite.Sprite):
             case 'j':
                 if not self.blocked[TOP]:
                     self.jump()
-            case 'd':
-                if not self.blocked[TOP]:
-                    self.vitesse.y = 4
        
     #ne pas oublier d'importer la classe File_mouv dans le dossier                 
     def move_from_File(self, File: File_mouv):
@@ -286,10 +282,8 @@ while True:
         Joueur.move('r')
     if keys[pygame.K_q]:
         Joueur.move('l')
-    if keys[pygame.K_z]:
+    if keys[pygame.K_z] or keys[pygame.K_SPACE]:
         Joueur.move('j')
-    if keys[pygame.K_s]:
-        Joueur.move('d')
     
     pygame.display.flip() #update tout l'ecran
     
