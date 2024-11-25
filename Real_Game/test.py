@@ -160,7 +160,7 @@ class Player(pygame.sprite.Sprite):
                 self.rect.bottom = block.rect.y + 1
             elif (self.vitesse.y < 0 and self.rect.collidepoint(block.rect.midbottom)):#si touche un block du haut
                 self.vitesse.y = 0
-                self.rect.y = block.rect.bottom + self.rect.height
+                self.rect.y = block.rect.bottom
         
     def move(self,sens:str):
         assert sens in ('j','l','r','p'), "Doit appartenir à un mouvement connu"
