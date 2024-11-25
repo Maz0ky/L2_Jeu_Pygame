@@ -24,14 +24,15 @@ size_tileset = 32
 map = load_pygame('Real_Game/map/map_test.tmx')
 sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
 block_group = pygame.sprite.Group()
+fatal_group = pygame.sprite.Group()
 # parcours toutes les couches
 for layer in map.visible_layers:
     if layer.name == 'Block':
-        block_group = creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, 'block')
-    elif layer.name == 'Deathful':
-        block_group = creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, 'fatal')
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group,'block')
+    elif layer.name == 'Fatal':
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, 'fatal')
     elif hasattr(layer,'data'):#si la couche a des données alors
-        block_group = creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group)
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group)
 
 Joueur = Player((800,640))
 
@@ -65,4 +66,4 @@ while True:
         genere_liste_elements, click_again = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, ex_tab_mouv, Joueur, block_group)
 
         # [FIN] Mise à jour de la page
-        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, sprite_group, Joueur, block_group, menu)
+        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group)

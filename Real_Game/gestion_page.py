@@ -224,7 +224,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -259,6 +259,9 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouto
     # Partie map
     sprite_group.draw(screen)
     Joueur.show(screen)
-    Joueur.update(block_group)
+    Joueur.update(block_group,fatal_group)
+    if Joueur.is_dead():
+        #BESOIN DE FAIRE UN CLEAR SUR LA FILE ICI MAIS JE NE LA TROUVE PAS!!!
+        Joueur.respawn()
         
     mise_a_jour_page_base_fin(clock, fps)

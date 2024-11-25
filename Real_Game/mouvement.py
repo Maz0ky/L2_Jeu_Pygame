@@ -1,5 +1,4 @@
-path_for_files = "Visi301_Mathieu_Teva/First_Steps"
-            
+         
 class File_mouv:
     
     def __init__(self,file=[]):
@@ -35,6 +34,9 @@ class File_mouv:
     def get_mouv(self):
         if not self.est_vide():
             return self.file[0]
+    
+    def clear(self):
+        self.file = []
 
 # Generation de la liste des éléments déplaçables
 
