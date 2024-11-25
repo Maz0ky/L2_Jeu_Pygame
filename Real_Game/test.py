@@ -21,7 +21,7 @@ class Solid_Block(Tile):
     def udate(self, player):
         if self.rect.colliderect(player.get_rect()):
             pass
-            
+
 
 class Fatal_Block(Tile):
     #classe des blocks fatals
@@ -32,7 +32,7 @@ class Fatal_Block(Tile):
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
-        self.image = pygame.image.load("Real_Game/Tuile/Image/Sprite_Player_72x72/tile011.png")
+        self.image = pygame.image.load("Real_Game/Tuile/Image/Sprite_Player_72x72/Shrek-1.png")
         self.rect = self.image.get_rect()
         self.rect.bottomleft = pos
         
