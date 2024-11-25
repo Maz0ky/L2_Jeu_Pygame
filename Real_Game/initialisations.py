@@ -9,9 +9,30 @@ def init_page_debut_et_fin(screen):
     level = niveau_actuel()
     start_surf, start_rect = page_accueil(screen)
     levels_info = boutons_levels(screen)
-    button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect = initialiser_bouton_retour_de_choixlvl()
-    button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect = initialiser_bouton_retour_de_page()
-    return level, start_surf, start_rect, button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect, levels_info
+    button_retour_de_choixlvl = initialiser_bouton_retour_de_choixlvl()
+    button_retour_de_page = initialiser_bouton_retour_de_page()
+    return level, start_surf, start_rect, button_retour_de_choixlvl, button_retour_de_page, levels_info
+
+# Initialisation du bouton de retour pour retourner à l'accueil depuis la page de choix des niveaux
+
+def initialiser_bouton_retour_de_page():
+    """Création du bouton Retour"""
+    button_retour_de_page_font = pygame.font.Font(None, 36)
+    button_retour_de_page_text = button_retour_de_page_font.render("Menu choix level", True, (0, 0, 0))
+    button_retour_de_page_rect = pygame.Rect(20, 20, button_retour_de_page_text.get_width(), button_retour_de_page_text.get_height())
+    button_retour_de_page = [button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect]
+    return button_retour_de_page
+
+# Initialisation du bouton de retour pour retourner à l'accueil depuis la page de choix des niveaux
+
+def initialiser_bouton_retour_de_choixlvl():
+    """Création du bouton Retour"""
+    button_retour_de_choixlvl_font = pygame.font.Font(None, 36)
+    button_retour_de_choixlvl_text = button_retour_de_choixlvl_font.render("Retour", True, (255, 255, 255))
+    button_retour_de_choixlvl_rect = pygame.Rect(20, 20, button_retour_de_choixlvl_text.get_width(), button_retour_de_choixlvl_text.get_height())
+    button_retour_de_choixlvl = button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect
+    return button_retour_de_choixlvl
+
 
 def niveau_actuel():
     level = 1
@@ -46,9 +67,10 @@ def boutons_levels(screen):
 
 def init_levels():
     elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv = initialisation_de_base()
-    button_font, button_text, button_rect, genere_liste_elements = initialiser_bouton_envoi()
+    bouton_envoi, genere_liste_elements = initialiser_bouton_envoi()
     menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, menu_temps_visible, menu_temps_rect, option_de_temps, option_fermer_temps, option_moins, option_plus = initialisation_menu()
-    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again,button_font, button_text, button_rect, genere_liste_elements, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible
+    dico = {"menu_visible" : menu_visible, "menu_rect" : menu_rect, "option_supprimer" : option_supprimer, "option_temps" : option_temps, "element_concerne" : element_concerne, "menu_temps_visible" : menu_temps_visible, "menu_temps_rect" : menu_temps_rect, "option_de_temps" : option_de_temps, "option_fermer_temps" : option_fermer_temps, "option_moins" : option_moins, "option_plus" : option_plus}
+    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, bouton_envoi, genere_liste_elements, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible
 
 # Initialisation des éléments de bases
 
@@ -85,25 +107,9 @@ def initialiser_bouton_envoi():
     button_text = button_font.render("Envoie", True, (0, 0, 0))
     button_rect = pygame.Rect(700, 632, button_text.get_width(), button_text.get_height())
     genere_liste_elements = False
-    return button_font, button_text, button_rect, genere_liste_elements
+    bouton_envoi =  button_font, button_text, button_rect
+    return bouton_envoi, genere_liste_elements
 
-# Initialisation du bouton de retour pour retourner à l'accueil depuis la page de choix des niveaux
-
-def initialiser_bouton_retour_de_choixlvl():
-    """Création du bouton Retour"""
-    button_retour_de_choixlvl_font = pygame.font.Font(None, 36)
-    button_retour_de_choixlvl_text = button_retour_de_choixlvl_font.render("Retour", True, (255, 255, 255))
-    button_retour_de_choixlvl_rect = pygame.Rect(20, 20, button_retour_de_choixlvl_text.get_width(), button_retour_de_choixlvl_text.get_height())
-    return button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect
-
-# Initialisation du bouton de retour pour retourner à l'accueil depuis la page de choix des niveaux
-
-def initialiser_bouton_retour_de_page():
-    """Création du bouton Retour"""
-    button_retour_de_page_font = pygame.font.Font(None, 36)
-    button_retour_de_page_text = button_retour_de_page_font.render("Menu choix level", True, (0, 0, 0))
-    button_retour_de_page_rect = pygame.Rect(20, 20, button_retour_de_page_text.get_width(), button_retour_de_page_text.get_height())
-    return button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect
 
 # Initialisation du menu (suppression et temps)
 

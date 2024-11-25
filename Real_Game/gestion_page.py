@@ -19,12 +19,12 @@ def gestion_evenements_accueil(screen, event, level, start_rect):
             level = 0
     return level
 
-def gestion_evenements_choix_niveau(screen, event, level, button_retour_de_choixlvl_rect, levels_info):
+def gestion_evenements_choix_niveau(screen, event, level, button_retour_de_choixlvl, levels_info):
     gestion_evenement_base(screen, event)
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
-        if button_retour_de_choixlvl_rect.collidepoint(mouse_pos):
+        if button_retour_de_choixlvl[2].collidepoint(mouse_pos):
             level = -1
         if levels_info[0][1].collidepoint(mouse_pos):
             level = 1
@@ -49,7 +49,7 @@ def gestion_evenements_choix_niveau(screen, event, level, button_retour_de_choix
             levels_info[2][2] = False
     return level
 
-def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus, button_retour_de_page_rect, Joueur):
+def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, click_again, player_rect, player_surf, menu_temps_rect, option_de_temps, menu_temps_visible, option_fermer_temps, option_moins, option_plus, button_retour_de_page, Joueur):
     """Gestion des évènements"""
     gestion_evenement_base(screen, event)
     genere_liste_elements = False # Indique si l'on doit envoyer la liste
@@ -58,7 +58,7 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
 
-        if button_retour_de_page_rect.collidepoint(mouse_pos):
+        if button_retour_de_page[2].collidepoint(mouse_pos):
             level = 0
         
         # Vérification des blocs fixes pour créer des blocs déplaçables si besoin
@@ -133,7 +133,7 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
     if event.type == pygame.MOUSEBUTTONUP:
         mouse_pos = pygame.mouse.get_pos()
     # Vérification du clic sur le bouton Envoi
-        if button_rect.collidepoint(mouse_pos):
+        if bouton_envoi[2].collidepoint(mouse_pos):
             if click_again == True:
                 click_again = False
                 Joueur.teleport_player((800,640))
@@ -211,7 +211,7 @@ def levels_verifications(screen, levels_info, niveau):
             pygame.draw.circle(overlay, (100, 40, 40, 240), levels_info[indice][1].center, max(levels_info[indice][1].width, levels_info[indice][1].height) // 2 + 40)  # Cercle semi-transparent
             screen.blit(overlay, (0, 0))
 
-def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect, levels_info):
+def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl, levels_info):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -220,11 +220,11 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl_
     levels_verifications(screen, levels_info, 2)
     levels_verifications(screen, levels_info, 3)
 
-    screen.blit(button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect)
+    screen.blit(button_retour_de_choixlvl[1], button_retour_de_choixlvl[2])
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur, block_group):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, menu_visible, menu_rect, option_supprimer, option_temps, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page, sprite_group, Joueur, block_group):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -240,10 +240,10 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
         screen.blit(surf, rect)
 
     # Met à jour le bouton envoie
-    screen.blit(button_text, (button_rect.x + 10, button_rect.y + 5))
+    screen.blit(bouton_envoi[1], (bouton_envoi[2].x + 10, bouton_envoi[2].y + 5))
 
     # Met à jour le bouton retour menu choix niveau
-    screen.blit(button_retour_de_page_text, button_retour_de_page_rect)
+    screen.blit(button_retour_de_page[1], button_retour_de_page[2])
     
     # Met à jour le menu si il est affiché
     if menu_visible:
