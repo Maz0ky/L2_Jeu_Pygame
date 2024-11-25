@@ -33,7 +33,6 @@ def initialiser_bouton_retour_de_choixlvl():
     button_retour_de_choixlvl = button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect
     return button_retour_de_choixlvl
 
-
 def niveau_actuel():
     level = 1
     return level
@@ -68,9 +67,8 @@ def boutons_levels(screen):
 def init_levels():
     elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv = initialisation_de_base()
     bouton_envoi, genere_liste_elements = initialiser_bouton_envoi()
-    menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, menu_temps_visible, menu_temps_rect, option_de_temps, option_fermer_temps, option_moins, option_plus = initialisation_menu()
-    dico = {"menu_visible" : menu_visible, "menu_rect" : menu_rect, "option_supprimer" : option_supprimer, "option_temps" : option_temps, "element_concerne" : element_concerne, "menu_temps_visible" : menu_temps_visible, "menu_temps_rect" : menu_temps_rect, "option_de_temps" : option_de_temps, "option_fermer_temps" : option_fermer_temps, "option_moins" : option_moins, "option_plus" : option_plus}
-    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, bouton_envoi, genere_liste_elements, menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, ex_tab_mouv, option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps, menu_temps_visible
+    menu = initialisation_menu()
+    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, bouton_envoi, genere_liste_elements, ex_tab_mouv, menu
 
 # Initialisation des éléments de bases
 
@@ -119,4 +117,5 @@ def initialisation_menu():
     element_concerne = None
     menu_rect, option_supprimer, option_temps = None, None, None # A l'état "None" puisque Faux par défaut
     option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps = None, None, None, None, None
-    return menu_visible, menu_rect, option_supprimer, option_temps, element_concerne, menu_temps_visible, menu_temps_rect, option_de_temps, option_fermer_temps, option_moins, option_plus
+    menu = {"menu_visible" : menu_visible, "menu_rect" : menu_rect, "option_supprimer" : option_supprimer, "option_temps" : option_temps, "element_concerne" : element_concerne, "menu_temps_visible" : menu_temps_visible, "menu_temps_rect" : menu_temps_rect, "option_de_temps" : option_de_temps, "option_fermer_temps" : option_fermer_temps, "option_moins" : option_moins, "option_plus" : option_plus}
+    return menu
