@@ -166,40 +166,6 @@ class Player(pygame.sprite.Sprite):
                 self.vitesse.y = 0
                 self.rect.y = block.rect.bottom + self.rect.height
         
-    # def collisiondroite(self,group_col:list):
-    #     i = 0
-    #     res = False
-    #     while not res and i < len(group_col):
-    #         block = group_col[i].get_rect()
-    #         if self.rect.collidepoint(add_list_int(block.topleft,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomleft,(0,-6))):#(self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
-    #             #verfie dans un premier temps que la collision s'effectue bien à droite et ensuite que le bloque est bien à la hauteur du joueur
-    #             res = True
-    #             self.rect.x = block.x - self.rect.width
-    #         i+=1
-    #     self.blocked[RIGHT] = res
-    
-    # def collisiongauche(self,group_col):
-    #     i = 0
-    #     res = False
-    #     while not res and i < len(group_col):
-    #         block = group_col[i].get_rect()
-    #         if self.rect.collidepoint(add_list_int(block.topright,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomright,(0,-6))):#if (self.rect.left <= block.right and not self.rect.left < block.left) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
-    #             res = True
-    #             self.rect.x = block.x + block.width
-    #         i+=1
-    #     self.blocked[LEFT] = res
-    
-    # def collisionbas(self,group_col):
-    #     i = 0
-    #     res = False
-    #     while not res and i < len(group_col):
-    #         block = group_col[i].get_rect()
-    #         if self.rect.collidepoint(add_list_int(block.topleft,(6,0))) or self.rect.collidepoint(add_list_int(block.topright,(-6,0))):#(self.rect.bottom >= block.top and not self.rect.bottom > block.bottom) and not( self.rect.right < block.left or self.rect.left > block.right):
-    #             res = True
-    #             self.rect.y = block.y - self.rect.height
-    #         i+=1
-    #     self.blocked[BOTTOM] = res
-        
     def move(self,sens:str):
         assert sens in ('j','l','r','d'), "Doit appartenir à un mouvement connu"
         match sens:
