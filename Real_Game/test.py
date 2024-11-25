@@ -101,11 +101,10 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load("Real_Game/Tuile/Image/Sprite_Player_72x72/tile011.png")
         self.rect = self.image.get_rect()
         self.rect.bottomleft = pos
-        self.blocked = [False for i in range(4)]#represente les 4 sens où le joueur peut être bloqué(right,left,bottom,top)
         
         #______affichage_____
         #self.LEFT_KEY, self.RIGHT_KEY, self.FACING_LEFT = False, False, False
-        self.is_jumping, self.on_ground = False, True
+        self.on_ground = False
 
         self.vitesse = pygame.math.Vector2(0,0)
         #self.force = pygame.math.Vector2(0,0) 
@@ -116,12 +115,10 @@ class Player(pygame.sprite.Sprite):
     def get_rect(self):
         return self.rect
         
-    def update(self,b_grp):     
-        
+    def update(self,b_grp):
         self.collisionx(b_grp)
         self.collisiony(b_grp)
         self.applique_vitesse()
-        
         
         
     def applique_vitesse(self):
@@ -132,12 +129,12 @@ class Player(pygame.sprite.Sprite):
         
     def jump(self):
         if self.on_ground :
-            self.is_jumping, self.on_ground = True, False
-            self.vitesse.y = -20
+            self.on_ground = False
+            self.vitesse.y = -10
     
     def gravity(self):
-        if self.is_jumping :
-            self.vitesse.y += 1
+        if not self.on_ground :
+            self.vitesse.y += 0.5
     
     def get_hit(self, sprite_grp):
         return pygame.sprite.spritecollide(self,sprite_grp,False)
@@ -155,16 +152,17 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x = block.rect.right
     
     def collisiony(self, sprite_grp):
-        #self.on_ground = False
-        #self.rect.bottom += 1
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            if (self.vitesse.y > 0):#si touche un block du bas
-                self.is_jumping = False
+            if (self.vitesse.y > 0 and 
+                (self.rect.collidepoint(add_list_int(block.rect.topleft,(10,-self.vitesse.y))) or 
+                self.rect.collidepoint(add_list_int(block.rect.topright,(-10,-self.vitesse.y))))):#si touche un block du bas
                 self.on_ground = True
                 self.vitesse.y = 0
                 self.rect.bottom = block.rect.y
-            elif (self.vitesse.y < 0):#si touche un block du haut
+            elif (self.vitesse.y < 0 and 
+                (self.rect.collidepoint(block.rect.bottomright) or 
+                self.rect.collidepoint(block.rect.bottomleft))):#si touche un block du haut
                 self.vitesse.y = 0
                 self.rect.y = block.rect.bottom + self.rect.height
         
@@ -191,29 +189,26 @@ class Player(pygame.sprite.Sprite):
     #         i+=1
     #     self.blocked[LEFT] = res
     
-    def collisionbas(self,group_col):
-        i = 0
-        res = False
-        while not res and i < len(group_col):
-            block = group_col[i].get_rect()
-            if self.rect.collidepoint(add_list_int(block.topleft,(6,0))) or self.rect.collidepoint(add_list_int(block.topright,(-6,0))):#(self.rect.bottom >= block.top and not self.rect.bottom > block.bottom) and not( self.rect.right < block.left or self.rect.left > block.right):
-                res = True
-                self.rect.y = block.y - self.rect.height
-            i+=1
-        self.blocked[BOTTOM] = res
+    # def collisionbas(self,group_col):
+    #     i = 0
+    #     res = False
+    #     while not res and i < len(group_col):
+    #         block = group_col[i].get_rect()
+    #         if self.rect.collidepoint(add_list_int(block.topleft,(6,0))) or self.rect.collidepoint(add_list_int(block.topright,(-6,0))):#(self.rect.bottom >= block.top and not self.rect.bottom > block.bottom) and not( self.rect.right < block.left or self.rect.left > block.right):
+    #             res = True
+    #             self.rect.y = block.y - self.rect.height
+    #         i+=1
+    #     self.blocked[BOTTOM] = res
         
     def move(self,sens:str):
         assert sens in ('j','l','r','d'), "Doit appartenir à un mouvement connu"
         match sens:
             case 'r':
-                if not self.blocked[RIGHT]:#s'il n'y a pas de block à droite
-                    self.vitesse.x = 4
+                self.vitesse.x = 4
             case 'l':
-                if not self.blocked[LEFT]:#s'il n'y a pas de block à droite
-                    self.vitesse.x = -4
+                self.vitesse.x = -4
             case 'j':
-                if not self.blocked[TOP]:
-                    self.jump()
+                self.jump()
        
     #ne pas oublier d'importer la classe File_mouv dans le dossier                 
     def move_from_File(self, File: File_mouv):
