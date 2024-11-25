@@ -26,17 +26,16 @@ class Fatal_Block(Tile):
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos):
+    def __init__(self, start_pos):
         super().__init__()
-        self.image = pygame.image.load("Real_Game/Tuile/Image/Sprite_Player_72x72/Shrek-1.png")
+        self.image = pygame.image.load("Real_Game/Tuile/Image/Player_Sprite/Shrek-1.png")
         self.rect = self.image.get_rect()
-        self.rect.bottomleft = pos
+        self.start_pos = start_pos
+        self.rect.bottomleft = start_pos
         
-        #______affichage_____
         self.on_ground = False
 
         self.vitesse = pygame.math.Vector2(5,5)
-        #self.force = pygame.math.Vector2(0,0)
     
     def show(self, screen):
         screen.blit(self.image, self.rect)
@@ -114,8 +113,8 @@ class Player(pygame.sprite.Sprite):
         self.move(sens)
         return File
     
-    def teleport_player(self,co):
-        self.rect.bottomleft = co
+    def respawn(self):
+        self.rect.bottomleft = self.start_pos
 
 def add_list(list1,list2):
     assert len(list1) == len(list2), "les deux tableaux ne s'additionnent pas"
