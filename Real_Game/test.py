@@ -37,12 +37,9 @@ class Player(pygame.sprite.Sprite):
         self.start_pos = start_pos
         self.rect.bottomleft = start_pos
         
-        #______affichage_____
-        #self.LEFT_KEY, self.RIGHT_KEY, self.FACING_LEFT = False, False, False
         self.on_ground = False
 
         self.vitesse = pygame.math.Vector2(0,0)
-        #self.force = pygame.math.Vector2(0,0) 
     
     def show(self,screen):
         screen.blit(self.image, self.rect)
@@ -118,7 +115,7 @@ class Player(pygame.sprite.Sprite):
         self.move(sens)
         return File
     
-    def restart(self):
+    def respawn(self):
         self.rect.bottomleft = self.start_pos
 
 def add_list_int(list1,list2):

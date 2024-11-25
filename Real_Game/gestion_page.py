@@ -136,7 +136,7 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
         if bouton_envoi[2].collidepoint(mouse_pos):
             if click_again == True:
                 click_again = False
-                Joueur.teleport_player((800,640))
+                Joueur.respawn()
                 genere_liste_elements = True
     
     # Déplacement de l'élément sélectionné avec la souris
