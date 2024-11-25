@@ -224,7 +224,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl_
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, button_text, button_rect, menu_visible, menu_rect, option_supprimer, option_temps, clock, fps, menu_temps_visible, option_moins, option_de_temps, option_plus, option_fermer_temps, menu_temps_rect, button_retour_de_page_text, button_retour_de_page_rect, sprite_group, Joueur, block_group):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -259,5 +259,6 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, butto
     # Partie map
     sprite_group.draw(screen)
     Joueur.show(screen)
+    Joueur.update(block_group)
         
     mise_a_jour_page_base_fin(clock, fps)

@@ -31,79 +31,76 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load("Real_Game/Tuile/Image/Sprite_Player_72x72/tile011.png")
         self.rect = self.image.get_rect()
         self.rect.bottomleft = pos
-        self.blocked = [False for i in range(4)]#represente les 4 sens où le joueur peut être bloqué(right,left,bottom,top)
         
         #______affichage_____
-        self.LEFT_KEY, self.RIGHT_KEY, self.FACING_LEFT = False, False, False
-        self.is_jumping, self.on_ground = False, False
+        self.on_ground = False
 
-        self.pos =  pygame.math.Vector2(pos)
         self.vitesse = pygame.math.Vector2(5,5)
-        self.force = pygame.math.Vector2(0,0)
-        self.RIGHT, self.LEFT, self.BOTTOM, self.TOP = 0,1,2,3
+        #self.force = pygame.math.Vector2(0,0)
     
     def show(self, screen):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        screen.blit(self.image, self.rect)
         
     def get_rect(self):
         return self.rect
+    
+    def update(self,b_grp):
+        self.collisionx(b_grp)
+        self.collisiony(b_grp)
+        self.applique_vitesse(b_grp)
         
-    def update(self, block_group):
-        group_collision = pygame.sprite.spritecollide(self, block_group, False)
-
-        self.collisiondroite(group_collision)
-        self.collisiongauche(group_collision)
-        # self.collisionbas(group_collision)
+    def applique_vitesse(self,b_grp):
+        self.rect.x  += self.vitesse.x
+        self.check_on_ground(b_grp)
+        self.rect.y  += self.vitesse.y
+        self.vitesse.x = 0
+        self.gravity()
     
-    def collisiondroite(self,group_col:list):
-        i = 0
-        res = False
-        while not res and i < len(group_col):
-            block = group_col[i].get_rect()
-            if self.rect.collidepoint(add_list_int(block.topleft,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomleft,(0,-6))):#(self.rect.right >= block.left and not self.rect.right > block.right) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
-                #verfie dans un premier temps que la collision s'effectue bien à droite et ensuite que le bloque est bien à la hauteur du joueur
-                res = True
-                self.rect.x = block.x - self.rect.width
-            i+=1
-        self.blocked[self.RIGHT] = res
+    def check_on_ground(self,b_grp):
+        collision = self.get_hit(b_grp)
+        if not(collision):
+            self.on_ground = False
+        
+    def jump(self):
+        if self.on_ground :
+            self.on_ground = False
+            self.vitesse.y = -10
     
-    def collisiongauche(self,group_col):
-        i = 0
-        res = False
-        while not res and i < len(group_col):
-            block = group_col[i].get_rect()
-            if self.rect.collidepoint(add_list_int(block.topright,(0,6))) or self.rect.collidepoint(add_list_int(block.bottomright,(0,-6))):#if (self.rect.left <= block.right and not self.rect.left < block.left) and not( self.rect.bottom < block.top or self.rect.top > block.bottom):
-                res = True
-                self.rect.x = block.x + block.width
-            i+=1
-        self.blocked[self.LEFT] = res
+    def gravity(self):
+        if not self.on_ground :
+            self.vitesse.y += 0.5
+            
+    def get_hit(self, sprite_grp):
+        return pygame.sprite.spritecollide(self,sprite_grp,False)
     
-    def collisionbas(self,group_col):
-        i = 0
-        res = False
-        while not res and i < len(group_col):
-            block = group_col[i].get_rect()
-            if self.rect.collidepoint(block.topleft) or self.rect.collidepoint(block.topright):#(self.rect.bottom >= block.top and not self.rect.bottom > block.bottom) and not( self.rect.right < block.left or self.rect.left > block.right):
-                res = True
-                self.rect.bottom = block.top
-            i+=1
-        self.blocked[self.BOTTOM] = res
+    def collisionx(self, sprite_grp):
+        collision = self.get_hit(sprite_grp)
+        for block in collision:
+            if (self.vitesse.x > 0 and self.rect.collidepoint(block.rect.midleft)):#si touche un block de la droiteq
+                self.rect.x = block.rect.x - self.rect.width
+            elif (self.vitesse.x < 0 and self.rect.collidepoint(block.rect.midright)):#si touche un block de la gauche
+                self.rect.x = block.rect.right
+    
+    def collisiony(self, sprite_grp):
+        collision = self.get_hit(sprite_grp)
+        for block in collision:
+            if (self.vitesse.y > 0 and self.rect.collidepoint(block.rect.midtop)):#si touche un block du bas
+                self.on_ground = True
+                self.vitesse.y = 0
+                self.rect.bottom = block.rect.y + 1
+            elif (self.vitesse.y < 0 and self.rect.collidepoint(block.rect.midbottom)):#si touche un block du haut
+                self.vitesse.y = 0
+                self.rect.y = block.rect.bottom + self.rect.height    
         
     def move(self,sens:str):
-        assert sens in ('j','l','r','d', 'p'), "Doit appartenir à un mouvement connu"
+        assert sens in ('j','l','r','p'), "Doit appartenir à un mouvement connu"
         match sens:
             case 'r':
-                if not self.blocked[self.RIGHT]:#s'il n'y a pas de block à droite
-                    self.rect.x += self.vitesse.x
+                self.vitesse.x = 4
             case 'l':
-                if not self.blocked[self.LEFT]:#s'il n'y a pas de block à droite
-                    self.rect.x -= self.vitesse.x
+                self.vitesse.x = -4
             case 'j':
-                if not self.blocked[self.TOP]:
-                    self.rect.y -= self.vitesse.y
-            case 'd':
-                if not self.blocked[self.TOP]:
-                    self.rect.y += self.vitesse.y
+                self.jump()
        
     #ne pas oublier d'importer la classe File_mouv dans le dossier                 
     def move_from_File(self, File):

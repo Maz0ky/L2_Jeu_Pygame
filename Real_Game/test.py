@@ -68,7 +68,6 @@ from sys import exit
 from pytmx.util_pygame import load_pygame
 from mouvement import *
 
-RIGHT,LEFT,BOTTOM,TOP = 0,1,2,3
 class Tile(pygame.sprite.Sprite):
     #sera toutes les tuiles construisant la map
     def __init__(self, pos, surf, groups):
@@ -109,7 +108,7 @@ class Player(pygame.sprite.Sprite):
         self.vitesse = pygame.math.Vector2(0,0)
         #self.force = pygame.math.Vector2(0,0) 
     
-    def show(self):
+    def show(self,screen):
         screen.blit(self.image, self.rect)
         
     def get_rect(self):
@@ -118,14 +117,19 @@ class Player(pygame.sprite.Sprite):
     def update(self,b_grp):
         self.collisionx(b_grp)
         self.collisiony(b_grp)
-        self.applique_vitesse()
-        
-        
-    def applique_vitesse(self):
+        self.applique_vitesse(b_grp)
+           
+    def applique_vitesse(self,b_grp):
         self.rect.x  += self.vitesse.x
+        self.check_on_ground(b_grp)
         self.rect.y  += self.vitesse.y
         self.vitesse.x = 0
         self.gravity()
+    
+    def check_on_ground(self,b_grp):
+        collision = self.get_hit(b_grp)
+        if not(collision):
+            self.on_ground = False
         
     def jump(self):
         if self.on_ground :
@@ -142,32 +146,24 @@ class Player(pygame.sprite.Sprite):
     def collisionx(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            if (self.vitesse.x > 0 and 
-                (self.rect.collidepoint(block.rect.topleft) or 
-                   self.rect.collidepoint(block.rect.bottomleft))):#si touche un block de la droiteq
+            if (self.vitesse.x > 0 and self.rect.collidepoint(block.rect.midleft)):#si touche un block de la droiteq
                 self.rect.x = block.rect.x - self.rect.width
-            elif (self.vitesse.x < 0 and 
-                  (self.rect.collidepoint(block.rect.topright) or 
-                   self.rect.collidepoint(block.rect.bottomright))):#si touche un block de la gauche
+            elif (self.vitesse.x < 0 and self.rect.collidepoint(block.rect.midright)):#si touche un block de la gauche
                 self.rect.x = block.rect.right
     
     def collisiony(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            if (self.vitesse.y > 0 and 
-                (self.rect.collidepoint(add_list_int(block.rect.topleft,(10,-self.vitesse.y))) or 
-                self.rect.collidepoint(add_list_int(block.rect.topright,(-10,-self.vitesse.y))))):#si touche un block du bas
+            if (self.vitesse.y > 0 and self.rect.collidepoint(block.rect.midtop)):#si touche un block du bas
                 self.on_ground = True
                 self.vitesse.y = 0
-                self.rect.bottom = block.rect.y
-            elif (self.vitesse.y < 0 and 
-                (self.rect.collidepoint(block.rect.bottomright) or 
-                self.rect.collidepoint(block.rect.bottomleft))):#si touche un block du haut
+                self.rect.bottom = block.rect.y + 1
+            elif (self.vitesse.y < 0 and self.rect.collidepoint(block.rect.midbottom)):#si touche un block du haut
                 self.vitesse.y = 0
                 self.rect.y = block.rect.bottom + self.rect.height
         
     def move(self,sens:str):
-        assert sens in ('j','l','r','d'), "Doit appartenir à un mouvement connu"
+        assert sens in ('j','l','r','p'), "Doit appartenir à un mouvement connu"
         match sens:
             case 'r':
                 self.vitesse.x = 4
@@ -177,7 +173,7 @@ class Player(pygame.sprite.Sprite):
                 self.jump()
        
     #ne pas oublier d'importer la classe File_mouv dans le dossier                 
-    def move_from_File(self, File: File_mouv):
+    def move_from_File(self, File):
         sens = File.get_mouv()["mouvement"]
         if File.est_ecoule():#si le temps du premier mouvement est terminé passe au suivant
             File.defiler_mouv()
@@ -235,12 +231,10 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            exit()
-    
-            
+            exit()     
         
     sprite_group.draw(screen)
-    Joueur.show()
+    Joueur.show(screen)
     Joueur.update(block_group)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_d]:

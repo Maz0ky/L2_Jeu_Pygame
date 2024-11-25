@@ -58,7 +58,6 @@ def generer_liste_elements(elements_deplacables):
 def traiter_envoie(genere_liste_elements, elements_deplacables, click_again, ex_tab_mouv, Joueur, block_group):
     """Gère l'envoi d'une liste d'éléments"""
     if not ex_tab_mouv.est_vide():
-        Joueur.update(block_group)
         Joueur.move_from_File(ex_tab_mouv)
     else:
         click_again = True # Réactive envoie
