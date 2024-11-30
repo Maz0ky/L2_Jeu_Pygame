@@ -100,29 +100,29 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
                 # Supprimer l'élément sélectionné si "Supprimer" est cliqué
                 if menu["option_supprimer"].get_rect(topleft=(menu["menu_rect"].x, menu["menu_rect"].y)).collidepoint(mouse_pos):
                     elements_deplacables.remove(menu["element_concerne"])
-                    menu["meun_visible"] = False
+                    menu["menu_visible"] = False
                 
                 # Modifier le temps si "Modifier le temps" est cliqué
                 if menu["option_temps"].get_rect(topleft=(menu["menu_rect"].x, menu["menu_rect"].y + 40)).collidepoint(mouse_pos):
                     # Champ pour saisir le temps
-                    menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"] = affiche_menu_temps(screen, menu["menu_temps_visible"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"])
+                    menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"])
                     
-                    menu["meun_visible"] = False
-                    menu_temps_visible = True
+                    menu["menu_visible"] = False
+                    menu["menu_temps_visible"] = True
         
     if menu["menu_temps_visible"]:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
-            if option_moins.get_rect(topleft=(menu["menu_temps_visible"].x + 10, menu["menu_temps_visible"].y + 10)).collidepoint(mouse_pos):
+            if menu["option_moins"].get_rect(topleft=(menu["menu_temps_rect"].x + 10, menu["menu_temps_rect"].y + 10)).collidepoint(mouse_pos):
                 menu["element_concerne"][3] -= 1
-                menu["menu_temps_visible"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"] = affiche_menu_temps(screen, menu["menu_temps_visible"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"])
+                menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"])
                 
-            if option_plus.get_rect(topleft=(menu["menu_temps_visible"].x + 85, menu["menu_temps_visible"].y + 10)).collidepoint(mouse_pos):
+            if menu["option_moins"].get_rect(topleft=(menu["menu_temps_rect"].x + 85, menu["menu_temps_rect"].y + 10)).collidepoint(mouse_pos):
                 menu["element_concerne"][3] += 1
-                menu["menu_temps_visible"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"] = affiche_menu_temps(screen, menu["menu_temps_visible"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"])
+                menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"])
 
-            if menu["option_fermer_temps"].get_rect(topleft=(menu["menu_temps_visible"].x + 10, menu["menu_temps_visible"].y + -20)).collidepoint(mouse_pos):
+            if menu["option_fermer_temps"].get_rect(topleft=(menu["menu_temps_rect"].x + 10, menu["menu_temps_rect"].y + -20)).collidepoint(mouse_pos):
                 menu["menu_temps_visible"] = False
                 
 
@@ -224,7 +224,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface, file_mouvement):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -265,7 +265,7 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouto
     Joueur.show(screen)
     Joueur.update(block_group,fatal_group)
     if Joueur.is_dead():
-        #BESOIN DE FAIRE UN CLEAR SUR LA FILE ICI MAIS JE NE LA TROUVE PAS!!!
+        file_mouvement.clear()
         Joueur.respawn()
         
     mise_a_jour_page_base_fin(clock, fps)

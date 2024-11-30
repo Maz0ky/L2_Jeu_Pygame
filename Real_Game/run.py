@@ -16,7 +16,7 @@ fps = 60
 
 # Initialisation
 level, start_surf, start_rect, button_retour_de_choixlvl, button_retour_de_page, levels_info = init_page_debut_et_fin(screen)
-elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, bouton_envoi, genere_liste_elements, ex_tab_mouv, menu, barres_separations_interface = init_levels()
+elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, bouton_envoi, genere_liste_elements, file_mouvement, menu, barres_separations_interface = init_levels()
 player_surf, player_rect, player_gravity, speed = None, None, None, None
 
 # Code partie map
@@ -38,7 +38,7 @@ Joueur = Player((800,640))
 
 # Game loop principal
 while True:
-    if level == -1:
+    if level == -1: # Accueil
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
@@ -47,7 +47,7 @@ while True:
         # [FIN] Mise à Jour de la page
         mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect)
 
-    if level == 0:
+    if level == 0: # Choix niveaux
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
@@ -63,7 +63,7 @@ while True:
             elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
 
         # [2] Traite l'envoie d'une liste d'éléments
-        genere_liste_elements, click_again = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, ex_tab_mouv, Joueur, block_group)
+        genere_liste_elements, click_again = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur, block_group)
 
         # [FIN] Mise à jour de la page
-        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface)
+        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface, file_mouvement)
