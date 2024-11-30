@@ -65,10 +65,10 @@ def boutons_levels(screen):
 # [2] Initialisations du niveau
 
 def init_levels():
-    elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv = initialisation_de_base()
+    elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv, barres_separations_interface = initialisation_de_base()
     bouton_envoi, genere_liste_elements = initialiser_bouton_envoi()
     menu = initialisation_menu()
-    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, bouton_envoi, genere_liste_elements, ex_tab_mouv, menu
+    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, bouton_envoi, genere_liste_elements, ex_tab_mouv, menu, barres_separations_interface
 
 # Initialisation des éléments de bases
 
@@ -79,7 +79,9 @@ def initialisation_de_base():
     mouse_offset = (0, 0)
     click_again = True # Indique si l'on peut cliquer à nouveau
     ex_tab_mouv = File_mouv([]) # Initialisation de la file des mouvements
-    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv
+
+    barres_separations_interface = lignes_info = [((0, 170), (800, 170), 3), ((0, 340), (800, 340), 3), ((0, 510), (800, 510), 3)]
+    return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv, barres_separations_interface
 
 def initaliser_elements_fixes():
     """Création des éléments de mouvements"""

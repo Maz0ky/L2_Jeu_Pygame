@@ -224,7 +224,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -238,6 +238,10 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouto
 
     for surf, rect, img, tps in elements_deplacables:
         screen.blit(surf, rect)
+
+    for ligne in barres_separations_interface:
+        start_pos, end_pos, width = ligne
+        pygame.draw.line(screen, (0, 0, 0), start_pos, end_pos, width)
 
     # Met à jour le bouton envoie
     screen.blit(bouton_envoi[1], (bouton_envoi[2].x + 10, bouton_envoi[2].y + 5))
