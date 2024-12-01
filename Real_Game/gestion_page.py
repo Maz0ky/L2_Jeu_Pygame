@@ -5,13 +5,13 @@ from initialisations import *
 
 # Gestion des évènements
 
-def gestion_evenement_base(screen, event):
+def gestion_evenement_base(event):
     if event.type == pygame.QUIT:
             pygame.quit()
             exit()
 
-def gestion_evenements_accueil(screen, event, level, start_rect):
-    gestion_evenement_base(screen, event)
+def gestion_evenements_accueil(event, level, start_rect):
+    gestion_evenement_base(event)
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
@@ -19,8 +19,8 @@ def gestion_evenements_accueil(screen, event, level, start_rect):
             level = 0
     return level
 
-def gestion_evenements_choix_niveau(screen, event, level, button_retour_de_choixlvl, levels_info):
-    gestion_evenement_base(screen, event)
+def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, levels_info):
+    gestion_evenement_base(event)
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
@@ -51,7 +51,7 @@ def gestion_evenements_choix_niveau(screen, event, level, button_retour_de_choix
 
 def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu):
     """Gestion des évènements"""
-    gestion_evenement_base(screen, event)
+    gestion_evenement_base(event)
     genere_liste_elements = False # Indique si l'on doit envoyer la liste
 
     # Clic pour sélectionner une surface ou le bouton

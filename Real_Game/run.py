@@ -42,7 +42,7 @@ while True:
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
-            level = gestion_evenements_accueil(screen, event, level, start_rect)
+            level = gestion_evenements_accueil(event, level, start_rect)
 
         # [FIN] Mise à Jour de la page
         mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect)
@@ -51,7 +51,7 @@ while True:
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
-            level = gestion_evenements_choix_niveau(screen, event, level, button_retour_de_choixlvl, levels_info)
+            level = gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, levels_info)
 
         # [FIN] Mise à Jour de la page
         mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl, levels_info)
