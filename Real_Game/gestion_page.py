@@ -21,20 +21,20 @@ def gestion_evenements_accueil(event, level, start_rect):
 
 def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, levels_info):
     gestion_evenement_base(event)
+    
+    mouse_pos = pygame.mouse.get_pos()
 
     if event.type == pygame.MOUSEBUTTONDOWN:
-        mouse_pos = pygame.mouse.get_pos()
         if button_retour_de_choixlvl[2].collidepoint(mouse_pos):
             level = -1
-        if levels_info[0][1].collidepoint(mouse_pos):
+        elif levels_info[0][1].collidepoint(mouse_pos):
             level = 1
-        if levels_info[1][1].collidepoint(mouse_pos):
+        elif levels_info[1][1].collidepoint(mouse_pos):
             pass
-        if levels_info[2][1].collidepoint(mouse_pos):
+        elif levels_info[2][1].collidepoint(mouse_pos):
             pass
     
     if event.type == pygame.MOUSEMOTION:  # Détecte les mouvements de la souris
-        mouse_pos = pygame.mouse.get_pos()
         if levels_info[0][1].collidepoint(mouse_pos):
             levels_info[0][2] = True  # Active l'effet de survol
         else:

@@ -1,6 +1,4 @@
 # Import
-import pygame
-from initialisations import *
 from mouvement import *
 from gestion_page import *
 from load_map import *
@@ -38,6 +36,8 @@ Joueur = Player((800,640))
 
 # Game loop principal
 while True:
+    
+    
     if level == -1: # Accueil
 
         # [DEBUT] Gestion des évènements
@@ -47,7 +47,7 @@ while True:
         # [FIN] Mise à Jour de la page
         mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect)
 
-    if level == 0: # Choix niveaux
+    elif level == 0: # Choix niveaux
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
@@ -56,7 +56,7 @@ while True:
         # [FIN] Mise à Jour de la page
         mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl, levels_info)
 
-    if level == 1:
+    elif level == 1:
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
