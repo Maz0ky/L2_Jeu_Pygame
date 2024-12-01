@@ -87,7 +87,6 @@ def traiter_envoie(genere_liste_elements, elements_deplacables, click_again, fil
 
     if genere_liste_elements:
         liste_mouvements = generer_liste_elements(elements_deplacables)  # Retourne la liste des mouvements pour l'utiliser dans Code 3
-        print("Mouvements générés :", liste_mouvements)
         for mouvement in liste_mouvements:
             file_mouvement.enfiler_mouv(mouvement)  # Ajoute à la file des mouvements
         genere_liste_elements = False
