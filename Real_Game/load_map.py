@@ -24,7 +24,6 @@ class Fatal_Block(Tile):
     def __init__(self, pos, surf, groups):
         super().__init__(pos = pos, surf = surf, groups = groups)
 
-
 class Player(pygame.sprite.Sprite):
     def __init__(self, start_pos):
         super().__init__()
@@ -48,8 +47,6 @@ class Player(pygame.sprite.Sprite):
         self.collisiony(b_grp)
         self.applique_vitesse(b_grp)
         self.touch_hurting_block(fatal_grp)
-        if self.game_over:
-            print('bruh')
            
     def applique_vitesse(self,b_grp):
         self.rect.x  += self.vitesse.x
@@ -99,10 +96,6 @@ class Player(pygame.sprite.Sprite):
             elif (self.vitesse.y < 0 and self.rect.collidepoint(block.rect.midbottom)):#si touche un block du haut
                 self.vitesse.y = 0
                 self.rect.y = block.rect.bottom
-    
-    def touch_hurting_block(self,sprite_grp):
-        if self.get_hit(sprite_grp):
-            self.game_over = True
             
     ########## MOUVEMENTS ##########
         
@@ -130,17 +123,13 @@ class Player(pygame.sprite.Sprite):
     def respawn(self):
         self.game_over = False
         self.rect.bottomleft = self.start_pos
-        
+    
+    def touch_hurting_block(self,sprite_grp):
+        if self.get_hit(sprite_grp):
+            self.game_over = True
+            
     def is_dead(self):
         return self.game_over
-    
-
-def add_list(list1,list2):
-    assert len(list1) == len(list2), "les deux tableaux ne s'additionnent pas"
-    res = []
-    for i in range(len(list1)):
-        res = list1[i] + list2[i]
-    return res
 
 def creer_tuile(tuiles, size_tileset, sprite_group, block_group,fatal_group,attribut:str=''):
     for x ,y ,surf in tuiles: #creer une tuile
@@ -154,10 +143,3 @@ def creer_tuile(tuiles, size_tileset, sprite_group, block_group,fatal_group,attr
                 fatal_group.add(fatal)
             case _:
                 Tile(pos = pos, surf = surf, groups = sprite_group)
-                
-def add_list_int(list1,list2):
-    assert len(list1) == len(list2), "les deux tableaux ne s'additionnent pas"
-    res = []
-    for i in range(len(list1)):
-        res += [list1[i] + list2[i]]
-    return res
