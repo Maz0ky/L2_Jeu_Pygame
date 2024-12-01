@@ -138,25 +138,6 @@ class Player(pygame.sprite.Sprite):
         
     def is_dead(self):
         return self.game_over
-    
-    
-
-def add_list_int(list1,list2):
-    assert len(list1) == len(list2), "les deux tableaux ne s'additionnent pas"
-    res = []
-    for i in range(len(list1)):
-        res += [list1[i] + list2[i]]
-    return res
-        
-pygame.init()
-screen = pygame.display.set_mode((800,672))
-clock = pygame.time.Clock()
-fps = 60
-size_tileset = 32
-map = load_pygame('Real_Game/map/map_test.tmx')
-sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
-block_group = pygame.sprite.Group()
-fatal_group = pygame.sprite.Group()
 
 def creer_tuile(tuiles, attribut:str=''):
     for x,y,surf in tuiles:#creer une tuile
@@ -179,7 +160,17 @@ for layer in map.visible_layers:
         creer_tuile(layer.tiles(),'fatal')
     elif hasattr(layer,'data'):#si la couche a des données alors
         creer_tuile(layer.tiles())
-            
+
+
+pygame.init()
+screen = pygame.display.set_mode((800,672))
+clock = pygame.time.Clock()
+fps = 60
+size_tileset = 32
+map = load_pygame('Real_Game/map/map_test.tmx')
+sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
+block_group = pygame.sprite.Group()
+fatal_group = pygame.sprite.Group()
 Joueur = Player((0,640))
 
 while True:
