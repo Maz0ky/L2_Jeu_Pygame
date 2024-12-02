@@ -224,7 +224,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface, file_mouvement):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface, file_mouvement, elem_actuel):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -237,7 +237,18 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouto
         screen.blit(surf, rect)
 
     for surf, rect, img, tps in elements_deplacables:
-        screen.blit(surf, rect)
+        if elem_actuel == None or surf != elem_actuel[1][0]:
+            screen.blit(surf, rect)
+        else:
+            surf = pygame.transform.scale(surf, (int(rect.width * 1.4), int(rect.height * 1.4)))
+            rect = surf.get_rect(center=rect.center)
+            screen.blit(surf, rect)
+
+            #red_overlay = pygame.Surface(surf.get_size(), flags=pygame.SRCALPHA)
+            #red_overlay.fill((255, 0, 0))  # Rouge semi-transparent
+            #surf.blit(red_overlay, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+            
 
     for ligne in barres_separations_interface:
         start_pos, end_pos, width = ligne

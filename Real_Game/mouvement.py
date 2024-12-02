@@ -43,20 +43,20 @@ class File_mouv:
 def generer_liste_elements(elements_deplacables):
     """Trie et génère la liste d'éléments déplaçables"""
     groupes = {
-        "groupe_1": [],  # y < 170
-        "groupe_2": [],  # 170 <= y < 340
-        "groupe_3": [],  # 340 <= y < 510
-        "groupe_4": []   # y >= 510
+        "groupe_1": [],  # y < 160
+        "groupe_2": [],  # 160 <= y < 320
+        "groupe_3": [],  # 320 <= y < 480
+        "groupe_4": []   # y >= 480
     }
     for elem in elements_deplacables:
         y = elem[1].y  # Position y de l'élément
-        if y < 170:
+        if y < 150:
             groupes["groupe_1"].append(elem)
-        elif 170 <= y < 340:
+        elif 160 <= y and y < 310:
             groupes["groupe_2"].append(elem)
-        elif 340 <= y < 510:
+        elif 320 <= y and y < 470:
             groupes["groupe_3"].append(elem)
-        else:  # y >= 510
+        elif y >= 480:
             groupes["groupe_4"].append(elem)
 
     for groupe in groupes:
@@ -74,21 +74,21 @@ def generer_liste_elements(elements_deplacables):
             elif elem[2] == "Real_Game/elem/pause.png":
                 mouv = "p"
         
-            liste_elements.append({"mouvement": mouv, "temps": elem[3]})
+            liste_elements.append({"mouvement": mouv, "temps": elem[3], "element":elem})
     return liste_elements
 
 def traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur, block_group):
     """Gère l'envoi d'une liste d'éléments"""
     if not file_mouvement.est_vide():
-        Joueur.move_from_File(file_mouvement)
+        elem_actuel = Joueur.move_from_File(file_mouvement)
     else:
+        elem_actuel = None
         click_again = True # Réactive envoie
     
-
     if genere_liste_elements:
         liste_mouvements = generer_liste_elements(elements_deplacables)  # Retourne la liste des mouvements pour l'utiliser dans Code 3
         for mouvement in liste_mouvements:
             file_mouvement.enfiler_mouv(mouvement)  # Ajoute à la file des mouvements
         genere_liste_elements = False
 
-    return genere_liste_elements, click_again
+    return genere_liste_elements, click_again, elem_actuel

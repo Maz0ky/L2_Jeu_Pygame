@@ -80,7 +80,7 @@ def initialisation_de_base():
     click_again = True # Indique si l'on peut cliquer à nouveau
     ex_tab_mouv = File_mouv([]) # Initialisation de la file des mouvements
 
-    barres_separations_interface = lignes_info = [((0, 170), (800, 170), 3), ((0, 340), (800, 340), 3), ((0, 510), (800, 510), 3)]
+    barres_separations_interface = lignes_info = [((0, 160), (800, 160), 3), ((0, 320), (800, 320), 3), ((0, 480), (800, 480), 3)]
     return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv, barres_separations_interface
 
 def initaliser_elements_fixes():

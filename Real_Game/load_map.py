@@ -111,12 +111,13 @@ class Player(pygame.sprite.Sprite):
     def move_from_File(self, File):
         #ne pas oublier d'importer la classe FileMouv
         sens = File.get_mouv()["mouvement"]
+        elem_actuel = File.get_mouv()["element"]
         if File.est_ecoule():#si le temps du premier mouvement est terminé passe au suivant
             File.defiler_mouv()
             sens = File.get_mouv()
         File.defiler_temps()
         self.move(sens)
-        return File
+        return File, elem_actuel
     
     ########## MORT ET RESTART ##########
     
