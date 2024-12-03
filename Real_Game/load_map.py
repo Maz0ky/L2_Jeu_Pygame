@@ -128,6 +128,9 @@ class Player(pygame.sprite.Sprite):
         return File, elem_actuel
     
     ########## MORT ET RESTART ##########
+    def touch_hurting_block(self,sprite_grp):
+        if self.get_hit(sprite_grp):
+            self.game_over = True
     
     def respawn(self):
         self.game_over = False
@@ -151,6 +154,10 @@ class Player(pygame.sprite.Sprite):
     
     def reset(self):
         self.win = False
+    ########## LEVEL UP ##########
+    
+    def is_finish(self):
+        return self.win
 
 def creer_tuile(tuiles, size_tileset, sprite_group, block_group,fatal_group,end_group,attribut:str=''):
     for x ,y ,surf in tuiles: #creer une tuile
