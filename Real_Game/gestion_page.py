@@ -29,10 +29,10 @@ def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, lev
             level = -1
         elif levels_info[0][1].collidepoint(mouse_pos):
             level = 1
-        elif levels_info[1][1].collidepoint(mouse_pos):
-            pass
-        elif levels_info[2][1].collidepoint(mouse_pos):
-            pass
+        elif levels_info[1][1].collidepoint(mouse_pos) and levels_info[1][3]:
+            level = 2
+        elif levels_info[2][1].collidepoint(mouse_pos) and levels_info[2][3]:
+            level = 3
     
     if event.type == pygame.MOUSEMOTION:  # Détecte les mouvements de la souris
         if levels_info[0][1].collidepoint(mouse_pos):
@@ -65,7 +65,7 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
         for element in elements_fixes:
             if element[1].collidepoint(mouse_pos): # element[1] est sa surface
                 new_surf, new_rect, new_img = cree_surf_img(element[2], element[1].width, element[1].height, element[1].x, element[1].y)
-                temps_default = 10
+                temps_default = 21
                 elements_deplacables.append([new_surf, new_rect, new_img, temps_default])
                 selected_element = (new_surf, new_rect, new_img)
                 mouse_offset = (mouse_pos[0] - new_rect.x, mouse_pos[1] - new_rect.y)
@@ -224,7 +224,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface, file_mouvement, elem_actuel):
+def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface, file_mouvement, elem_actuel, end_group):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -274,7 +274,7 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouto
     # Partie map
     sprite_group.draw(screen)
     Joueur.show(screen)
-    Joueur.update(block_group,fatal_group)
+    Joueur.update(block_group,fatal_group,end_group)
     if Joueur.is_dead():
         file_mouvement.clear()
         Joueur.respawn()

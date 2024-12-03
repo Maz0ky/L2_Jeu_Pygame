@@ -17,22 +17,49 @@ level, start_surf, start_rect, button_retour_de_choixlvl, button_retour_de_page,
 elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, bouton_envoi, genere_liste_elements, file_mouvement, menu, barres_separations_interface = init_levels()
 player_surf, player_rect, player_gravity, speed = None, None, None, None
 
+
+# MAP 1
+
 # Code partie map
 size_tileset = 32
 map = load_pygame('Real_Game/map/map_test.tmx')
 sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
 block_group = pygame.sprite.Group()
 fatal_group = pygame.sprite.Group()
+end_group = pygame.sprite.Group()
 # parcours toutes les couches
 for layer in map.visible_layers:
     if layer.name == 'Block':
-        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group,'block')
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, end_group,'block')
     elif layer.name == 'Fatal':
-        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, 'fatal')
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, end_group,'fatal')
+    elif layer.name == 'End':
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, end_group,'end')
     elif hasattr(layer,'data'):#si la couche a des données alors
-        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group)
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, end_group)
 
 Joueur = Player((800,640))
+
+# MAP 2
+
+size_tileset = 32
+map = load_pygame('Real_Game/map/map_test.tmx')
+sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
+block_group = pygame.sprite.Group()
+fatal_group = pygame.sprite.Group()
+end_group = pygame.sprite.Group()
+# parcours toutes les couches
+for layer in map.visible_layers:
+    if layer.name == 'Block':
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, end_group,'block')
+    elif layer.name == 'Fatal':
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, end_group,'fatal')
+    elif layer.name == 'End':
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, end_group,'end')
+    elif hasattr(layer,'data'):#si la couche a des données alors
+        creer_tuile(layer.tiles(), size_tileset, sprite_group, block_group, fatal_group, end_group)
+
+JoueurMap2 = Player((800,640))
 
 # Game loop principal
 while True:
@@ -57,6 +84,15 @@ while True:
         mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl, levels_info)
 
     elif level == 1:
+        if Joueur.is_finish():
+            Joueur.respawn()
+            Joueur.reset()
+            levels_info[1][3] = True
+            level = 0
+            genere_liste_elements = False
+            file_mouvement.clear()
+            elements_deplacables = []
+                
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
@@ -66,4 +102,25 @@ while True:
         genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur, block_group)
 
         # [FIN] Mise à jour de la page
-        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface, file_mouvement, elem_actuel)
+        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, sprite_group, Joueur, block_group, menu, fatal_group, barres_separations_interface, file_mouvement, elem_actuel, end_group)
+
+    elif level == 2:
+        if JoueurMap2.is_finish():
+            JoueurMap2.respawn()
+            JoueurMap2.reset()
+            levels_info[2][3] = True
+            level = 0
+            genere_liste_elements = False
+            file_mouvement.clear()
+            elements_deplacables = []
+                
+
+        # [DEBUT] Gestion des évènements
+        for event in pygame.event.get():
+            elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, JoueurMap2, menu)
+
+        # [2] Traite l'envoie d'une liste d'éléments
+        genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, JoueurMap2, block_group)
+
+        # [FIN] Mise à jour de la page
+        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, sprite_group, JoueurMap2, block_group, menu, fatal_group, barres_separations_interface, file_mouvement, elem_actuel, end_group)

@@ -24,6 +24,11 @@ class Fatal_Block(Tile):
     def __init__(self, pos, surf, groups):
         super().__init__(pos = pos, surf = surf, groups = groups)
 
+class Finish_Block(Tile):
+    #classe des blocks fatals
+    def __init__(self, pos, surf, groups):
+        super().__init__(pos = pos, surf = surf, groups = groups)
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, start_pos):
         super().__init__()
@@ -33,6 +38,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottomleft = start_pos
         self.game_over = False
         self.on_ground = False
+        self.win = False
 
         self.vitesse = pygame.math.Vector2(0,0)
     
@@ -42,11 +48,13 @@ class Player(pygame.sprite.Sprite):
     def get_rect(self):
         return self.rect
         
-    def update(self,b_grp,fatal_grp):
+    def update(self,b_grp,fatal_grp,finish_grp):
         self.collisionx(b_grp)
         self.collisiony(b_grp)
         self.applique_vitesse(b_grp)
         self.touch_hurting_block(fatal_grp)
+        self.touch_end(finish_grp)
+
            
     def applique_vitesse(self,b_grp):
         self.rect.x  += self.vitesse.x
@@ -132,7 +140,19 @@ class Player(pygame.sprite.Sprite):
     def is_dead(self):
         return self.game_over
 
-def creer_tuile(tuiles, size_tileset, sprite_group, block_group,fatal_group,attribut:str=''):
+    ########## LEVEL UP ##########
+
+    def touch_end(self,sprite_grp):
+        if self.get_hit(sprite_grp):
+            self.win = True
+            
+    def is_finish(self):
+        return self.win
+    
+    def reset(self):
+        self.win = False
+
+def creer_tuile(tuiles, size_tileset, sprite_group, block_group,fatal_group,end_group,attribut:str=''):
     for x ,y ,surf in tuiles: #creer une tuile
         pos = (x * size_tileset +800, y * size_tileset)
         match attribut:
@@ -142,5 +162,8 @@ def creer_tuile(tuiles, size_tileset, sprite_group, block_group,fatal_group,attr
             case 'fatal':
                 fatal = Fatal_Block(pos = pos, surf = surf, groups = sprite_group)
                 fatal_group.add(fatal)
+            case 'end':
+                end = Finish_Block(pos = pos, surf = surf, groups = sprite_group)
+                end_group.add(end)
             case _:
                 Tile(pos = pos, surf = surf, groups = sprite_group)
