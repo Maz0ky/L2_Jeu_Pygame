@@ -159,18 +159,3 @@ class Player(pygame.sprite.Sprite):
     def is_finish(self):
         return self.win
 
-def creer_tuile(tuiles, size_tileset, sprite_group, block_group,fatal_group,end_group,attribut:str=''):
-    for x ,y ,surf in tuiles: #creer une tuile
-        pos = (x * size_tileset +800, y * size_tileset)
-        match attribut:
-            case 'block':
-                block = Solid_Block(pos = pos, surf = surf, groups = sprite_group)
-                block_group.add(block)
-            case 'fatal':
-                fatal = Fatal_Block(pos = pos, surf = surf, groups = sprite_group)
-                fatal_group.add(fatal)
-            case 'end':
-                end = Finish_Block(pos = pos, surf = surf, groups = sprite_group)
-                end_group.add(end)
-            case _:
-                Tile(pos = pos, surf = surf, groups = sprite_group)

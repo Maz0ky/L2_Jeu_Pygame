@@ -77,7 +77,7 @@ def generer_liste_elements(elements_deplacables):
             liste_elements.append({"mouvement": mouv, "temps": elem[3], "element":elem})
     return liste_elements
 
-def traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur, block_group):
+def traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur):
     """Gère l'envoi d'une liste d'éléments"""
     if not file_mouvement.est_vide():
         elem_actuel = Joueur.move_from_File(file_mouvement)

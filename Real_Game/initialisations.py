@@ -34,7 +34,7 @@ def initialiser_bouton_retour_de_choixlvl():
     return button_retour_de_choixlvl
 
 def niveau_actuel():
-    level = 1
+    level = 0
     return level
 
 def page_accueil(screen):
