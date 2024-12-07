@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
         self.applique_vitesse(b_grp)
         self.touch_hurting_block(fatal_grp)
         if self.game_over:
-            print('bruh')
+            self.respawn()
            
     def applique_vitesse(self,b_grp):
         self.rect.x  += self.vitesse.x
@@ -114,9 +114,9 @@ class Player(pygame.sprite.Sprite):
         assert sens in ('j','l','r','p'), "Doit appartenir à un mouvement connu"
         match sens:
             case 'r':
-                self.vitesse.x = 4
+                self.vitesse.x = 5
             case 'l':
-                self.vitesse.x = -4
+                self.vitesse.x = -5
             case 'j':
                 self.jump()
                         
@@ -152,6 +152,18 @@ def creer_tuile(tuiles, attribut:str=''):
                 case _:
                     Tile(pos = pos, surf = surf, groups = sprite_group)
 
+
+pygame.init()
+screen = pygame.display.set_mode((800,672))
+clock = pygame.time.Clock()
+fps = 60
+size_tileset = 32
+map = load_pygame('Real_Game/map/map_1.tmx')
+sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
+block_group = pygame.sprite.Group()
+fatal_group = pygame.sprite.Group()
+Joueur = Player((0,640))
+
 # parcours toutes les couches
 for layer in map.visible_layers:
     if layer.name == 'Block':
@@ -160,18 +172,6 @@ for layer in map.visible_layers:
         creer_tuile(layer.tiles(),'fatal')
     elif hasattr(layer,'data'):#si la couche a des données alors
         creer_tuile(layer.tiles())
-
-
-pygame.init()
-screen = pygame.display.set_mode((800,672))
-clock = pygame.time.Clock()
-fps = 60
-size_tileset = 32
-map = load_pygame('Real_Game/map/map_test.tmx')
-sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
-block_group = pygame.sprite.Group()
-fatal_group = pygame.sprite.Group()
-Joueur = Player((0,640))
 
 while True:
     deltatime = clock.tick(60) * .001 * fps #stabilise les frames de l'image à 60 fps
