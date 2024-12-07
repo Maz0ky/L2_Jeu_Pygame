@@ -43,27 +43,25 @@ class File_mouv:
 def generer_liste_elements(elements_deplacables):
     """Trie et génère la liste d'éléments déplaçables"""
     groupes = {
-        "groupe_1": [],  # y < 160
-        "groupe_2": [],  # 160 <= y < 320
-        "groupe_3": [],  # 320 <= y < 480
-        "groupe_4": []   # y >= 480
+        "groupe_1": [],  # y < 180
+        "groupe_2": [],  # 180 <= y < 360
+        "groupe_3": [],  # 360 <= y < 540
+        "groupe_4": []   # y >= 540
     }
     for elem in elements_deplacables:
         y = elem[1].y  # Position y de l'élément
-        if y < 150:
+        if y < 155:
             groupes["groupe_1"].append(elem)
-        elif 160 <= y and y < 310:
+        elif 155 <= y and y < 340:
             groupes["groupe_2"].append(elem)
-        elif 320 <= y and y < 470:
+        elif 335 <= y and y < 530:
             groupes["groupe_3"].append(elem)
-        elif y >= 480:
-            groupes["groupe_4"].append(elem)
 
     for groupe in groupes:
         groupes[groupe].sort(key=lambda elem: elem[1].x)
 
     liste_elements = []
-    for groupe in ["groupe_1", "groupe_2", "groupe_3", "groupe_4"]:
+    for groupe in ["groupe_1", "groupe_2", "groupe_3"]:
         for elem in groupes[groupe]:
             if elem[2] == "Real_Game/elem/up-arrow.png":
                 mouv = "j"
@@ -73,6 +71,10 @@ def generer_liste_elements(elements_deplacables):
                 mouv = "l"
             elif elem[2] == "Real_Game/elem/pause.png":
                 mouv = "p"
+            elif elem[2] == "Real_Game/elem/up-right-arrow.png":
+                mouv = "j_r"
+            elif elem[2] == "Real_Game/elem/up-left-arrow.png":
+                mouv = "j_l"
         
             liste_elements.append({"mouvement": mouv, "temps": elem[3], "element":elem})
     return liste_elements

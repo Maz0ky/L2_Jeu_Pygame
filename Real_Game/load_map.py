@@ -79,6 +79,18 @@ class Player(pygame.sprite.Sprite):
             self.on_ground = False
             self.vitesse.y = -10
     
+    def jump_right(self):
+        if self.on_ground :
+            self.on_ground = False
+            self.vitesse.y = -10
+        self.vitesse.x = 4
+    
+    def jump_left(self):
+        if self.on_ground :
+            self.on_ground = False
+            self.vitesse.y = -10
+        self.vitesse.x = -4
+    
     def gravity(self):
         if not self.on_ground :
             self.vitesse.y += 0.5
@@ -115,6 +127,10 @@ class Player(pygame.sprite.Sprite):
                 self.vitesse.x = -4
             case 'j':
                 self.jump()
+            case 'j_r':
+                self.jump_right()
+            case 'j_l':
+                self.jump_left()
                         
     def move_from_File(self, File):
         #ne pas oublier d'importer la classe FileMouv

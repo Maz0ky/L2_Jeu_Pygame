@@ -38,7 +38,7 @@ while True:
         mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl, levels_info)
 
     elif level == 1:
-        if Joueur.is_finish():
+        if Joueur != None and Joueur.is_finish():
             Joueur.respawn()
             Joueur.reset()
             levels_info[1][3] = True
@@ -59,7 +59,7 @@ while True:
         mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
 
     elif level == 2:
-        if Joueur.is_finish():
+        if Joueur != None and Joueur.is_finish():
             Joueur.respawn()
             Joueur.reset()
             levels_info[2][3] = True

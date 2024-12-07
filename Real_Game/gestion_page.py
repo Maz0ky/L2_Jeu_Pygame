@@ -29,17 +29,17 @@ def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, lev
         if button_retour_de_choixlvl[2].collidepoint(mouse_pos):
             level = -1
         elif levels_info[0][1].collidepoint(mouse_pos):
-            level = 1
             charge_map(0)
             Joueur = Player((800,640))
+            level = 1
         elif levels_info[1][1].collidepoint(mouse_pos) and levels_info[1][3]:
-            level = 2
             charge_map(1)
             Joueur = Player((800,640))
+            level = 2
         elif levels_info[2][1].collidepoint(mouse_pos) and levels_info[2][3]:
-            level = 3
             charge_map(2)
             Joueur = Player((800,640))
+            level = 3
     
     if event.type == pygame.MOUSEMOTION:  # Détecte les mouvements de la souris
         if levels_info[0][1].collidepoint(mouse_pos):

@@ -80,16 +80,18 @@ def initialisation_de_base():
     click_again = True # Indique si l'on peut cliquer à nouveau
     ex_tab_mouv = File_mouv([]) # Initialisation de la file des mouvements
 
-    barres_separations_interface = lignes_info = [((0, 160), (800, 160), 3), ((0, 320), (800, 320), 3), ((0, 480), (800, 480), 3)]
+    barres_separations_interface = lignes_info = [((0, 180), (800, 180), 3), ((0, 360), (800, 360), 3), ((0, 540), (800, 540), 3)]
     return elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, ex_tab_mouv, barres_separations_interface
 
 def initaliser_elements_fixes():
     """Création des éléments de mouvements"""
     surf_1, rect_1, img1 = cree_surf_img('Real_Game/elem/left-arrow.png', 100, 100, 40 , 572)
-    surf_2, rect_2, img2 = cree_surf_img('Real_Game/elem/up-arrow.png', 100, 100, 120, 572)
-    surf_3, rect_3, img3 = cree_surf_img('Real_Game/elem/right-arrow.png', 100, 100, 200, 572)
-    surf_4, rect_4, img4 = cree_surf_img('Real_Game/elem/pause.png', 70, 80, 310, 582)
-    elements_fixes = [(surf_1, rect_1, img1), (surf_2, rect_2, img2), (surf_3, rect_3, img3), (surf_4, rect_4, img4)]
+    surf_5, rect_5, img5 = cree_surf_img('Real_Game/elem/up-left-arrow.png', 75, 75, 180, 580)
+    surf_2, rect_2, img2 = cree_surf_img('Real_Game/elem/up-arrow.png', 100, 100, 270, 572)
+    surf_6, rect_6, img6 = cree_surf_img('Real_Game/elem/up-right-arrow.png', 75, 75, 370, 580)
+    surf_3, rect_3, img3 = cree_surf_img('Real_Game/elem/right-arrow.png', 100, 100, 480, 572)
+    surf_4, rect_4, img4 = cree_surf_img('Real_Game/elem/pause.png', 70, 80, 610, 582)
+    elements_fixes = [(surf_1, rect_1, img1), (surf_2, rect_2, img2), (surf_3, rect_3, img3), (surf_4, rect_4, img4), (surf_5, rect_5, img5), (surf_6, rect_6, img6)]
     return elements_fixes
 
 def cree_surf_img(chemin: str, width, height, pos_x, pos_y):
