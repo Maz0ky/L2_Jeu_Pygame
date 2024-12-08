@@ -6,7 +6,7 @@ from mouvement import *
 
 # Note : condenser les options de temps + start surf, start rect + button retour de choix + de page + buton tout cour
 def init_page_debut_et_fin(screen):
-    level = niveau_actuel()
+    level = 0
     start_surf, start_rect = page_accueil(screen)
     levels_info = boutons_levels(screen)
     button_retour_de_choixlvl = initialiser_bouton_retour_de_choixlvl()
@@ -32,10 +32,6 @@ def initialiser_bouton_retour_de_choixlvl():
     button_retour_de_choixlvl_rect = pygame.Rect(20, 20, button_retour_de_choixlvl_text.get_width(), button_retour_de_choixlvl_text.get_height())
     button_retour_de_choixlvl = button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect
     return button_retour_de_choixlvl
-
-def niveau_actuel():
-    level = 0
-    return level
 
 def page_accueil(screen):
     start_surf = pygame.image.load('Real_Game/elem/start.png').convert_alpha()
