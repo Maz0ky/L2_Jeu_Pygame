@@ -69,8 +69,8 @@ class Player(pygame.sprite.Sprite):
         collision = self.get_hit(b_grp)
         cheat_fly = True
         i = 0
-        while cheat_fly and i < len(collision):
-            if self.rect.collidepoint(collision[i].rect.midtop):
+        while cheat_fly and i < len(collision):# tant que le joueur n'est pas detecté au sol
+            if self.rect.clipline((collision[i].rect.left+2,collision[i].rect.top),(collision[i].rect.right-2,collision[i].rect.top)):
                 cheat_fly = False
             i += 1
         if cheat_fly:
@@ -96,7 +96,7 @@ class Player(pygame.sprite.Sprite):
         self.vitesse.x = -5
     
     def gravity(self):
-        if not self.on_ground and self.vitesse.y < 10 :
+        if (not(self.on_ground) and self.vitesse.y < 10) :
             self.vitesse.y += 0.5
     
     ########## COLLISIONS ##########
@@ -121,11 +121,11 @@ class Player(pygame.sprite.Sprite):
     def collisiony(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            if (self.vitesse.y > 0 and self.rect.collidepoint(block.rect.midtop)):#si touche un block du bas
+            if (self.vitesse.y > 0 and self.rect.clipline((block.rect.left+2,block.rect.top),(block.rect.right-2,block.rect.top))):#si touche un block du bas
                 self.on_ground = True
                 self.vitesse.y = 0
                 self.rect.bottom = block.rect.y + 1
-            elif (self.vitesse.y < 0 and self.rect.collidepoint(block.rect.midbottom)):#si touche un block du haut
+            elif (self.vitesse.y < 0 and self.rect.clipline((block.rect.left+2,block.rect.bottom),(block.rect.right-2,block.rect.bottom))):#si touche un block du haut
                 self.vitesse.y = 0
                 self.rect.y = block.rect.bottom
             
@@ -184,8 +184,4 @@ class Player(pygame.sprite.Sprite):
     
     def reset(self):
         self.win = False
-    ########## LEVEL UP ##########
-    
-    def is_finish(self):
-        return self.win
 

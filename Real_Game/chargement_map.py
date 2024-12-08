@@ -1,5 +1,5 @@
 import pygame
-from entities import *
+from entites import *
 from pytmx.util_pygame import load_pygame
 
 sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
