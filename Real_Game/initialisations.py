@@ -2,11 +2,16 @@
 import pygame
 from mouvement import *
 
-# [1] Initialisation du menu de début et de fin
+pygame.init()
+screen = pygame.display.set_mode((1600, 672))
+pygame.display.set_caption("Zeta Jeu de la muerta")
+clock = pygame.time.Clock()
+fps = 60
+
 
 # Note : condenser les options de temps + start surf, start rect + button retour de choix + de page + buton tout cour
 def init_page_debut_et_fin(screen):
-    level = 0
+    level = -2
     start_surf, start_rect = page_accueil(screen)
     levels_info = boutons_levels(screen)
     button_retour_de_choixlvl = initialiser_bouton_retour_de_choixlvl()
@@ -18,7 +23,7 @@ def init_page_debut_et_fin(screen):
 def initialiser_bouton_retour_de_page():
     """Création du bouton Retour"""
     button_retour_de_page_font = pygame.font.Font(None, 36)
-    button_retour_de_page_text = button_retour_de_page_font.render("Menu choix level", True, (0, 0, 0))
+    button_retour_de_page_text = button_retour_de_page_font.render("Retour menu choix level", True, (0, 0, 0))
     button_retour_de_page_rect = pygame.Rect(20, 20, button_retour_de_page_text.get_width(), button_retour_de_page_text.get_height())
     button_retour_de_page = [button_retour_de_page_font, button_retour_de_page_text, button_retour_de_page_rect]
     return button_retour_de_page
@@ -28,7 +33,7 @@ def initialiser_bouton_retour_de_page():
 def initialiser_bouton_retour_de_choixlvl():
     """Création du bouton Retour"""
     button_retour_de_choixlvl_font = pygame.font.Font(None, 36)
-    button_retour_de_choixlvl_text = button_retour_de_choixlvl_font.render("Retour", True, (255, 255, 255))
+    button_retour_de_choixlvl_text = button_retour_de_choixlvl_font.render("Retour accueil", True, (0, 0, 0))
     button_retour_de_choixlvl_rect = pygame.Rect(20, 20, button_retour_de_choixlvl_text.get_width(), button_retour_de_choixlvl_text.get_height())
     button_retour_de_choixlvl = button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect
     return button_retour_de_choixlvl
@@ -39,23 +44,23 @@ def page_accueil(screen):
     start_rect = start_surf.get_rect(midbottom=(screen.get_width()/2, screen.get_height()*5/6))  # Position du bouton start
     return start_surf, start_rect
 
+def init_level(screen, chemin, taille, width, height):
+    level_surf = pygame.image.load(chemin).convert_alpha()
+    level_surf = pygame.transform.scale(level_surf, taille)
+    level_rect = level_surf.get_rect(midtop=(screen.get_width()*width, screen.get_height()*height))
+    return level_surf, level_rect
+
 def boutons_levels(screen):
-    level_1_surf = pygame.image.load('Real_Game/elem/level_1.png').convert_alpha()
-    level_1_surf = pygame.transform.scale(level_1_surf, (200, 200))
-    level_1_rect = level_1_surf.get_rect(midtop=(screen.get_width()/6, screen.get_height()/6))  # Position du bouton start
+    level_1_surf, level_1_rect = init_level(screen, 'Real_Game/elem/level_1.png', (90, 90), 6/33, 10/27)
+    level_2_surf, level_2_rect = init_level(screen, 'Real_Game/elem/level_2.png', (130, 130), 12/41, 2/25)
+    level_3_surf, level_3_rect = init_level(screen, 'Real_Game/elem/level_3.png', (170, 170), 288/411, 1/15)
+    level_4_surf, level_4_rect = init_level(screen, 'Real_Game/elem/level_4.png', (210, 210), 85/100, 16/36)
+    level_5_surf, level_5_rect = init_level(screen, 'Real_Game/elem/level_5.png', (250, 250), 49/100, 6/15)
 
-    level_2_surf = pygame.image.load('Real_Game/elem/level_2.png').convert_alpha()
-    level_2_surf = pygame.transform.scale(level_2_surf, (200, 200))
-    level_2_rect = level_2_surf.get_rect(midtop=(screen.get_width()*3/6, screen.get_height()/6))  # Position du bouton start
+    level_1_survol, level_2_survol, level_3_survol, level_4_survol, level_5_survol = False, False, False, False, False
+    level_1_accessible, level_2_accessible, level_3_accessible, level_4_accessible, level_5_accessible  = True, False, False, False, False
 
-    level_3_surf = pygame.image.load('Real_Game/elem/level_3.png').convert_alpha()
-    level_3_surf = pygame.transform.scale(level_3_surf, (200, 200))
-    level_3_rect = level_3_surf.get_rect(midtop=(screen.get_width()*5/6, screen.get_height()/6))  # Position du bouton start
-
-    level_1_survol, level_2_survol, level_3_survol = False, False, False
-    level_1_accessible, level_2_accessible, level_3_accessible = True, False, False
-
-    levels_info = [[level_1_surf, level_1_rect, level_1_survol, level_1_accessible], [level_2_surf, level_2_rect, level_2_survol, level_2_accessible], [level_3_surf, level_3_rect, level_3_survol, level_3_accessible]]
+    levels_info = [[level_1_surf, level_1_rect, level_1_survol, level_1_accessible], [level_2_surf, level_2_rect, level_2_survol, level_2_accessible], [level_3_surf, level_3_rect, level_3_survol, level_3_accessible], [level_4_surf, level_4_rect, level_4_survol, level_4_accessible], [level_5_surf, level_5_rect, level_5_survol, level_5_accessible]]
     return levels_info
 
 # [2] Initialisations du niveau
@@ -103,7 +108,7 @@ def initialiser_bouton_envoi():
     """Création du bouton Envoi"""
     button_font = pygame.font.Font(None, 36)
     button_text = button_font.render("Envoie", True, (0, 0, 0))
-    button_rect = pygame.Rect(700, 632, button_text.get_width(), button_text.get_height())
+    button_rect = pygame.Rect(690, 620, button_text.get_width(), button_text.get_height())
     genere_liste_elements = False
     bouton_envoi =  button_font, button_text, button_rect
     return bouton_envoi, genere_liste_elements
@@ -120,5 +125,10 @@ def initialisation_menu():
     menu = {"menu_visible" : menu_visible, "menu_rect" : menu_rect, "option_supprimer" : option_supprimer, "option_temps" : option_temps, "element_concerne" : element_concerne, "menu_temps_visible" : menu_temps_visible, "menu_temps_rect" : menu_temps_rect, "option_de_temps" : option_de_temps, "option_fermer_temps" : option_fermer_temps, "option_moins" : option_moins, "option_plus" : option_plus}
     return menu
 
+retour_from_end_surf = pygame.image.load('Real_Game/elem/replay.png').convert_alpha()
+retour_from_end_surf = pygame.transform.scale(retour_from_end_surf, (200, 200))
+retour_from_end_rect = retour_from_end_surf.get_rect(midbottom=(screen.get_width()/2, screen.get_height()/2))  # Position du bouton start
+
 background_image_accueil = pygame.image.load("Real_Game/elem/accueil_background.png")
 background_image_menu = pygame.image.load("Real_Game/elem/menu_background.png")
+background_image_end = pygame.image.load("Real_Game/elem/end_background.png")

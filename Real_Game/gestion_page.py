@@ -11,6 +11,15 @@ def gestion_evenement_base(event):
             pygame.quit()
             exit()
 
+def gestion_evenements_end(event, level, end_rect):
+    gestion_evenement_base(event)
+
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        mouse_pos = pygame.mouse.get_pos()
+        if end_rect.collidepoint(mouse_pos):
+            level = 0
+    return level
+
 def gestion_evenements_accueil(event, level, start_rect):
     gestion_evenement_base(event)
 
@@ -40,6 +49,14 @@ def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, lev
             charge_map(2)
             Joueur = Player((800,640))
             level = 3
+        elif levels_info[3][1].collidepoint(mouse_pos) and levels_info[3][3]:
+            charge_map(3)
+            Joueur = Player((800,640))
+            level = 4
+        elif levels_info[4][1].collidepoint(mouse_pos) and levels_info[4][3]:
+            charge_map(4)
+            Joueur = Player((800,640))
+            level = 5
     
     if event.type == pygame.MOUSEMOTION:  # Détecte les mouvements de la souris
         if levels_info[0][1].collidepoint(mouse_pos):
@@ -54,6 +71,14 @@ def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, lev
             levels_info[2][2] = True  # Active l'effet de survol
         else:
             levels_info[2][2] = False
+        if levels_info[3][1].collidepoint(mouse_pos):
+            levels_info[3][2] = True  # Active l'effet de survol
+        else:
+            levels_info[3][2] = False
+        if levels_info[4][1].collidepoint(mouse_pos):
+            levels_info[4][2] = True  # Active l'effet de survol
+        else:
+            levels_info[4][2] = False
     return level, Joueur
 
 def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu):
@@ -191,6 +216,16 @@ def mise_a_jour_page_base_fin(clock, fps):
     pygame.display.flip()  # Met à jour l'écran
     clock.tick(fps) * .001 * fps  # Limite à 60 FPS
 
+def mise_a_jour_page_end(screen, clock, fps, retour_from_end_surf, retour_from_end_rect):
+    """Met à jour la page"""
+
+    mise_a_jour_page_base_debut(screen)
+    
+    screen.blit(background_image_end, (0, 0))
+    screen.blit(retour_from_end_surf, retour_from_end_rect)
+
+    mise_a_jour_page_base_fin(clock, fps)
+
 def mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect):
     """Met à jour la page"""
 
@@ -229,8 +264,15 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
     levels_verifications(screen, levels_info, 1)
     levels_verifications(screen, levels_info, 2)
     levels_verifications(screen, levels_info, 3)
+    levels_verifications(screen, levels_info, 4)
+    levels_verifications(screen, levels_info, 5)
 
+    button_retour_de_choixlvl[2].width += 20 ; button_retour_de_choixlvl[2].height += 20
+    pygame.draw.ellipse(screen,(211, 211, 211), button_retour_de_choixlvl[2])
+    button_retour_de_choixlvl[2].x += 10 ; button_retour_de_choixlvl[2].y += 10
     screen.blit(button_retour_de_choixlvl[1], button_retour_de_choixlvl[2])
+    button_retour_de_choixlvl[2].width -= 20 ; button_retour_de_choixlvl[2].height -= 20
+    button_retour_de_choixlvl[2].x -= 10 ; button_retour_de_choixlvl[2].y -= 10
 
     mise_a_jour_page_base_fin(clock, fps)
 
@@ -252,23 +294,28 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouto
         else:
             surf = pygame.transform.scale(surf, (int(rect.width * 1.4), int(rect.height * 1.4)))
             rect = surf.get_rect(center=rect.center)
-            screen.blit(surf, rect)
-
-            #red_overlay = pygame.Surface(surf.get_size(), flags=pygame.SRCALPHA)
-            #red_overlay.fill((255, 0, 0))  # Rouge semi-transparent
-            #surf.blit(red_overlay, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            
+            screen.blit(surf, rect)            
 
     for ligne in barres_separations_interface:
         start_pos, end_pos, width = ligne
         pygame.draw.line(screen, (0, 0, 0), start_pos, end_pos, width)
 
     # Met à jour le bouton envoie
-    screen.blit(bouton_envoi[1], (bouton_envoi[2].x + 10, bouton_envoi[2].y + 5))
+    bouton_envoi[2].width += 20 ; bouton_envoi[2].height += 20
+    pygame.draw.ellipse(screen,(211, 211, 211), bouton_envoi[2])
+    bouton_envoi[2].x += 10 ; bouton_envoi[2].y += 10
+    screen.blit(bouton_envoi[1], bouton_envoi[2])
+    bouton_envoi[2].width -= 20 ; bouton_envoi[2].height -= 20
+    bouton_envoi[2].x -= 10 ; bouton_envoi[2].y -= 10
 
     # Met à jour le bouton retour menu choix niveau
+    button_retour_de_page[2].width += 20 ; button_retour_de_page[2].height += 20
+    pygame.draw.ellipse(screen,(211, 211, 211), button_retour_de_page[2])
+    button_retour_de_page[2].x += 10 ; button_retour_de_page[2].y += 10
     screen.blit(button_retour_de_page[1], button_retour_de_page[2])
+    button_retour_de_page[2].width -= 20 ; button_retour_de_page[2].height -= 20
+    button_retour_de_page[2].x -= 10 ; button_retour_de_page[2].y -= 10
+
     
     # Met à jour le menu si il est affiché
     if menu["menu_visible"]:
