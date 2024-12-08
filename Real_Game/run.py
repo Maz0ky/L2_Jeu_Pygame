@@ -47,7 +47,6 @@ while True:
             file_mouvement.clear()
             elements_deplacables = []
                 
-
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
             elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)

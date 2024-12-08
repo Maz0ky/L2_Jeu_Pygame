@@ -195,7 +195,8 @@ def mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
-
+    
+    screen.blit(background_image_accueil, (0, 0))
     screen.blit(start_surf, start_rect)
 
     mise_a_jour_page_base_fin(clock, fps)
@@ -223,6 +224,8 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
 
     mise_a_jour_page_base_debut(screen)
     
+    screen.blit(background_image_menu, (0, 0))
+
     levels_verifications(screen, levels_info, 1)
     levels_verifications(screen, levels_info, 2)
     levels_verifications(screen, levels_info, 3)

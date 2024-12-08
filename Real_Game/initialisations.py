@@ -123,3 +123,6 @@ def initialisation_menu():
     option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps = None, None, None, None, None
     menu = {"menu_visible" : menu_visible, "menu_rect" : menu_rect, "option_supprimer" : option_supprimer, "option_temps" : option_temps, "element_concerne" : element_concerne, "menu_temps_visible" : menu_temps_visible, "menu_temps_rect" : menu_temps_rect, "option_de_temps" : option_de_temps, "option_fermer_temps" : option_fermer_temps, "option_moins" : option_moins, "option_plus" : option_plus}
     return menu
+
+background_image_accueil = pygame.image.load("Real_Game/elem/accueil_background.png")
+background_image_menu = pygame.image.load("Real_Game/elem/menu_background.png")
