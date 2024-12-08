@@ -27,6 +27,8 @@ class Fatal_Block(Tile):
     #classe des blocks fatals
     def __init__(self, pos, surf, groups):
         super().__init__(pos = pos, surf = surf, groups = groups)
+        self.mask = pygame.mask.from_surface(self.image)#rajoute un masque aux blocs pour avoir une collision précise
+    
 
 
 class Player(pygame.sprite.Sprite):
@@ -38,6 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottomleft = start_pos
         self.game_over = False
         self.on_ground = False
+        self.mask = pygame.mask.from_surface(self.image)
 
         self.vitesse = pygame.math.Vector2(0,0)
     
@@ -105,8 +108,10 @@ class Player(pygame.sprite.Sprite):
                 self.rect.y = block.rect.bottom
     
     def touch_hurting_block(self,sprite_grp):
-        if self.get_hit(sprite_grp):
-            self.game_over = True
+        collision = self.get_hit(sprite_grp)
+        for block in collision:
+            if self.mask.overlap(block.mask,(block.rect.x - self.rect.x, block.rect.y - self.rect.y)):
+                self.game_over = True
             
     ########## MOUVEMENTS ##########
         
