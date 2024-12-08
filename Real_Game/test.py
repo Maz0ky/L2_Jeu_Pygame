@@ -53,6 +53,7 @@ class Player(pygame.sprite.Sprite):
     def update(self,b_grp,fatal_grp):
         self.collisionx(b_grp)
         self.collisiony(b_grp)
+        self.check_border_map()
         self.applique_vitesse(b_grp)
         self.touch_hurting_block(fatal_grp)
         if self.game_over:
@@ -82,12 +83,18 @@ class Player(pygame.sprite.Sprite):
             self.vitesse.y = -10
     
     def gravity(self):
-        if not self.on_ground :
+        if not self.on_ground and self.vitesse.y < 10 :
             self.vitesse.y += 0.5
     
     def get_hit(self, sprite_grp):
         return pygame.sprite.spritecollide(self,sprite_grp,False)
     
+    def check_border_map(self)->None:
+        if self.rect.x + self.vitesse.x < 0:
+            self.vitesse.x, self.rect.x = 0, 0
+        elif self.rect.right + self.vitesse.x > 800:
+            self.vitesse.x, self.rect.right = 0, 800
+     
     def collisionx(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
         for block in collision:
@@ -99,11 +106,11 @@ class Player(pygame.sprite.Sprite):
     def collisiony(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            if (self.vitesse.y > 0 and self.rect.collidepoint(block.rect.midtop)):#si touche un block du bas
+            if (self.vitesse.y > 0 and self.rect.clipline((block.rect.left+2,block.rect.top),(block.rect.right-2,block.rect.top))):#si touche un block du bas
                 self.on_ground = True
                 self.vitesse.y = 0
                 self.rect.bottom = block.rect.y + 1
-            elif (self.vitesse.y < 0 and self.rect.collidepoint(block.rect.midbottom)):#si touche un block du haut
+            elif (self.vitesse.y < 0 and self.rect.clipline((block.rect.left+2,block.rect.bottom),(block.rect.right-2,block.rect.bottom))):#si touche un block du haut
                 self.vitesse.y = 0
                 self.rect.y = block.rect.bottom
     
