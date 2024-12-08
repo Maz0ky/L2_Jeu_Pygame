@@ -4,11 +4,6 @@ from gestion_page import *
 from initialisations import *
 from sys import exit
 
-# Initialisation
-level, start_surf, start_rect, button_retour_de_choixlvl, button_retour_de_page, levels_info = init_page_debut_et_fin(screen)
-elements_fixes, elements_deplacables, selected_element, mouse_offset, click_again, bouton_envoi, genere_liste_elements, file_mouvement, menu, barres_separations_interface = init_levels()
-player_surf, player_rect, player_gravity, speed = None, None, None, None
-
 # Game loop principal
 while True:
     
@@ -48,16 +43,16 @@ while True:
             genere_liste_elements = False
             file_mouvement.clear()
             elements_deplacables = []
-                
-        # [DEBUT] Gestion des évènements
-        for event in pygame.event.get():
-            elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
+        else:
+            # [DEBUT] Gestion des évènements
+            for event in pygame.event.get():
+                elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
 
-        # [2] Traite l'envoie d'une liste d'éléments
-        genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
+            # [2] Traite l'envoie d'une liste d'éléments
+            genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
 
-        # [FIN] Mise à jour de la page
-        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
+            # [FIN] Mise à jour de la page
+            mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
 
     elif level == 2:
         if Joueur != None and Joueur.is_finish():
@@ -68,16 +63,16 @@ while True:
             genere_liste_elements = False
             file_mouvement.clear()
             elements_deplacables = []
+        else:
+            # [DEBUT] Gestion des évènements
+            for event in pygame.event.get():
+                elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
 
-        # [DEBUT] Gestion des évènements
-        for event in pygame.event.get():
-            elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
+            # [2] Traite l'envoie d'une liste d'éléments
+            genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
 
-        # [2] Traite l'envoie d'une liste d'éléments
-        genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
-
-        # [FIN] Mise à jour de la page
-        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
+            # [FIN] Mise à jour de la page
+            mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
 
     elif level == 3:
         if Joueur != None and Joueur.is_finish():
@@ -89,15 +84,16 @@ while True:
             file_mouvement.clear()
             elements_deplacables = []
 
-        # [DEBUT] Gestion des évènements
-        for event in pygame.event.get():
-            elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
+        else:
+            # [DEBUT] Gestion des évènements
+            for event in pygame.event.get():
+                elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
 
-        # [2] Traite l'envoie d'une liste d'éléments
-        genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
+            # [2] Traite l'envoie d'une liste d'éléments
+            genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
 
-        # [FIN] Mise à jour de la page
-        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
+            # [FIN] Mise à jour de la page
+            mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
 
     elif level == 4:
         if Joueur != None and Joueur.is_finish():
@@ -109,15 +105,16 @@ while True:
             file_mouvement.clear()
             elements_deplacables = []
 
-        # [DEBUT] Gestion des évènements
-        for event in pygame.event.get():
-            elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
+        else:
+            # [DEBUT] Gestion des évènements
+            for event in pygame.event.get():
+                elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
 
-        # [2] Traite l'envoie d'une liste d'éléments
-        genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
+            # [2] Traite l'envoie d'une liste d'éléments
+            genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
 
-        # [FIN] Mise à jour de la page
-        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
+            # [FIN] Mise à jour de la page
+            mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
 
     elif level == 5:
         if Joueur != None and Joueur.is_finish():
@@ -128,12 +125,13 @@ while True:
             file_mouvement.clear()
             elements_deplacables = []
 
-        # [DEBUT] Gestion des évènements
-        for event in pygame.event.get():
-            elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
+        else:
+            # [DEBUT] Gestion des évènements
+            for event in pygame.event.get():
+                elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
 
-        # [2] Traite l'envoie d'une liste d'éléments
-        genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
+            # [2] Traite l'envoie d'une liste d'éléments
+            genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
 
-        # [FIN] Mise à jour de la page
-        mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
+            # [FIN] Mise à jour de la page
+            mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps,  button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
