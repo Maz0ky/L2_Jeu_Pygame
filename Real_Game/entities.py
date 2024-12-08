@@ -53,10 +53,10 @@ class Player(pygame.sprite.Sprite):
     def update(self,b_grp,fatal_grp,finish_grp):
         self.collisionx(b_grp)
         self.collisiony(b_grp)
+        self.check_border_map()
         self.applique_vitesse(b_grp)
         self.touch_hurting_block(fatal_grp)
         self.touch_end(finish_grp)
-
            
     def applique_vitesse(self,b_grp):
         self.rect.x  += self.vitesse.x
@@ -76,6 +76,8 @@ class Player(pygame.sprite.Sprite):
         if cheat_fly:
             self.on_ground = False
         
+    ########## DEPLACEMENTS ##########
+
     def jump(self):
         if self.on_ground :
             self.on_ground = False
@@ -85,17 +87,25 @@ class Player(pygame.sprite.Sprite):
         if self.on_ground :
             self.on_ground = False
             self.vitesse.y = -10
-        self.vitesse.x = 4
+        self.vitesse.x = 5
     
     def jump_left(self):
         if self.on_ground :
             self.on_ground = False
             self.vitesse.y = -10
-        self.vitesse.x = -4
+        self.vitesse.x = -5
     
     def gravity(self):
-        if not self.on_ground :
+        if not self.on_ground and self.vitesse.y < 10 :
             self.vitesse.y += 0.5
+    
+    ########## COLLISIONS ##########
+    
+    def check_border_map(self)->None:
+        if self.rect.x + self.vitesse.x < 800:
+            self.vitesse.x, self.rect.x = 0, 800
+        elif self.rect.right + self.vitesse.x > 1600:
+            self.vitesse.x, self.rect.right = 0, 1600
     
     def get_hit(self, sprite_grp):
         return pygame.sprite.spritecollide(self,sprite_grp,False)
@@ -119,14 +129,14 @@ class Player(pygame.sprite.Sprite):
                 self.vitesse.y = 0
                 self.rect.y = block.rect.bottom
             
-    ########## MOUVEMENTS ##########
+    ########## GESTION_MOUVEMENTS ##########
         
     def move(self,sens:str):
         match sens:
             case 'r':
-                self.vitesse.x = 4
+                self.vitesse.x = 5
             case 'l':
-                self.vitesse.x = -4
+                self.vitesse.x = -5
             case 'j':
                 self.jump()
             case 'j_r':
