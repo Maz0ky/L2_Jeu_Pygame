@@ -71,7 +71,7 @@ class Player(pygame.sprite.Sprite):
         cheat_fly = True
         i = 0
         while cheat_fly and i < len(collision):
-            if self.rect.collidepoint(collision[i].rect.midtop):
+            if self.rect.clipline((collision[i].rect.left+12,collision[i].rect.top),(collision[i].rect.right-12,collision[i].rect.top)):
                 cheat_fly = False
             i += 1
         if cheat_fly:
@@ -98,19 +98,19 @@ class Player(pygame.sprite.Sprite):
     def collisionx(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            if (self.vitesse.x > 0 and self.rect.collidepoint(block.rect.midleft)):#si touche un block de la droiteq
+            if (self.vitesse.x > 0 and self.rect.clipline((block.rect.left,block.rect.top+5),(block.rect.left,block.rect.bottom-16))):#si touche un block de la droiteq
                 self.rect.x = block.rect.x - self.rect.width
-            elif (self.vitesse.x < 0 and self.rect.collidepoint(block.rect.midright)):#si touche un block de la gauche
+            elif (self.vitesse.x < 0 and self.rect.clipline((block.rect.right,block.rect.top+5),(block.rect.right,block.rect.bottom-16))):#si touche un block de la gauche
                 self.rect.x = block.rect.right
     
     def collisiony(self, sprite_grp):
         collision = self.get_hit(sprite_grp)
         for block in collision:
-            if (self.vitesse.y > 0 and self.rect.clipline((block.rect.left+2,block.rect.top),(block.rect.right-2,block.rect.top))):#si touche un block du bas
+            if (self.vitesse.y > 0 and self.rect.clipline((block.rect.left+12,block.rect.top),(block.rect.right-12,block.rect.top))):#si touche un block du bas
                 self.on_ground = True
                 self.vitesse.y = 0
                 self.rect.bottom = block.rect.y + 1
-            elif (self.vitesse.y < 0 and self.rect.clipline((block.rect.left+2,block.rect.bottom),(block.rect.right-2,block.rect.bottom))):#si touche un block du haut
+            elif (self.vitesse.y < 0 and self.rect.clipline((block.rect.left+12,block.rect.bottom),(block.rect.right-12,block.rect.bottom))):#si touche un block du haut
                 self.vitesse.y = 0
                 self.rect.y = block.rect.bottom
     
@@ -170,7 +170,7 @@ screen = pygame.display.set_mode((800,672))
 clock = pygame.time.Clock()
 fps = 60
 size_tileset = 32
-map = load_pygame('Real_Game/map/map_1.tmx')
+map = load_pygame('Real_Game/map/map_0.tmx')
 sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
 block_group = pygame.sprite.Group()
 fatal_group = pygame.sprite.Group()
