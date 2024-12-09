@@ -2,17 +2,23 @@ import pygame
 from entites import *
 from pytmx.util_pygame import load_pygame
 
-sprite_group = pygame.sprite.Group()#groupe regroupant toutes les tuiles de la map
+sprite_group = pygame.sprite.Group() #groupe regroupant toutes les tuiles de la map
 block_group = pygame.sprite.Group()
 fatal_group = pygame.sprite.Group()
 end_group = pygame.sprite.Group()
 SIZE_TILESET = 32
 
 def charge_map(num_map):
-    global sprite_group, block_group, fatal_group, end_group, SIZE_TILESET
-
     mapa = load_pygame("Real_Game/map/map_" + str(num_map) + ".tmx")
     # parcours toutes les couches
+
+    for block in block_group:
+        block_group.remove(block)
+    for fatal in fatal_group:
+        fatal_group.remove(fatal)
+    for end in end_group:
+        end_group.remove(end)
+
     for layer in mapa.visible_layers:
         if layer.name == 'Block':
             creer_tuile(layer.tiles(),'block')
@@ -24,6 +30,7 @@ def charge_map(num_map):
             creer_tuile(layer.tiles(), SIZE_TILESET)
 
 def creer_tuile(tuiles, attribut:str=''):
+
     for x ,y ,surf in tuiles: #creer une tuile
         pos = (x * SIZE_TILESET + 800, y * SIZE_TILESET)
         match attribut:

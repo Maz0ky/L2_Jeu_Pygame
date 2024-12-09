@@ -39,22 +39,27 @@ def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, lev
         if button_retour_de_choixlvl[2].collidepoint(mouse_pos):
             level = -1
         elif levels_info[0][1].collidepoint(mouse_pos):
+            
             charge_map(0)
             Joueur = Player(pos_start)
             level = 1
         elif levels_info[1][1].collidepoint(mouse_pos) and levels_info[1][3]:
+            
             charge_map(1)
             Joueur = Player(pos_start)
             level = 2
         elif levels_info[2][1].collidepoint(mouse_pos) and levels_info[2][3]:
+            
             charge_map(2)
             Joueur = Player(pos_start)
             level = 3
         elif levels_info[3][1].collidepoint(mouse_pos) and levels_info[3][3]:
+            
             charge_map(3)
             Joueur = Player(pos_start)
             level = 4
         elif levels_info[4][1].collidepoint(mouse_pos) and levels_info[4][3]:
+            
             charge_map(4)
             Joueur = Player(pos_start)
             level = 5
@@ -330,6 +335,7 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouto
         screen.blit(menu["option_fermer_temps"], (menu["menu_temps_rect"].x + 10, menu["menu_temps_rect"].y - 20))
 
     # Partie map
+
     sprite_group.draw(screen)
     Joueur.show(screen)
     Joueur.update(block_group, fatal_group, end_group)

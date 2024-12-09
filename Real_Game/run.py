@@ -37,13 +37,13 @@ while True:
     elif level == 1:
         if Joueur != None and Joueur.is_finish():
             Joueur.respawn()
-            Joueur.reset()
+            Joueur.reset()  
             levels_info[1][3] = True
             level = 0
             genere_liste_elements = False
             file_mouvement.clear()
             elements_deplacables = []
-        else:
+        elif Joueur != None:
             # [DEBUT] Gestion des évènements
             for event in pygame.event.get():
                 elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
@@ -63,7 +63,7 @@ while True:
             genere_liste_elements = False
             file_mouvement.clear()
             elements_deplacables = []
-        else:
+        elif Joueur != None:
             # [DEBUT] Gestion des évènements
             for event in pygame.event.get():
                 elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
