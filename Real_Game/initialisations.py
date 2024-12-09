@@ -48,12 +48,6 @@ level_1_accessible, level_2_accessible, level_3_accessible, level_4_accessible, 
 levels_info = [[level_1_surf, level_1_rect, level_1_survol, level_1_accessible], [level_2_surf, level_2_rect, level_2_survol, level_2_accessible], [level_3_surf, level_3_rect, level_3_survol, level_3_accessible], [level_4_surf, level_4_rect, level_4_survol, level_4_accessible], [level_5_surf, level_5_rect, level_5_survol, level_5_accessible]]
 
 
-# [2] Initialisations du niveau
-
-def init_levels():
-    
-    bouton_envoi, genere_liste_elements = initialiser_bouton_envoi()
-    return bouton_envoi, genere_liste_elements
 
 # Initialisation des éléments de bases
 
