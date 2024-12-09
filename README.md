@@ -8,3 +8,7 @@ Ici vous ne jouerais pas votre personnage à l'aide de d'un quelconque appui sur
 
 Pour ainsi dire ce jeu fonctionne d'une manière asynchrone (source: ETRS101)
 Pour être plus préçis, le jeu se joue en constituant une suite de mouvements basiques (gauche,droite,saut,pause,...) et lançer l'execution de ceux-ci une fois satisfait.
+
+Crédit : 
+- PHILIPPE Teva
+- BRUNOT Mathieu
