@@ -67,12 +67,12 @@ def cree_surf_img(chemin: str, width, height, pos_x, pos_y):
     return surf, rect, chemin
 
 """Création des éléments de mouvements"""
-surf_1, rect_1, img1 = cree_surf_img('Real_Game/elem/left-arrow.png', 100, 100, 40 , 572)
-surf_5, rect_5, img5 = cree_surf_img('Real_Game/elem/up-left-arrow.png', 75, 75, 180, 580)
-surf_2, rect_2, img2 = cree_surf_img('Real_Game/elem/up-arrow.png', 100, 100, 270, 572)
-surf_6, rect_6, img6 = cree_surf_img('Real_Game/elem/up-right-arrow.png', 75, 75, 370, 580)
-surf_3, rect_3, img3 = cree_surf_img('Real_Game/elem/right-arrow.png', 100, 100, 480, 572)
-surf_4, rect_4, img4 = cree_surf_img('Real_Game/elem/pause.png', 70, 80, 610, 582)
+surf_1, rect_1, img1 = cree_surf_img('Real_Game/elem/left-arrow.png', 80, 80, 40 , 572)
+surf_5, rect_5, img5 = cree_surf_img('Real_Game/elem/up-left-arrow.png', 60, 60, 180, 580)
+surf_2, rect_2, img2 = cree_surf_img('Real_Game/elem/up-arrow.png', 80, 80, 270, 572)
+surf_6, rect_6, img6 = cree_surf_img('Real_Game/elem/up-right-arrow.png', 60, 60, 370, 580)
+surf_3, rect_3, img3 = cree_surf_img('Real_Game/elem/right-arrow.png', 80, 80, 480, 572)
+surf_4, rect_4, img4 = cree_surf_img('Real_Game/elem/pause.png', 55, 65, 610, 582)
 elements_fixes = [(surf_1, rect_1, img1), (surf_2, rect_2, img2), (surf_3, rect_3, img3), (surf_4, rect_4, img4), (surf_5, rect_5, img5), (surf_6, rect_6, img6)]
 
 # Initialisation du bouton d'envoi
