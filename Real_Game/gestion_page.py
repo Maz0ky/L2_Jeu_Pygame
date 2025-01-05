@@ -87,7 +87,7 @@ def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, lev
             levels_info[4][2] = False
     return level, Joueur
 
-def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu):
+def gestion_evenements_level(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu):
     """Gestion des évènements"""
     gestion_evenement_base(event)
     genere_liste_elements = False # Indique si l'on doit envoyer la liste
@@ -287,7 +287,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel):
+def mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
