@@ -170,12 +170,17 @@ def gestion_evenements_level_1(screen, event, level, elements_fixes, elements_de
 
     if event.type == pygame.MOUSEBUTTONUP:
         mouse_pos = pygame.mouse.get_pos()
-    # Vérification du clic sur le bouton Envoi
+        # Vérification du clic sur le bouton Envoi
         if bouton_envoi[2].collidepoint(mouse_pos):
             if click_again == True:
                 click_again = False
                 Joueur.respawn()
                 genere_liste_elements = True
+        # Vérification du clic sur le bouton Reset
+        if bouton_reset[2].collidepoint(mouse_pos):
+            genere_liste_elements = False
+            file_mouvement.clear()
+            elements_deplacables = []
     
     # Déplacement de l'élément sélectionné avec la souris
     if selected_element is not None:
@@ -313,6 +318,14 @@ def mise_a_jour_page_level_1(screen, elements_fixes, elements_deplacables, bouto
     screen.blit(bouton_envoi[1], bouton_envoi[2])
     bouton_envoi[2].width -= 20 ; bouton_envoi[2].height -= 20
     bouton_envoi[2].x -= 10 ; bouton_envoi[2].y -= 10
+
+    # Met à jour le bouton reset
+    bouton_reset[2].width += 20 ; bouton_reset[2].height += 20
+    pygame.draw.ellipse(screen, (211, 211, 211), bouton_reset[2])
+    bouton_reset[2].x += 10 ; bouton_reset[2].y += 10
+    screen.blit(bouton_reset[1], bouton_reset[2])
+    bouton_reset[2].width -= 20 ; bouton_reset[2].height -= 20
+    bouton_reset[2].x -= 10 ; bouton_reset[2].y -= 10
 
     # Met à jour le bouton retour menu choix niveau
     button_retour_de_page[2].width += 20 ; button_retour_de_page[2].height += 20

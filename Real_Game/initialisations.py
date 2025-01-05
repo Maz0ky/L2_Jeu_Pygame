@@ -82,7 +82,15 @@ button_font = pygame.font.Font(None, 36)
 button_text = button_font.render("Envoie", True, (0, 0, 0))
 button_rect = pygame.Rect(690, 620, button_text.get_width(), button_text.get_height())
 genere_liste_elements = False
-bouton_envoi =  button_font, button_text, button_rect
+bouton_envoi = button_font, button_text, button_rect
+
+# Initialisation du bouton reset
+
+"""Création du bouton Envoi"""
+button_r_font = pygame.font.Font(None, 36)
+button_r_text = button_r_font.render("Effacer", True, (0, 0, 0))
+button_r_rect = pygame.Rect(690, 560, button_r_text.get_width(), button_r_text.get_height())
+bouton_reset = button_r_font, button_r_text, button_r_rect
 
 # Initialisation du menu (suppression et temps)
 
