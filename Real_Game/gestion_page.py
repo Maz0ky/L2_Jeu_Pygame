@@ -179,6 +179,11 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
         mouse_pos = pygame.mouse.get_pos()
         # Vérification du clic sur le bouton Envoi
         if bouton_envoi[2].collidepoint(mouse_pos):
+            for element in elements_deplacables:
+                if element[1].y > 520:
+                    elements_deplacables.remove(element)
+                    break
+
             if click_again == True:
                 click_again = False
                 Joueur.respawn()

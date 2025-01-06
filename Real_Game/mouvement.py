@@ -54,7 +54,7 @@ def generer_liste_elements(elements_deplacables):
             groupes["groupe_1"].append(elem)
         elif 155 <= y and y < 340:
             groupes["groupe_2"].append(elem)
-        elif 335 <= y and y < 530:
+        elif 335 <= y and y < 520:
             groupes["groupe_3"].append(elem)
 
     for groupe in groupes:
