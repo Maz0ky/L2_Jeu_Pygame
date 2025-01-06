@@ -35,31 +35,22 @@ while True:
         mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl, levels_info)
 
     else:
-        if level == 1:
-            if Joueur != None and Joueur.is_finish():
+        if Joueur != None and Joueur.is_finish():
+            if level == 1:
                 levels_info[1][3] = True
                 level = 0
-
-        elif level == 2:
-            if Joueur != None and Joueur.is_finish():
+            elif level == 2:
                 levels_info[2][3] = True
                 level = 0
-
-        elif level == 3:
-            if Joueur != None and Joueur.is_finish():
+            elif level == 3:
                 levels_info[3][3] = True
                 level = 0
-
-        elif level == 4:
-            if Joueur != None and Joueur.is_finish():
+            elif level == 4:
                 levels_info[4][3] = True
                 level = 0
-
-        elif level == 5:
-            if Joueur != None and Joueur.is_finish():
+            elif level == 5:
                 level = -2
 
-        if Joueur != None and Joueur.is_finish():
             Joueur.respawn()
             Joueur.reset()
             genere_liste_elements = False
