@@ -16,7 +16,7 @@ while True:
         # [FIN] Mise à Jour de la page
         mise_a_jour_page_end(screen, clock, fps, retour_from_end_surf, retour_from_end_rect)
     
-    if level == -1: # Accueil
+    elif level == -1: # Accueil
 
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():

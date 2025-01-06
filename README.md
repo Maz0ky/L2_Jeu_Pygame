@@ -1,5 +1,6 @@
 # Visi301_Mathieu_Teva
 Il s'agit d'un projet de création d'un jeu sur pygame fait par des étudiants en L2 CMI Info à L'USMB (2024-2025)
+Atteindrez vous la mystique page de fin du jeu?
 
 ## Le jeu
 
