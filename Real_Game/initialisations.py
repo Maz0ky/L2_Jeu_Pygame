@@ -98,8 +98,8 @@ menu_visible = False # Indique si le menu (temps et suppression) doit être affi
 menu_temps_visible = False # Indique si le menu temps doit être affiché
 element_concerne = None
 menu_rect, option_supprimer, option_temps = None, None, None # A l'état "None" puisque Faux par défaut
-option_fermer_temps, option_moins, option_plus, menu_temps_rect, option_de_temps = None, None, None, None, None
-menu = {"menu_visible" : menu_visible, "menu_rect" : menu_rect, "option_supprimer" : option_supprimer, "option_temps" : option_temps, "element_concerne" : element_concerne, "menu_temps_visible" : menu_temps_visible, "menu_temps_rect" : menu_temps_rect, "option_de_temps" : option_de_temps, "option_fermer_temps" : option_fermer_temps, "option_moins" : option_moins, "option_plus" : option_plus}
+option_fermer_temps, option_moins, option_moins_moins, option_plus, option_plus_plus, menu_temps_rect, option_de_temps = None, None, None, None, None, None, None
+menu = {"menu_visible" : menu_visible, "menu_rect" : menu_rect, "option_supprimer" : option_supprimer, "option_temps" : option_temps, "element_concerne" : element_concerne, "menu_temps_visible" : menu_temps_visible, "menu_temps_rect" : menu_temps_rect, "option_de_temps" : option_de_temps, "option_fermer_temps" : option_fermer_temps, "option_moins" : option_moins, "option_moins_moins" : option_moins_moins, "option_plus" : option_plus, "option_plus_plus" : option_plus_plus}
 
 retour_from_end_surf = pygame.image.load('Real_Game/elem/replay.png').convert_alpha()
 retour_from_end_surf = pygame.transform.scale(retour_from_end_surf, (200, 200))
