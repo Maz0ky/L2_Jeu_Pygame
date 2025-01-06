@@ -94,12 +94,6 @@ python Real_Game/run.py
 
 Notez que si vous souhaitez désactiver l'environnement virtuel, il suffit d'utiliser la commande "**deactivate**"
 
-
-
-
-
 ## Crédits
 - PHILIPPE Teva
 - BRUNOT Mathieu
-
-Installer pygame et pytmx
