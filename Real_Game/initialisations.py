@@ -10,6 +10,8 @@ fps = 60
 
 level = -1
 
+nb_tentatives = 0
+
 # Initialisation du bouton de retour pour retourner à l'accueil depuis la page de choix des niveaux
 """Création du bouton Retour"""
 button_retour_de_page_font = pygame.font.Font(None, 36)

@@ -39,27 +39,22 @@ def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, lev
         if button_retour_de_choixlvl[2].collidepoint(mouse_pos):
             level = -1
         elif levels_info[0][1].collidepoint(mouse_pos):
-            
             charge_map(0)
             Joueur = Player(pos_start)
             level = 1
         elif levels_info[1][1].collidepoint(mouse_pos) and levels_info[1][3]:
-            
             charge_map(1)
             Joueur = Player(pos_start)
             level = 2
         elif levels_info[2][1].collidepoint(mouse_pos) and levels_info[2][3]:
-            
             charge_map(2)
             Joueur = Player(pos_start)
             level = 3
         elif levels_info[3][1].collidepoint(mouse_pos) and levels_info[3][3]:
-            
             charge_map(3)
             Joueur = Player(pos_start)
             level = 4
         elif levels_info[4][1].collidepoint(mouse_pos) and levels_info[4][3]:
-            
             charge_map(4)
             Joueur = Player(pos_start)
             level = 5
@@ -87,7 +82,7 @@ def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, lev
             levels_info[4][2] = False
     return level, Joueur
 
-def gestion_evenements_level(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu):
+def gestion_evenements_level(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, button_retour_de_page, Joueur, menu, nb_tentatives):
     """Gestion des évènements"""
     gestion_evenement_base(event)
     genere_liste_elements = False # Indique si l'on doit envoyer la liste
@@ -188,6 +183,8 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
                 click_again = False
                 Joueur.respawn()
                 genere_liste_elements = True
+                nb_tentatives += 1
+
         # Vérification du clic sur le bouton Reset
         if bouton_reset[2].collidepoint(mouse_pos):
             genere_liste_elements = False
@@ -200,7 +197,7 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
         selected_element[1].x = mouse_pos[0] - mouse_offset[0]
         selected_element[1].y = mouse_pos[1] - mouse_offset[1]
 
-    return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level
+    return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level, nb_tentatives
 
 # Les menus de la partie création de liste
 
@@ -301,7 +298,7 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
 
     mise_a_jour_page_base_fin(clock, fps)
 
-def mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel):
+def mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel, nb_tentatives):
     """Met à jour la page"""
 
     mise_a_jour_page_base_debut(screen)
@@ -349,7 +346,9 @@ def mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_
     button_retour_de_page[2].width -= 20 ; button_retour_de_page[2].height -= 20
     button_retour_de_page[2].x -= 10 ; button_retour_de_page[2].y -= 10
 
-    
+    nb_tentatives_surf = pygame.font.Font(None,36).render(f"Tentatives : {nb_tentatives}",True,(0,0,0))
+    screen.blit(nb_tentatives_surf, (620,10))
+
     # Met à jour le menu si il est affiché
     if menu["menu_visible"]:
         screen.blit(menu["option_supprimer"], (menu["menu_rect"].x + 10, menu["menu_rect"].y + 10))

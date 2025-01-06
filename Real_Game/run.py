@@ -51,6 +51,7 @@ while True:
             elif level == 5:
                 level = -2
 
+            nb_tentatives = 0
             Joueur.respawn()
             Joueur.reset()
             genere_liste_elements = False
@@ -60,10 +61,10 @@ while True:
         if Joueur != None:
             # [DEBUT] Gestion des évènements
             for event in pygame.event.get():
-                elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level = gestion_evenements_level(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, player_surf, button_retour_de_page, Joueur, menu)
+                elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level, nb_tentatives = gestion_evenements_level(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, button_retour_de_page, Joueur, menu, nb_tentatives)
 
             # [2] Traite l'envoie d'une liste d'éléments
             genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
 
             # [FIN] Mise à jour de la page
-            mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel)
+            mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel, nb_tentatives)
