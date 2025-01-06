@@ -27,6 +27,7 @@ Vous devrez guider votre personnage jusqu'au portes de 5 niveaux tous plus durs 
 - Sur l'interface de gauche :
   - Pour revenir au menu de choix des niveaux, appuyez sur le bouton **Retour menu choix level** (Attention, appuyez bien sur le texte et non sur sa bulle).
   - Les éléments en bas (flèches directionnelles et pauses) sont des éléments fixes.
+  - Votre nombre de tentative figure en haut à droite. Essayez de réaliser le niveaux avec réalisant le moins d'actions possible !
   - Clickez gauche sur un élément fixe, maintenez enfoncé et déplacez la sourie pour créer un élément déplaçable.
   - Clickez gauche sur un élément déplaçable, maintenez enfoncé et déplacez la sourie pour déplacer un élément déplaçable.
   - Placez un élément sur une des trois lignes de l'interface pour le placer dans la zone dédiée. Tout élément ailleurs sera supprimé ou non lu lors de la lecture de la séquence.
@@ -51,6 +52,7 @@ Vous devrez guider votre personnage jusqu'au portes de 5 niveaux tous plus durs 
   - S'il touche un pique, votre personnage meurt et sa position est réinitialisée.
   - S'il atteint une porte (ressemble à des girlandes verticales), le niveau est réussie et vous basculez sur la page de choix de niveaux.
 
+-> Lorsque les 5 niveaux sont terminés, vous arrivés sur la page de fin. Vous pouvez alors revenir sur la page de choix de niveaux. *Pourquoi ne pas tenter de terminer les niveaux avec le moins de tentatives possibles ??? Arrivez vous à tous les terminer en un seul essaie !?*
 
 ### Installation du jeu
 #### Windows
