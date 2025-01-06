@@ -88,7 +88,7 @@ bouton_envoi = button_font, button_text, button_rect
 
 # Initialisation du bouton reset
 
-"""Création du bouton Envoi"""
+"""Création du bouton Reset"""
 button_r_font = pygame.font.Font(None, 36)
 button_r_text = button_r_font.render("Effacer", True, (0, 0, 0))
 button_r_rect = pygame.Rect(690, 560, button_r_text.get_width(), button_r_text.get_height())
@@ -105,10 +105,10 @@ menu = {"menu_visible" : menu_visible, "menu_rect" : menu_rect, "option_supprime
 
 retour_from_end_surf = pygame.image.load('Real_Game/elem/replay.png').convert_alpha()
 retour_from_end_surf = pygame.transform.scale(retour_from_end_surf, (200, 200))
-retour_from_end_rect = retour_from_end_surf.get_rect(midbottom=(screen.get_width()/2, screen.get_height()/2))  # Position du bouton start
+retour_from_end_rect = retour_from_end_surf.get_rect(midbottom=(screen.get_width()/2 + 40, screen.get_height()/2 + 150))  # Position du bouton start
 
 background_image_accueil = pygame.image.load("Real_Game/elem/accueil_background.png")
 background_image_menu = pygame.image.load("Real_Game/elem/menu_background.png")
-background_image_end = pygame.image.load("Real_Game/elem/end_background.png")
+background_image_end = pygame.image.load("Real_Game/elem/end_background.png").convert_alpha()
 
 player_surf, player_rect, player_gravity, speed = None, None, None, None
