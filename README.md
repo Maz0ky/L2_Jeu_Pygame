@@ -6,7 +6,7 @@ Atteindrez vous la mystique page de fin du jeu?
 
 ### Introduction au jeu
 Il s'agit d'un jeu de plateforme qui semble être comme les autres mais qui ne l'est pas !!
-Vous n'allez pas manipuler votre personnage avec un quelquonque appui sur une touche !
+Vous n'allez pas manipuler votre personnage avec un quelconque appui sur une touche !
 
 Ici, vous faites face à une double interface.
 - La première est dédiée à la création d'une suite de mouvement. Il s'agira de générer une séquences de mouvements (gauche, droite, pause ou encore saut droits et diagonaux) avec un temps d'execution choisit.
@@ -21,16 +21,16 @@ Vous devrez guider votre personnage jusqu'au portes de 5 niveaux tous plus durs 
 
 -> Sur la première page, cliquez sur Start pour accéder à la page de choix de niveaux.
 
--> Sur la page de choix de niveaux clickez sur l'un des 5 niveaux disponible (en blanc donc) pour le lancer. Le niveau 5 s'illustre du sigle de dragon.
+-> Sur la page de choix de niveaux cliquez sur l'un des 5 niveaux disponible (en blanc donc) pour le lancer. Le niveau 5 s'illustre du sigle de dragon.
 
 -> Sur les pages de niveaux:
 - Sur l'interface de gauche :
   - Pour revenir au menu de choix des niveaux, appuyez sur le bouton **Retour menu choix level** (Attention, appuyez bien sur le texte et non sur sa bulle).
   - Les éléments en bas (flèches directionnelles et pauses) sont des éléments fixes.
   - Votre nombre de tentative figure en haut à droite. Essayez de réaliser le niveaux avec réalisant le moins d'actions possible !
-  - Clickez gauche sur un élément fixe, maintenez enfoncé et déplacez la sourie pour créer un élément déplaçable.
-  - Clickez gauche sur un élément déplaçable, maintenez enfoncé et déplacez la sourie pour déplacer un élément déplaçable.
-  - Placez un élément sur une des trois lignes de l'interface pour le placer dans la zone dédiée. Tout élément ailleurs sera supprimé ou non lu lors de la lecture de la séquence.
+  - Cliquez gauche sur un élément fixe, maintenez enfoncé et déplacez la sourie pour créer un élément déplaçable.
+  - Cliquez gauche sur un élément déplaçable, maintenez enfoncé et déplacez la souris pour déplacer un élément déplaçable.
+  - Placez un élément sur une des troies lignes de l'interface pour le placer dans la zone dédiée. Tout élément ailleur sera supprimé ou non lu lors de la lecture de la séquence.
   - Les éléments déplaçable figurant dans la zone dédiée sont lu de gauche à droite et de bas en haut lors de la lecture de la séquence.
   - Evitez de placer un élément entre deux lignes pour éviter tout ordre de lecture indésirable.
   - Interchanger la position de deux éléments interchange donc leur ordre de lecture.
@@ -49,10 +49,10 @@ Vous devrez guider votre personnage jusqu'au portes de 5 niveaux tous plus durs 
 - Sur l'interface de droite
   - Vous pouvez visualiser le résultat de votre séquence d'instruction.
   - Votre personnage est replacé au départ à chaque lecture de séquence.
-  - S'il touche un pique, votre personnage meurt et sa position est réinitialisée.
-  - S'il atteint une porte (ressemble à des girlandes verticales), le niveau est réussie et vous basculez sur la page de choix de niveaux.
+  - S'il touche un pic, votre personnage meurt et sa position est réinitialisée.
+  - S'il atteint une porte (ressemble à des guirlandes verticales), le niveau est réussi et vous basculez sur la pâge de choix de niveaux.
 
--> Lorsque les 5 niveaux sont terminés, vous arrivés sur la page de fin. Vous pouvez alors revenir sur la page de choix de niveaux. *Pourquoi ne pas tenter de terminer les niveaux avec le moins de tentatives possibles ??? Arrivez vous à tous les terminer en un seul essaie !?*
+-> Lorsque les 5 niveaux sont terminés, vous arrivez sur la page de fin. Vous pouvez alors revenir sur la page de choix de niveaux. *Pourquoi ne pas tenter de terminer les niveaux avec le moins de tentatives possibles ??? Arriverez vous à tous les terminer en un seul essai !?*
 
 ### Installation du jeu
 #### Windows
