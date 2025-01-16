@@ -7,6 +7,7 @@ screen = pygame.display.set_mode((1600, 672))
 pygame.display.set_caption("Zeta Jeu de la muerta")
 clock = pygame.time.Clock()
 fps = 60
+pos_start = (800,640)
 
 level = -1
 

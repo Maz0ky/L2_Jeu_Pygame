@@ -12,12 +12,9 @@ def charge_map(num_map):
     mapa = load_pygame("Real_Game/map/map_" + str(num_map) + ".tmx")
     # parcours toutes les couches
 
-    for block in block_group:
-        block_group.remove(block)
-    for fatal in fatal_group:
-        fatal_group.remove(fatal)
-    for end in end_group:
-        end_group.remove(end)
+    block_group.empty()
+    fatal_group.empty()
+    end_group.empty()
 
     for layer in mapa.visible_layers:
         if layer.name == 'Block':

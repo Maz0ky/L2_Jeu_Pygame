@@ -35,7 +35,7 @@ def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, lev
     Joueur = None
 
     if event.type == pygame.MOUSEBUTTONDOWN:
-        pos_start = (800,640)
+        
         if button_retour_de_choixlvl[2].collidepoint(mouse_pos):
             level = -1
         elif levels_info[0][1].collidepoint(mouse_pos):

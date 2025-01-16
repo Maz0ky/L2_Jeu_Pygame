@@ -26,12 +26,12 @@ while True:
         mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect)
 
     elif level == 0: # Choix niveaux
-
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
             level, Joueur = gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, levels_info)
 
         # [FIN] Mise à Jour de la page
+            
         mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl, levels_info)
 
     else:
@@ -68,3 +68,6 @@ while True:
 
             # [FIN] Mise à jour de la page
             mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel, nb_tentatives)
+        
+        else :
+            Joueur = Player(pos_start)
