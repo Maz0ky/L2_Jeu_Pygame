@@ -1,6 +1,6 @@
-# Visi301_Mathieu_Teva
-Il s'agit d'un projet de création d'un jeu sur pygame fait par des étudiants en L2 CMI Info à L'USMB (2024-2025)
-Atteindrez vous la mystique page de fin du jeu?
+# L2 Jeu Pygame
+Projet de Jeux Python réalisé par deux étudiants en Licence 2 d'informatique et CMI. 
+Il s'agit d'un platformer mettant en œuvre des mécaniques innovantes.
 
 ## Le jeu
 
