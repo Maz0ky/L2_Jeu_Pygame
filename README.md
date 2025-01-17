@@ -73,7 +73,7 @@ Pour ce faire, executez les commandes suivantes dans un terminal:
 
 - **1 : Se placer dans le bon répertoire :**
 
-cd ~blabla/Visi301_Mathieu_Teva (bien penser à modifier le chemin pour que cela fonctionne)
+cd ~blabla/L2_Jeu_Pygame (bien penser à modifier le chemin pour que cela fonctionne)
 
 - **2 : Créer l'environnement virtuel :**
 
