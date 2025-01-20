@@ -64,7 +64,7 @@ Enfin, il faut installer les deux dépendances suivantes (à l'aide d'un **pip i
 - pygame
 - pytmx
 
-### Linux
+#### Linux
 En fonction de votre distribution linux, la manipulation n'est pas la même. En premier lieu, essayez la manipulation windows.
 
 Si cela ne fonctionne pas à cause du blocage du pip install (comme c'est le cas sur Ubuntu à partir d'une certaine version), il faudra créer un environnement virtuel.
