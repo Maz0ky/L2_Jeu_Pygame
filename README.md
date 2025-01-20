@@ -69,7 +69,7 @@ En fonction de votre distribution linux, la manipulation n'est pas la même. En 
 
 Si cela ne fonctionne pas à cause du blocage du pip install (comme c'est le cas sur Ubuntu à partir d'une certaine version), il faudra créer un environnement virtuel.
 
-Pour ce faire, éxécutez les commandes suivantes dans un terminal: 
+Pour ce faire, exécutez les commandes suivantes dans un terminal: 
 
 - **1 : Se placer dans le bon répertoire :**
 
