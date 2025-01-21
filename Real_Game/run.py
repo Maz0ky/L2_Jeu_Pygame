@@ -6,7 +6,7 @@ from sys import exit
 
 # Game loop principal
 while True:
-    
+
     if level == -2: # Accueil
 
         # [DEBUT] Gestion des évènements
