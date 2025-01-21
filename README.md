@@ -107,5 +107,5 @@ python Real_Game/run.py
 Notez que si vous souhaitez désactiver l'environnement virtuel, il suffit d'utiliser la commande "**deactivate**"
 
 ## Crédits
-- PHILIPPE Teva
-- BRUNOT Mathieu
+- [PHILIPPE Teva](https://github.com/TevaPhilippe05)
+- [BRUNOT Mathieu](https://github.com/Maz0ky)
