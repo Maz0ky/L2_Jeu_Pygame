@@ -138,7 +138,7 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
                 # Modifier le temps si "Modifier le temps" est cliqué
                 if menu["option_temps"].get_rect(topleft=(menu["menu_rect"].x, menu["menu_rect"].y + 40)).collidepoint(mouse_pos):
                     # Champ pour saisir le temps
-                    menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
+                    menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
                     
                     menu["menu_visible"] = False
                     menu["menu_temps_visible"] = True
@@ -148,24 +148,24 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
             mouse_pos = pygame.mouse.get_pos()
             
             if menu["option_moins_moins"].get_rect(topleft=(menu["menu_temps_rect"].x - 20, menu["menu_temps_rect"].y + 10)).collidepoint(mouse_pos):
-                menu["element_concerne"][3] -= 10
-                if menu["element_concerne"][3] < 0:
-                    menu["element_concerne"][3] = 0
-                menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
+                menu["element_concerne"][4] -= 10
+                if menu["element_concerne"][4] < 0:
+                    menu["element_concerne"][4] = 0
+                menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
               
             if menu["option_moins"].get_rect(topleft=(menu["menu_temps_rect"].x + 10, menu["menu_temps_rect"].y + 10)).collidepoint(mouse_pos):
-                menu["element_concerne"][3] -= 1
-                if menu["element_concerne"][3] < 0:
-                    menu["element_concerne"][3] = 0
-                menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
+                menu["element_concerne"][4] -= 1
+                if menu["element_concerne"][4] < 0:
+                    menu["element_concerne"][4] = 0
+                menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
                 
             if menu["option_plus"].get_rect(topleft=(menu["menu_temps_rect"].x + 85, menu["menu_temps_rect"].y + 10)).collidepoint(mouse_pos):
-                menu["element_concerne"][3] += 1
-                menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
+                menu["element_concerne"][4] += 1
+                menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
 
             if menu["option_plus_plus"].get_rect(topleft=(menu["menu_temps_rect"].x + 115, menu["menu_temps_rect"].y + 10)).collidepoint(mouse_pos):
-                menu["element_concerne"][3] += 10
-                menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][3], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
+                menu["element_concerne"][4] += 10
+                menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"] = affiche_menu_temps(screen, menu["menu_temps_rect"], menu["element_concerne"][4], menu["option_fermer_temps"], menu["option_moins"], menu["option_plus"], menu["option_de_temps"], menu["option_moins_moins"], menu["option_plus_plus"])
 
             if menu["option_fermer_temps"].get_rect(topleft=(menu["menu_temps_rect"].x + 10, menu["menu_temps_rect"].y + -20)).collidepoint(mouse_pos):
                 menu["menu_temps_visible"] = False
