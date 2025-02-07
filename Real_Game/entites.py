@@ -1,4 +1,7 @@
+import os
 import pygame
+
+BASE_DIR = os.path.dirname(__file__)
 
 class Tile(pygame.sprite.Sprite):
     #sera toutes les tuiles construisant la map
@@ -33,7 +36,7 @@ class Finish_Block(Tile):
 class Player(pygame.sprite.Sprite):
     def __init__(self, start_pos):
         super().__init__()
-        self.image = pygame.image.load("Real_Game/Tuile/Image/Player_Sprite/Shrek-1.png")
+        self.image = pygame.image.load(os.path.join(BASE_DIR, "Tuile/Image/Player_Sprite", "Shrek-1.png"))
         self.rect = self.image.get_rect()
         self.start_pos = start_pos
         self.rect.bottomleft = start_pos

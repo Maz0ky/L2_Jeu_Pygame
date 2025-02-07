@@ -1,6 +1,9 @@
+import os
 import pygame
 from entites import *
 from pytmx.util_pygame import load_pygame
+
+BASE_DIR = os.path.dirname(__file__)
 
 sprite_group = pygame.sprite.Group() #groupe regroupant toutes les tuiles de la map
 block_group = pygame.sprite.Group()
@@ -9,7 +12,7 @@ end_group = pygame.sprite.Group()
 SIZE_TILESET = 32
 
 def charge_map(num_map):
-    mapa = load_pygame("Real_Game/map/map_" + str(num_map) + ".tmx")
+    mapa = load_pygame(os.path.join(BASE_DIR, "map", f"map_{num_map}.tmx"))
     # parcours toutes les couches
 
     block_group.empty()

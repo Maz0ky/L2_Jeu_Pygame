@@ -97,10 +97,10 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
         # Vérification des blocs fixes pour créer des blocs déplaçables si besoin
         for element in elements_fixes:
             if element[1].collidepoint(mouse_pos): # element[1] est sa surface
-                new_surf, new_rect, new_img = cree_surf_img(element[2], element[1].width, element[1].height, element[1].x, element[1].y)
+                new_surf, new_rect, new_img, new_nom = cree_surf_img(element[2], element[3], element[1].width, element[1].height, element[1].x, element[1].y)
                 temps_default = 21
-                elements_deplacables.append([new_surf, new_rect, new_img, temps_default])
-                selected_element = (new_surf, new_rect, new_img)
+                elements_deplacables.append([new_surf, new_rect, new_img, new_nom, temps_default])
+                selected_element = (new_surf, new_rect, new_img, new_nom)
                 mouse_offset = (mouse_pos[0] - new_rect.x, mouse_pos[1] - new_rect.y)
                 break
 
@@ -312,10 +312,10 @@ def mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_
     pygame.draw.rect(screen, (232,195,158), Rect(0, 0, 800, 800))
     
     # Met à jour les éléments sur la page
-    for surf, rect, img in elements_fixes:
+    for surf, rect, img, nom in elements_fixes:
         screen.blit(surf, rect)
 
-    for surf, rect, img, tps in elements_deplacables:
+    for surf, rect, img, nom, tps in elements_deplacables:
         if elem_actuel == None or surf != elem_actuel[1][0]:
             screen.blit(surf, rect)
         else:

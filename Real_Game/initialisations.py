@@ -1,6 +1,9 @@
 # Import
+import os
 import pygame
 from mouvement import *
+
+BASE_DIR = os.path.dirname(__file__)
 
 pygame.init()
 screen = pygame.display.set_mode((1600, 672))
@@ -29,7 +32,8 @@ button_retour_de_choixlvl_rect = pygame.Rect(20, 20, button_retour_de_choixlvl_t
 button_retour_de_choixlvl = button_retour_de_choixlvl_font, button_retour_de_choixlvl_text, button_retour_de_choixlvl_rect
 button_retour_de_choixlvl
 
-start_surf = pygame.image.load('Real_Game/elem/start.png').convert_alpha()
+start_surf = pygame.image.load(os.path.join(BASE_DIR, "elem", "start.png")).convert_alpha()
+# start_surf = pygame.image.load(os.path.join(os.getcwd(),'elem/start.png'))
 start_surf = pygame.transform.scale(start_surf, (200, 200))
 start_rect = start_surf.get_rect(midbottom=(screen.get_width()/2, screen.get_height()*5/6))  # Position du bouton start
 
@@ -39,11 +43,11 @@ def init_level(screen, chemin, taille, width, height):
     level_rect = level_surf.get_rect(midtop=(screen.get_width()*width, screen.get_height()*height))
     return level_surf, level_rect
 
-level_1_surf, level_1_rect = init_level(screen, 'Real_Game/elem/level_1.png', (90, 90), 6/33, 10/27)
-level_2_surf, level_2_rect = init_level(screen, 'Real_Game/elem/level_2.png', (130, 130), 12/41, 2/25)
-level_3_surf, level_3_rect = init_level(screen, 'Real_Game/elem/level_3.png', (170, 170), 288/411, 1/15)
-level_4_surf, level_4_rect = init_level(screen, 'Real_Game/elem/level_4.png', (210, 210), 85/100, 16/36)
-level_5_surf, level_5_rect = init_level(screen, 'Real_Game/elem/level_5.png', (250, 250), 49/100, 6/15)
+level_1_surf, level_1_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_1.png"), (90, 90), 6/33, 10/27)
+level_2_surf, level_2_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_2.png"), (130, 130), 12/41, 2/25)
+level_3_surf, level_3_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_3.png"), (170, 170), 288/411, 1/15)
+level_4_surf, level_4_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_4.png"), (210, 210), 85/100, 16/36)
+level_5_surf, level_5_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_5.png"), (250, 250), 49/100, 6/15)
 
 level_1_survol, level_2_survol, level_3_survol, level_4_survol, level_5_survol = False, False, False, False, False
 level_1_accessible, level_2_accessible, level_3_accessible, level_4_accessible, level_5_accessible  = True, False, False, False, False
@@ -62,21 +66,21 @@ file_mouvement = File_mouv([]) # Initialisation de la file des mouvements
 
 barres_separations_interface = lignes_info = [((0, 180), (800, 180), 3), ((0, 360), (800, 360), 3), ((0, 540), (800, 540), 3)]
 
-def cree_surf_img(chemin: str, width, height, pos_x, pos_y):
+def cree_surf_img(chemin: str, nom, width, height, pos_x, pos_y):
     """Création des éléments fixes (mouvements)"""
     surf = pygame.image.load(chemin).convert_alpha()
     surf = pygame.transform.scale(surf, (width, height))
     rect = surf.get_rect(topleft=(pos_x, pos_y))
-    return surf, rect, chemin
+    return surf, rect, chemin, nom
 
 """Création des éléments de mouvements"""
-surf_1, rect_1, img1 = cree_surf_img('Real_Game/elem/left-arrow.png', 80, 80, 40 , 572)
-surf_5, rect_5, img5 = cree_surf_img('Real_Game/elem/up-left-arrow.png', 60, 60, 180, 580)
-surf_2, rect_2, img2 = cree_surf_img('Real_Game/elem/up-arrow.png', 80, 80, 270, 572)
-surf_6, rect_6, img6 = cree_surf_img('Real_Game/elem/up-right-arrow.png', 60, 60, 370, 580)
-surf_3, rect_3, img3 = cree_surf_img('Real_Game/elem/right-arrow.png', 80, 80, 480, 572)
-surf_4, rect_4, img4 = cree_surf_img('Real_Game/elem/pause.png', 55, 65, 610, 582)
-elements_fixes = [(surf_1, rect_1, img1), (surf_2, rect_2, img2), (surf_3, rect_3, img3), (surf_4, rect_4, img4), (surf_5, rect_5, img5), (surf_6, rect_6, img6)]
+surf_1, rect_1, img1, nom1 = cree_surf_img(os.path.join(BASE_DIR, "elem", "left-arrow.png"), "left-arrow", 80, 80, 40 , 572)
+surf_5, rect_5, img5, nom5 = cree_surf_img(os.path.join(BASE_DIR, "elem", "up-left-arrow.png"), "up-left-arrow", 60, 60, 180, 580)
+surf_2, rect_2, img2, nom2 = cree_surf_img(os.path.join(BASE_DIR, "elem", "up-arrow.png"), "up-arrow", 80, 80, 270, 572)
+surf_6, rect_6, img6, nom6 = cree_surf_img(os.path.join(BASE_DIR, "elem", "up-right-arrow.png"), "up-right-arrow", 60, 60, 370, 580)
+surf_3, rect_3, img3, nom3 = cree_surf_img(os.path.join(BASE_DIR, "elem", "right-arrow.png"), "right-arrow", 80, 80, 480, 572)
+surf_4, rect_4, img4, nom4 = cree_surf_img(os.path.join(BASE_DIR, "elem", "pause.png"), "pause", 55, 65, 610, 582)
+elements_fixes = [(surf_1, rect_1, img1, nom1), (surf_2, rect_2, img2, nom2), (surf_3, rect_3, img3, nom3), (surf_4, rect_4, img4, nom4), (surf_5, rect_5, img5, nom5), (surf_6, rect_6, img6, nom6)]
 
 # Initialisation du bouton d'envoi
 
@@ -104,12 +108,12 @@ menu_rect, option_supprimer, option_temps = None, None, None # A l'état "None" 
 option_fermer_temps, option_moins, option_moins_moins, option_plus, option_plus_plus, menu_temps_rect, option_de_temps = None, None, None, None, None, None, None
 menu = {"menu_visible" : menu_visible, "menu_rect" : menu_rect, "option_supprimer" : option_supprimer, "option_temps" : option_temps, "element_concerne" : element_concerne, "menu_temps_visible" : menu_temps_visible, "menu_temps_rect" : menu_temps_rect, "option_de_temps" : option_de_temps, "option_fermer_temps" : option_fermer_temps, "option_moins" : option_moins, "option_moins_moins" : option_moins_moins, "option_plus" : option_plus, "option_plus_plus" : option_plus_plus}
 
-retour_from_end_surf = pygame.image.load('Real_Game/elem/replay.png').convert_alpha()
+retour_from_end_surf = pygame.image.load(os.path.join(BASE_DIR, "elem", "replay.png")).convert_alpha()
 retour_from_end_surf = pygame.transform.scale(retour_from_end_surf, (200, 200))
 retour_from_end_rect = retour_from_end_surf.get_rect(midbottom=(screen.get_width()/2 + 40, screen.get_height()/2 + 150))  # Position du bouton start
 
-background_image_accueil = pygame.image.load("Real_Game/elem/accueil_background.png")
-background_image_menu = pygame.image.load("Real_Game/elem/menu_background.png")
-background_image_end = pygame.image.load("Real_Game/elem/end_background.png").convert_alpha()
+background_image_accueil = pygame.image.load(os.path.join(BASE_DIR, "elem", "accueil_background.png"))
+background_image_menu = pygame.image.load(os.path.join(BASE_DIR, "elem", "menu_background.png"))
+background_image_end = pygame.image.load(os.path.join(BASE_DIR, "elem", "end_background.png")).convert_alpha()
 
 player_surf, player_rect, player_gravity, speed = None, None, None, None

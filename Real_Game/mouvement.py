@@ -1,4 +1,7 @@
-       
+import os
+
+BASE_DIR = os.path.dirname(__file__)
+
 class File_mouv:
     
     def __init__(self,file=[]):
@@ -61,22 +64,23 @@ def generer_liste_elements(elements_deplacables):
         groupes[groupe].sort(key=lambda elem: elem[1].x)
 
     liste_elements = []
+    
     for groupe in ["groupe_1", "groupe_2", "groupe_3"]:
         for elem in groupes[groupe]:
-            if elem[2] == "Real_Game/elem/up-arrow.png":
+            if elem[3] == "up-arrow":
                 mouv = "j"
-            elif elem[2] == "Real_Game/elem/right-arrow.png":
+            elif elem[3] == "right-arrow":
                 mouv = "r"
-            elif elem[2] == "Real_Game/elem/left-arrow.png":
+            elif elem[3] == "left-arrow":
                 mouv = "l"
-            elif elem[2] == "Real_Game/elem/pause.png":
+            elif elem[3] == "pause":
                 mouv = "p"
-            elif elem[2] == "Real_Game/elem/up-right-arrow.png":
+            elif elem[3] == "up-right-arrow":
                 mouv = "j_r"
-            elif elem[2] == "Real_Game/elem/up-left-arrow.png":
+            elif elem[3] == "up-left-arrow":
                 mouv = "j_l"
         
-            liste_elements.append({"mouvement": mouv, "temps": elem[3], "element":elem})
+            liste_elements.append({"mouvement": mouv, "temps": elem[4], "element":elem})
     return liste_elements
 
 def traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur):
