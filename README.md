@@ -64,8 +64,11 @@ Vous devrez guider votre personnage jusqu'au portes de 5 niveaux tous plus durs 
 -> Lorsque les 5 niveaux sont terminés, vous arrivez sur la page de fin. Vous pouvez alors revenir sur la page de choix de niveaux. *Pourquoi ne pas tenter de terminer les niveaux avec le moins de tentatives possibles ??? Arriverez vous à tous les terminer en un seul essai !?*
 
 ### Installation du jeu
+
+La version Python 3.10 au minimum est nécessaire.
+
 #### Windows
-Il suffit de télécharger le code et de l'ouvrir sur un IDE tel que Visual Studio Code ou PyCharm par exemple. Pour une problématique de chemins, il faut ouvrir le code à partir du dossier "Visi301_Mathieu_Teva".
+Il suffit de télécharger le code et de l'ouvrir sur un IDE tel que Visual Studio Code ou PyCharm par exemple.
 
 Il faut ensuite s'assurer d'avoir bien installé python.
 

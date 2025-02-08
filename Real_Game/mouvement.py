@@ -67,18 +67,19 @@ def generer_liste_elements(elements_deplacables):
     
     for groupe in ["groupe_1", "groupe_2", "groupe_3"]:
         for elem in groupes[groupe]:
-            if elem[3] == "up-arrow":
-                mouv = "j"
-            elif elem[3] == "right-arrow":
-                mouv = "r"
-            elif elem[3] == "left-arrow":
-                mouv = "l"
-            elif elem[3] == "pause":
-                mouv = "p"
-            elif elem[3] == "up-right-arrow":
-                mouv = "j_r"
-            elif elem[3] == "up-left-arrow":
-                mouv = "j_l"
+            match elem[3]:
+                case "up-arrow" :
+                    mouv = "j"
+                case "right-arrow" :
+                    mouv = "r"
+                case "left-arrow" :
+                    mouv = "l"
+                case "pause" :
+                    mouv = "p"
+                case "up-right-arrow" :
+                    mouv = "j_r"
+                case "up-left-arrow":
+                    mouv = "j_l"              
         
             liste_elements.append({"mouvement": mouv, "temps": elem[4], "element":elem})
     return liste_elements

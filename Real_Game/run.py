@@ -36,20 +36,21 @@ while True:
 
     else:
         if Joueur != None and Joueur.is_finish():
-            if level == 1:
-                levels_info[1][3] = True
-                level = 0
-            elif level == 2:
-                levels_info[2][3] = True
-                level = 0
-            elif level == 3:
-                levels_info[3][3] = True
-                level = 0
-            elif level == 4:
-                levels_info[4][3] = True
-                level = 0
-            elif level == 5:
-                level = -2
+            match level:
+                case 1 :
+                    levels_info[1][3] = True
+                    level = 0
+                case 2 :
+                    levels_info[2][3] = True
+                    level = 0
+                case 3 :
+                    levels_info[3][3] = True
+                    level = 0
+                case 4 :
+                    levels_info[4][3] = True
+                    level = 0
+                case 5 :
+                    level = -2
 
             nb_tentatives = 0
             Joueur.respawn()
