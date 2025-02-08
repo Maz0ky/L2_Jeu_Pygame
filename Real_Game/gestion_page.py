@@ -11,78 +11,45 @@ def gestion_evenement_base(event):
             pygame.quit()
             exit()
 
-def gestion_evenements_end(event, level, end_rect):
+def gestion_evenements_end(event):
     gestion_evenement_base(event)
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
-        if end_rect.collidepoint(mouse_pos):
-            level = 0
-    return level
-
-def gestion_evenements_accueil(event, level, start_rect):
+        if retour_from_end_rect.collidepoint(mouse_pos):
+            variables_jeu["level_actu"] = 0
+    
+def gestion_evenements_accueil(event):
     gestion_evenement_base(event)
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
         if start_rect.collidepoint(mouse_pos):
-            level = 0
-    return level
+            variables_jeu["level_actu"] = 0
 
-def gestion_evenements_choix_niveau(event, level, button_retour_de_choixlvl, levels_info):
+def gestion_evenements_choix_niveau(event):
     gestion_evenement_base(event)
     mouse_pos = pygame.mouse.get_pos()
     Joueur = None
 
     if event.type == pygame.MOUSEBUTTONDOWN:
-        
         if button_retour_de_choixlvl[2].collidepoint(mouse_pos):
-            level = -1
-        elif levels_info[0][1].collidepoint(mouse_pos):
-            charge_map(0)
-            Joueur = Player(pos_start)
-            level = 1
-        elif levels_info[1][1].collidepoint(mouse_pos) and levels_info[1][3]:
-            charge_map(1)
-            Joueur = Player(pos_start)
-            level = 2
-        elif levels_info[2][1].collidepoint(mouse_pos) and levels_info[2][3]:
-            charge_map(2)
-            Joueur = Player(pos_start)
-            level = 3
-        elif levels_info[3][1].collidepoint(mouse_pos) and levels_info[3][3]:
-            charge_map(3)
-            Joueur = Player(pos_start)
-            level = 4
-        elif levels_info[4][1].collidepoint(mouse_pos) and levels_info[4][3]:
-            charge_map(4)
-            Joueur = Player(pos_start)
-            level = 5
-    
-    if event.type == pygame.MOUSEMOTION:  # Détecte les mouvements de la souris
-        if levels_info[0][1].collidepoint(mouse_pos):
-            levels_info[0][2] = True  # Active l'effet de survol
+            variables_jeu["level_actu"] = -1
         else:
-            levels_info[0][2] = False
-        if levels_info[1][1].collidepoint(mouse_pos):
-            levels_info[1][2] = True  # Active l'effet de survol
-        else:
-            levels_info[1][2] = False
-        if levels_info[2][1].collidepoint(mouse_pos):
-            levels_info[2][2] = True  # Active l'effet de survol
-        else:
-            levels_info[2][2] = False
-        if levels_info[3][1].collidepoint(mouse_pos):
-            levels_info[3][2] = True  # Active l'effet de survol
-        else:
-            levels_info[3][2] = False
-        if levels_info[4][1].collidepoint(mouse_pos):
-            levels_info[4][2] = True  # Active l'effet de survol
-        else:
-            levels_info[4][2] = False
-    return level, Joueur
+            for i in range(0, variables_jeu["nb_level"]):
+                if levels_info[i][1].collidepoint(mouse_pos) and levels_info[i][3]:
+                    charge_map(i)
+                    Joueur = Player(pos_start)
+                    variables_jeu["level_actu"] = i + 1
 
-def gestion_evenements_level(screen, event, level, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, button_retour_de_page, Joueur, menu, nb_tentatives):
+    if event.type == pygame.MOUSEMOTION:  # Détecte les mouvements de la souris
+        for i in range(0, variables_jeu["nb_level"]):
+            if levels_info[i][1].collidepoint(mouse_pos):
+                levels_info[i][2] = True  # Active l'effet de survol
+            else:
+                levels_info[i][2] = False
+
+def gestion_evenements_level(event, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, button_retour_de_page):
     """Gestion des évènements"""
     gestion_evenement_base(event)
     genere_liste_elements = False # Indique si l'on doit envoyer la liste
@@ -92,7 +59,7 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
         mouse_pos = pygame.mouse.get_pos()
 
         if button_retour_de_page[2].collidepoint(mouse_pos):
-            level = 0
+            variables_jeu["level_actu"] = 0
         
         # Vérification des blocs fixes pour créer des blocs déplaçables si besoin
         for element in elements_fixes:
@@ -120,11 +87,11 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
                     # Afficher un menu contextuel
                     menu["menu_visible"] = True
                     menu["element_concerne"] = element
-                    menu["menu_rect"], menu["option_supprimer"], menu["option_temps"] = affiche_menu(screen, menu["menu_rect"])
+                    affiche_menu()
                     break
 
     if menu["menu_visible"]:
-        menu["menu_rect"], menu["option_supprimer"], menu["option_temps"] = affiche_menu(screen, menu["menu_rect"])
+        affiche_menu()
         # Gestion du menu
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
@@ -138,7 +105,7 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
                 # Modifier le temps si "Modifier le temps" est cliqué
                 if menu["option_temps"].get_rect(topleft=(menu["menu_rect"].x, menu["menu_rect"].y + 40)).collidepoint(mouse_pos):
                     # Champ pour saisir le temps
-                    menu = affiche_menu_temps(screen, menu)
+                    affiche_menu_temps()
                     
                     menu["menu_visible"] = False
                     menu["menu_temps_visible"] = True
@@ -151,21 +118,21 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
                 menu["element_concerne"][4] -= 10
                 if menu["element_concerne"][4] < 0:
                     menu["element_concerne"][4] = 0
-                menu = affiche_menu_temps(screen, menu)
+                affiche_menu_temps()
               
             if menu["option_moins"].get_rect(topleft=(menu["menu_temps_rect"].x + 10, menu["menu_temps_rect"].y + 10)).collidepoint(mouse_pos):
                 menu["element_concerne"][4] -= 1
                 if menu["element_concerne"][4] < 0:
                     menu["element_concerne"][4] = 0
-                menu = affiche_menu_temps(screen, menu)
+                affiche_menu_temps()
                 
             if menu["option_plus"].get_rect(topleft=(menu["menu_temps_rect"].x + 85, menu["menu_temps_rect"].y + 10)).collidepoint(mouse_pos):
                 menu["element_concerne"][4] += 1
-                menu = affiche_menu_temps(screen, menu)
+                affiche_menu_temps()
 
             if menu["option_plus_plus"].get_rect(topleft=(menu["menu_temps_rect"].x + 115, menu["menu_temps_rect"].y + 10)).collidepoint(mouse_pos):
                 menu["element_concerne"][4] += 10
-                menu = affiche_menu_temps(screen, menu)
+                affiche_menu_temps()
 
             if menu["option_fermer_temps"].get_rect(topleft=(menu["menu_temps_rect"].x + 10, menu["menu_temps_rect"].y + -20)).collidepoint(mouse_pos):
                 menu["menu_temps_visible"] = False
@@ -188,7 +155,7 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
                 click_again = False
                 Joueur.respawn()
                 genere_liste_elements = True
-                nb_tentatives += 1
+                variables_jeu["nb_tentatives"] += 1
 
         # Vérification du clic sur le bouton Reset
         if bouton_reset[2].collidepoint(mouse_pos):
@@ -202,23 +169,21 @@ def gestion_evenements_level(screen, event, level, elements_fixes, elements_depl
         selected_element[1].x = mouse_pos[0] - mouse_offset[0]
         selected_element[1].y = mouse_pos[1] - mouse_offset[1]
 
-    return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again, level, nb_tentatives
+    return elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again
 
 # Les menus de la partie création de liste
 
-def affiche_menu(screen, menu_rect):
+def affiche_menu():
     """Affiche un menu contextuel pour l'élément sélectionné."""
     font = pygame.font.Font(None, 36)
     # Création des options de menu
-    option_supprimer = font.render("Supprimer", True, (255, 255, 255))
-    option_temps = font.render("Modifier temps", True, (255, 255, 255))
+    menu["option_supprimer"] = font.render("Supprimer", True, (255, 255, 255))
+    menu["option_temps"] = font.render("Modifier temps", True, (255, 255, 255))
 
     # Position du menu contextuel
-    menu_rect = pygame.Rect(350, 320, 200, 80)
-    
-    return menu_rect, option_supprimer, option_temps
+    menu["menu_rect"] = pygame.Rect(350, 320, 200, 80)
 
-def affiche_menu_temps(screen, menu):
+def affiche_menu_temps():
     font = pygame.font.Font(None, 36)
     # Création des options de menu
     menu["option_moins_moins"] = font.render("--", True, (255, 255, 255))
@@ -231,39 +196,37 @@ def affiche_menu_temps(screen, menu):
     # Position du menu contextuel
     menu["menu_temps_rect"] = pygame.Rect(350, 320, 0, 0)
     
-    return menu
-
 # Mise à jour de la page
 
-def mise_a_jour_page_base_debut(screen):
+def mise_a_jour_page_base_debut():
     # Mise à jour de l'affichage
     screen.fill((30, 30, 30))
 
-def mise_a_jour_page_base_fin(clock, fps):
+def mise_a_jour_page_base_fin():
     pygame.display.flip()  # Met à jour l'écran
-    clock.tick(fps) * .001 * fps  # Limite à 60 FPS
+    clock.tick(variables_jeu["fps"]) * .001 * variables_jeu["fps"]  # Limite à 60 FPS
 
-def mise_a_jour_page_end(screen, clock, fps, retour_from_end_surf, retour_from_end_rect):
+def mise_a_jour_page_end():
     """Met à jour la page"""
 
-    mise_a_jour_page_base_debut(screen)
+    mise_a_jour_page_base_debut()
     
     screen.blit(background_image_end, (0, 0))
     screen.blit(retour_from_end_surf, retour_from_end_rect)
 
-    mise_a_jour_page_base_fin(clock, fps)
+    mise_a_jour_page_base_fin()
 
-def mise_a_jour_page_accueil(screen, clock, fps, start_surf, start_rect):
+def mise_a_jour_page_accueil():
     """Met à jour la page"""
 
-    mise_a_jour_page_base_debut(screen)
+    mise_a_jour_page_base_debut()
     
     screen.blit(background_image_accueil, (0, 0))
     screen.blit(start_surf, start_rect)
 
-    mise_a_jour_page_base_fin(clock, fps)
+    mise_a_jour_page_base_fin()
 
-def levels_verifications(screen, levels_info, niveau):
+def levels_verifications(niveau):
     """Pour rendre la vérification des niveaux plus compacte"""
     indice = niveau - 1
     if levels_info[indice][3]:
@@ -281,18 +244,15 @@ def levels_verifications(screen, levels_info, niveau):
             pygame.draw.circle(overlay, (100, 40, 40, 240), levels_info[indice][1].center, max(levels_info[indice][1].width, levels_info[indice][1].height) // 2 + 40)  # Cercle semi-transparent
             screen.blit(overlay, (0, 0))
 
-def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl, levels_info):
+def mise_a_jour_page_choix_niveau():
     """Met à jour la page"""
 
-    mise_a_jour_page_base_debut(screen)
+    mise_a_jour_page_base_debut()
     
     screen.blit(background_image_menu, (0, 0))
 
-    levels_verifications(screen, levels_info, 1)
-    levels_verifications(screen, levels_info, 2)
-    levels_verifications(screen, levels_info, 3)
-    levels_verifications(screen, levels_info, 4)
-    levels_verifications(screen, levels_info, 5)
+    for i in range(0, variables_jeu["nb_level"]):
+        levels_verifications(i + 1)
 
     button_retour_de_choixlvl[2].width += 20 ; button_retour_de_choixlvl[2].height += 20
     pygame.draw.ellipse(screen,(211, 211, 211), button_retour_de_choixlvl[2])
@@ -301,12 +261,12 @@ def mise_a_jour_page_choix_niveau(screen, clock, fps, button_retour_de_choixlvl,
     button_retour_de_choixlvl[2].width -= 20 ; button_retour_de_choixlvl[2].height -= 20
     button_retour_de_choixlvl[2].x -= 10 ; button_retour_de_choixlvl[2].y -= 10
 
-    mise_a_jour_page_base_fin(clock, fps)
+    mise_a_jour_page_base_fin()
 
-def mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_envoi, clock, fps, button_retour_de_page, Joueur, menu, barres_separations_interface, file_mouvement, elem_actuel, nb_tentatives):
+def mise_a_jour_page_level(elements_fixes, elements_deplacables, bouton_envoi, button_retour_de_page, barres_separations_interface, file_mouvement, elem_actuel):
     """Met à jour la page"""
 
-    mise_a_jour_page_base_debut(screen)
+    mise_a_jour_page_base_debut()
 
     # Séparation des deux interfaces
     pygame.draw.rect(screen, (232,195,158), Rect(0, 0, 800, 800))
@@ -351,7 +311,7 @@ def mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_
     button_retour_de_page[2].width -= 20 ; button_retour_de_page[2].height -= 20
     button_retour_de_page[2].x -= 10 ; button_retour_de_page[2].y -= 10
 
-    nb_tentatives_surf = pygame.font.Font(None,36).render(f"Tentatives : {nb_tentatives}",True,(0,0,0))
+    nb_tentatives_surf = pygame.font.Font(None,36).render(f"Tentatives : {variables_jeu["nb_tentatives"]}",True,(0,0,0))
     screen.blit(nb_tentatives_surf, (620,10))
 
     # Met à jour le menu si il est affiché
@@ -376,4 +336,4 @@ def mise_a_jour_page_level(screen, elements_fixes, elements_deplacables, bouton_
         file_mouvement.clear()
         Joueur.respawn()
         
-    mise_a_jour_page_base_fin(clock, fps)
+    mise_a_jour_page_base_fin()

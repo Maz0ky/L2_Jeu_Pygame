@@ -2,6 +2,7 @@
 import os
 import pygame
 from mouvement import *
+from entites import *
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -9,12 +10,18 @@ pygame.init()
 screen = pygame.display.set_mode((1600, 672))
 pygame.display.set_caption("Zeta Jeu de la muerta")
 clock = pygame.time.Clock()
-fps = 60
 pos_start = (800,640)
 
-level = -1
+Joueur = Player(pos_start)
 
-nb_tentatives = 0
+variables_jeu = {
+    "level_actu" : -1,
+    "nb_tentatives" : 0,
+    
+    "nb_level" : 5,
+
+    "fps" : 60
+}
 
 # Initialisation du bouton de retour pour retourner à l'accueil depuis la page de choix des niveaux
 """Création du bouton Retour"""
@@ -37,17 +44,17 @@ start_surf = pygame.image.load(os.path.join(BASE_DIR, "elem", "start.png")).conv
 start_surf = pygame.transform.scale(start_surf, (200, 200))
 start_rect = start_surf.get_rect(midbottom=(screen.get_width()/2, screen.get_height()*5/6))  # Position du bouton start
 
-def init_level(screen, chemin, taille, width, height):
+def init_level(chemin, taille, width, height):
     level_surf = pygame.image.load(chemin).convert_alpha()
     level_surf = pygame.transform.scale(level_surf, taille)
     level_rect = level_surf.get_rect(midtop=(screen.get_width()*width, screen.get_height()*height))
     return level_surf, level_rect
 
-level_1_surf, level_1_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_1.png"), (90, 90), 6/33, 10/27)
-level_2_surf, level_2_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_2.png"), (130, 130), 12/41, 2/25)
-level_3_surf, level_3_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_3.png"), (170, 170), 288/411, 1/15)
-level_4_surf, level_4_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_4.png"), (210, 210), 85/100, 16/36)
-level_5_surf, level_5_rect = init_level(screen, os.path.join(BASE_DIR, "elem", "level_5.png"), (250, 250), 49/100, 6/15)
+level_1_surf, level_1_rect = init_level(os.path.join(BASE_DIR, "elem", "level_1.png"), (90, 90), 6/33, 10/27)
+level_2_surf, level_2_rect = init_level(os.path.join(BASE_DIR, "elem", "level_2.png"), (130, 130), 12/41, 2/25)
+level_3_surf, level_3_rect = init_level(os.path.join(BASE_DIR, "elem", "level_3.png"), (170, 170), 288/411, 1/15)
+level_4_surf, level_4_rect = init_level(os.path.join(BASE_DIR, "elem", "level_4.png"), (210, 210), 85/100, 16/36)
+level_5_surf, level_5_rect = init_level(os.path.join(BASE_DIR, "elem", "level_5.png"), (250, 250), 49/100, 6/15)
 
 level_1_survol, level_2_survol, level_3_survol, level_4_survol, level_5_survol = False, False, False, False, False
 level_1_accessible, level_2_accessible, level_3_accessible, level_4_accessible, level_5_accessible  = True, False, False, False, False
