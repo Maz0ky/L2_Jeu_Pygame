@@ -30,7 +30,6 @@ def gestion_evenements_accueil(event):
 def gestion_evenements_choix_niveau(event):
     gestion_evenement_base(event)
     mouse_pos = pygame.mouse.get_pos()
-    Joueur = None
 
     if event.type == pygame.MOUSEBUTTONDOWN:
         if boutons["retour_de_choixlvl"][2].collidepoint(mouse_pos):
@@ -38,10 +37,11 @@ def gestion_evenements_choix_niveau(event):
         else:
             for i in range(0, variables_jeu["nb_level"]):
                 if levels_info[i][1].collidepoint(mouse_pos) and levels_info[i][3]:
-                    charge_map(i)
-                    Joueur = Player(pos_start)
+                    entite["Joueur"] = Player()
+                    entite["Joueur"].update_pos_start(levels_info[i][4])
                     variables_jeu["level_actu"] = i + 1
-
+                    charge_map(i)
+                    
     if event.type == pygame.MOUSEMOTION:  # Détecte les mouvements de la souris
         for i in range(0, variables_jeu["nb_level"]):
             if levels_info[i][1].collidepoint(mouse_pos):
@@ -156,7 +156,7 @@ def gestion_evenements_level(event, click_again, elements_deplacables):
 
             if click_again == True:
                 click_again = False
-                Joueur.respawn()
+                entite["Joueur"].respawn()
                 genere_liste_elements = True
                 variables_jeu["nb_tentatives"] += 1
 
@@ -266,8 +266,9 @@ def mise_a_jour_page_choix_niveau():
 
     mise_a_jour_page_base_fin()
 
-def mise_a_jour_page_level(file_mouvement, elem_actuel):
+def mise_a_jour_page_level(elem_actuel, elements_deplacables):
     """Met à jour la page"""
+
     screen = pygame_screen["screen"]
 
     mise_a_jour_page_base_debut()
@@ -334,10 +335,10 @@ def mise_a_jour_page_level(file_mouvement, elem_actuel):
     # Partie map
 
     sprite_group.draw(screen)
-    Joueur.show(screen)
-    Joueur.update(block_group, fatal_group, end_group)
-    if Joueur.is_dead():
+    entite["Joueur"].show(screen)
+    entite["Joueur"].update(block_group, fatal_group, end_group)
+    if entite["Joueur"].is_dead():
         file_mouvement.clear()
-        Joueur.respawn()
+        entite["Joueur"].respawn()
         
     mise_a_jour_page_base_fin()

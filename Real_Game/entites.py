@@ -34,12 +34,12 @@ class Finish_Block(Tile):
         super().__init__(pos = pos, surf = surf, groups = groups)
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, start_pos):
+    def __init__(self):
         super().__init__()
         self.image = pygame.image.load(os.path.join(BASE_DIR, "Tuile/Image/Player_Sprite", "Shrek-1.png"))
         self.rect = self.image.get_rect()
-        self.start_pos = start_pos
-        self.rect.bottomleft = start_pos
+        self.start_pos = (0, 0)
+        self.rect.bottomleft = (0, 0)
         self.game_over = False
         self.on_ground = False
         self.win = False
@@ -47,7 +47,11 @@ class Player(pygame.sprite.Sprite):
 
         self.vitesse = pygame.math.Vector2(0,0)
     
-    def show(self,screen):
+    def update_pos_start(self, start_pos):
+        self.start_pos = start_pos
+        self.rect.bottomleft = start_pos
+
+    def show(self, screen):
         screen.blit(self.image, self.rect)
         
     def get_rect(self):

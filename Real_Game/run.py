@@ -29,8 +29,7 @@ while True:
         mise_a_jour_page_choix_niveau()
 
     else:
-        if Joueur.is_finish():
-
+        if entite["Joueur"].is_finish():
             match variables_jeu["level_actu"]:
                 case 5:
                     variables_jeu["level_actu"] = -2
@@ -39,8 +38,8 @@ while True:
                     variables_jeu["level_actu"] = 0
 
             variables_jeu["nb_tentatives"] = 0
-            Joueur.respawn()
-            Joueur.reset()
+            entite["Joueur"].respawn()
+            entite["Joueur"].reset()
             genere_liste_elements = False
             file_mouvement.clear()
             elements_deplacables = []
@@ -50,7 +49,7 @@ while True:
             genere_liste_elements, click_again, elements_deplacables = gestion_evenements_level(event, click_again, elements_deplacables)
 
         # [2] Traite l'envoie d'une liste d'éléments
-        genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
+        genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, entite["Joueur"])
 
         # [FIN] Mise à jour de la page
-        mise_a_jour_page_level(file_mouvement, elem_actuel)    
+        mise_a_jour_page_level(elem_actuel, elements_deplacables)
