@@ -45,13 +45,12 @@ while True:
             file_mouvement.clear()
             elements_deplacables = []
 
-        
         # [DEBUT] Gestion des évènements
         for event in pygame.event.get():
-            elements_deplacables, mouse_offset, genere_liste_elements, selected_element, player_rect, click_again = gestion_evenements_level(event, elements_fixes, elements_deplacables, selected_element, mouse_offset, bouton_envoi, click_again, player_rect, button_retour_de_page)
+            genere_liste_elements, click_again, elements_deplacables = gestion_evenements_level(event, click_again, elements_deplacables)
 
         # [2] Traite l'envoie d'une liste d'éléments
         genere_liste_elements, click_again, elem_actuel = traiter_envoie(genere_liste_elements, elements_deplacables, click_again, file_mouvement, Joueur)
 
         # [FIN] Mise à jour de la page
-        mise_a_jour_page_level(elements_fixes, elements_deplacables, bouton_envoi, button_retour_de_page, barres_separations_interface, file_mouvement, elem_actuel)    
+        mise_a_jour_page_level(file_mouvement, elem_actuel)    
