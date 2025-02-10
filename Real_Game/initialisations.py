@@ -86,3 +86,11 @@ elements = {
     # Barre de séparations des mouvements
     "separation_mouvements" : [((0, 180), (800, 180), 3), ((0, 360), (800, 360), 3), ((0, 540), (800, 540), 3)]
 }
+
+tuiles_map = {
+    "sprite_group" : pygame.sprite.Group(), # groupe regroupant toutes les tuiles de la map
+    "block_group" : pygame.sprite.Group(),
+    "fatal_group" : pygame.sprite.Group(),
+    "end_group" : pygame.sprite.Group(),
+    "tileset_size" : 32
+}

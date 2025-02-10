@@ -4,9 +4,9 @@ import pygame
 BASE_DIR = os.path.dirname(__file__)
 
 class Tile(pygame.sprite.Sprite):
-    #sera toutes les tuiles construisant la map
+    # Sera toutes les tuiles construisant la map
     def __init__(self, pos, surf, groups):
-        super().__init__(groups)#utilise une classe parenté de pygame pour creer les groupes dans les sprite
+        super().__init__(groups)# Utilise une classe parenté de pygame pour creer les groupes dans les sprite
         self.image = pygame.transform.scale(surf,(32,32))
         self.rect = self.image.get_rect(topleft = pos)
     
@@ -14,7 +14,7 @@ class Tile(pygame.sprite.Sprite):
         return self.rect
 
 class Solid_Block(Tile):
-    #classe des blocks collisionables
+    # Classe des blocks collisionables
     def __init__(self, pos, surf, groups):
         super().__init__(pos = pos, surf = surf, groups = groups)
     
@@ -23,13 +23,13 @@ class Solid_Block(Tile):
             pass
 
 class Fatal_Block(Tile):
-    #classe des blocks fatals
+    # Classe des blocks fatals
     def __init__(self, pos, surf, groups):
         super().__init__(pos = pos, surf = surf, groups = groups)
-        self.mask = pygame.mask.from_surface(self.image)#rajoute un masque aux blocs pour avoir une collision précise
+        self.mask = pygame.mask.from_surface(self.image) # rajoute un masque aux blocs pour avoir une collision précise
 
 class Finish_Block(Tile):
-    #classe des blocks fatals
+    # Classe des blocks fatals
     def __init__(self, pos, surf, groups):
         super().__init__(pos = pos, surf = surf, groups = groups)
 

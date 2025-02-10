@@ -3,7 +3,7 @@ import os
 BASE_DIR = os.path.dirname(__file__)
 
 class File_mouv:
-    
+    # Gestion d'une file de mouvement
     def __init__(self,file=[]):
         """ Instancie une file vide """
         self.file = file #un tableau
@@ -51,6 +51,7 @@ def generer_liste_elements(elements_deplacables):
         "groupe_3": [],  # 360 <= y < 540
         "groupe_4": []   # y >= 540
     }
+
     for elem in elements_deplacables:
         y = elem[1].y  # Position y de l'élément
         if y < 155:
