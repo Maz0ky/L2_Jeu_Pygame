@@ -187,14 +187,13 @@ def gestion_evenements_level(event):
 
     if event.type == pygame.MOUSEBUTTONUP:
         mouse_pos = pygame.mouse.get_pos()
+
+        for element in elements["elem_deplacables"]:
+            if element[1].y > 515:
+                elements["elem_deplacables"].remove(element)
+
         # Vérification du clic sur le bouton Envoi
         if clic_ellipse(mouse_pos, "envoi"):
-        
-            for element in elements["elem_deplacables"]:
-                if element[1].y > 520:
-                    elements["elem_deplacables"].remove(element)
-                    break
-
             if variables_jeu["click_again"] == True:
                 variables_jeu["click_again"] = False
                 entites["Joueur"].respawn()

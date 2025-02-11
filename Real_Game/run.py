@@ -29,7 +29,6 @@ while True:
                 
             for event in pygame.event.get():
                 gestion_evenements_level(event)
-
             # Traite l'envoie d'une liste d'éléments
             elem_actuel = traiter_envoie(variables_jeu, elements, entites)
 

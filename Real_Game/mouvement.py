@@ -87,11 +87,6 @@ def generer_liste_elements(elements_deplacables):
 
 def traiter_envoie(variables_jeu, elements, entites):
     """Gère l'envoi d'une liste d'éléments"""
-    if not variables_jeu["file_mvt"].est_vide():
-        elem_actuel = entites["Joueur"].move_from_File(variables_jeu["file_mvt"])
-    else:
-        elem_actuel = None
-        variables_jeu["click_again"] = True # Réactive envoie
     
     if variables_jeu["genere_lst_elements"]:
         liste_mouvements = generer_liste_elements(elements["elem_deplacables"])  # Retourne la liste des mouvements pour l'utiliser dans Code 3
@@ -99,4 +94,10 @@ def traiter_envoie(variables_jeu, elements, entites):
             variables_jeu["file_mvt"].enfiler_mouv(mouvement)  # Ajoute à la file des mouvements
         variables_jeu["genere_lst_elements"] = False
 
+    if not variables_jeu["file_mvt"].est_vide():
+        elem_actuel = entites["Joueur"].move_from_File(variables_jeu["file_mvt"])
+    else:
+        variables_jeu["click_again"] = True # Réactive envoie
+        elem_actuel = None
+    
     return elem_actuel
