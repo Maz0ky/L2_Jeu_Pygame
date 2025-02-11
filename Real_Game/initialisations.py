@@ -30,11 +30,11 @@ variables_jeu = {
     "genere_lst_elements" : False,
 
     # [lvl_surf, lvl_rect, lvl_survol, lvl_accessible, pos_start]
-    "levels_info" : [init_level(pygame_screen, "elem", "level_1.png", (90, 90), 6/33, 10/27, 800, 640), 
-                   init_level(pygame_screen, "elem", "level_2.png", (130, 130), 12/41, 2/25, 800, 640), 
-                   init_level(pygame_screen, "elem", "level_3.png", (170, 170), 288/411, 1/15, 800, 640), 
-                   init_level(pygame_screen, "elem", "level_4.png", (210, 210), 85/100, 16/36, 800, 640), 
-                   init_level(pygame_screen, "elem", "level_5.png", (250, 250), 49/100, 6/15, 800, 640)]
+    "levels_info" : [init_level(pygame_screen, "elem", "level_1.png", (90, 90), 6/33, 10/27, 801, 635), 
+                   init_level(pygame_screen, "elem", "level_2.png", (130, 130), 12/41, 2/25, 801, 635), 
+                   init_level(pygame_screen, "elem", "level_3.png", (170, 170), 288/411, 1/15, 801, 635), 
+                   init_level(pygame_screen, "elem", "level_4.png", (210, 210), 85/100, 16/36, 801, 635), 
+                   init_level(pygame_screen, "elem", "level_5.png", (250, 250), 49/100, 6/15, 801, 635)]
 }
 
 backgrounds = {
@@ -53,8 +53,8 @@ boutons = {
     "retour_de_page" : bt_txt("Retour menu choix level", 20, 20),
 
     # [font, text, rect]
-    "envoi" : bt_txt("Envoie", 690, 620),
-    "reset" : bt_txt("Effacer", 690, 560)
+    "envoi" : bt_txt("Envoie", 700, 620),
+    "reset" : bt_txt("Effacer", 700, 560)
 }
 
 menu = {

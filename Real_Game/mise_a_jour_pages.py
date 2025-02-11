@@ -63,12 +63,11 @@ def mise_a_jour_page_choix_niveau():
     for i in range(0, variables_jeu["nb_level"]):
         levels_verifications(i + 1)
 
-    boutons["retour_de_choixlvl"][2].width += 20 ; boutons["retour_de_choixlvl"][2].height += 20
-    pygame.draw.ellipse(pygame_screen["screen"],(211, 211, 211), boutons["retour_de_choixlvl"][2])
-    boutons["retour_de_choixlvl"][2].x += 10 ; boutons["retour_de_choixlvl"][2].y += 10
-    pygame_screen["screen"].blit(boutons["retour_de_choixlvl"][1], boutons["retour_de_choixlvl"][2])
-    boutons["retour_de_choixlvl"][2].width -= 20 ; boutons["retour_de_choixlvl"][2].height -= 20
-    boutons["retour_de_choixlvl"][2].x -= 10 ; boutons["retour_de_choixlvl"][2].y -= 10
+    # Met à jour le bouton de retour depuis le choix des niveaux
+    rect = boutons["retour_de_choixlvl"][2]
+    ellipse_rect = pygame.Rect(rect.x - 10, rect.y - 10, rect.width + 20, rect.height + 20)
+    pygame.draw.ellipse(pygame_screen["screen"], (211, 211, 211), ellipse_rect)
+    pygame_screen["screen"].blit(boutons["retour_de_choixlvl"][1], rect)
 
     mise_a_jour_page_base_fin()
 
@@ -98,29 +97,23 @@ def mise_a_jour_page_level(elem_actuel):
         start_pos, end_pos, width = ligne
         pygame.draw.line(screen, (0, 0, 0), start_pos, end_pos, width)
 
-    # Met à jour le bouton envoie
-    boutons["envoi"][2].width += 20 ; boutons["envoi"][2].height += 20
-    pygame.draw.ellipse(screen,(211, 211, 211), boutons["envoi"][2])
-    boutons["envoi"][2].x += 10 ; boutons["envoi"][2].y += 10
-    screen.blit(boutons["envoi"][1], boutons["envoi"][2])
-    boutons["envoi"][2].width -= 20 ; boutons["envoi"][2].height -= 20
-    boutons["envoi"][2].x -= 10 ; boutons["envoi"][2].y -= 10
-
     # Met à jour le bouton reset
-    boutons["reset"][2].width += 20 ; boutons["reset"][2].height += 20
-    pygame.draw.ellipse(screen, (211, 211, 211), boutons["reset"][2])
-    boutons["reset"][2].x += 10 ; boutons["reset"][2].y += 10
-    screen.blit(boutons["reset"][1], boutons["reset"][2])
-    boutons["reset"][2].width -= 20 ; boutons["reset"][2].height -= 20
-    boutons["reset"][2].x -= 10 ; boutons["reset"][2].y -= 10
+    rect = boutons["reset"][2]
+    ellipse_rect = pygame.Rect(rect.x - 10, rect.y - 10, rect.width + 20, rect.height + 20)
+    pygame.draw.ellipse(pygame_screen["screen"], (211, 211, 211), ellipse_rect)
+    pygame_screen["screen"].blit(boutons["reset"][1], rect)
 
     # Met à jour le bouton retour menu choix niveau
-    boutons["retour_de_page"][2].width += 20 ; boutons["retour_de_page"][2].height += 20
-    pygame.draw.ellipse(screen,(211, 211, 211), boutons["retour_de_page"][2])
-    boutons["retour_de_page"][2].x += 10 ; boutons["retour_de_page"][2].y += 10
-    screen.blit(boutons["retour_de_page"][1], boutons["retour_de_page"][2])
-    boutons["retour_de_page"][2].width -= 20 ; boutons["retour_de_page"][2].height -= 20
-    boutons["retour_de_page"][2].x -= 10 ; boutons["retour_de_page"][2].y -= 10
+    rect = boutons["retour_de_page"][2]
+    ellipse_rect = pygame.Rect(rect.x - 10, rect.y - 10, rect.width + 20, rect.height + 20)
+    pygame.draw.ellipse(pygame_screen["screen"], (211, 211, 211), ellipse_rect)
+    pygame_screen["screen"].blit(boutons["retour_de_page"][1], rect)
+
+    # Met à jour le bouton envoi
+    rect = boutons["envoi"][2]
+    ellipse_rect = pygame.Rect(rect.x - 10, rect.y - 10, rect.width + 20, rect.height + 20)
+    pygame.draw.ellipse(pygame_screen["screen"], (211, 211, 211), ellipse_rect)
+    pygame_screen["screen"].blit(boutons["envoi"][1], rect)
 
     nb_tentatives_surf = pygame.font.Font(None,36).render(f"Tentatives : {variables_jeu["nb_tentatives"]}",True,(0,0,0))
     screen.blit(nb_tentatives_surf, (620,10))

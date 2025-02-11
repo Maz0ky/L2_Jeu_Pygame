@@ -28,6 +28,25 @@ def affiche_menu_temps():
     # Position du menu contextuel
     menu["menu_temps_rect"] = pygame.Rect(350, 320, 0, 0)
 
+def clic_ellipse(mouse_pos, bouton):
+    """Vérifie si la souris est dans l'ellipse autour du bouton"""
+    res = False
+    
+    # Calcul du centre de l'ellipse
+    x_c, y_c = boutons[bouton][2].center
+
+    # Demi-axes de l'ellipse (ajustés avec l'agrandissement)
+    a = (boutons[bouton][2].width + 20) / 2
+    b = (boutons[bouton][2].height + 20) / 2
+
+    x, y = mouse_pos
+
+    # Vérification de l'appartenance à l'ellipse (équation mathématique)
+    if ((x - x_c) ** 2) / (a ** 2) + ((y - y_c) ** 2) / (b ** 2) <= 1:
+        res = True
+
+    return res
+
 # Gestion évènements
 
 def gestion_evenement_base(event):
@@ -56,7 +75,7 @@ def gestion_evenements_choix_niveau(event):
     mouse_pos = pygame.mouse.get_pos()
 
     if event.type == pygame.MOUSEBUTTONDOWN:
-        if boutons["retour_de_choixlvl"][2].collidepoint(mouse_pos):
+        if clic_ellipse(mouse_pos, "retour_de_choixlvl"):
             variables_jeu["level_actu"] = -1
         else:
             for i in range(0, variables_jeu["nb_level"]):
@@ -82,8 +101,7 @@ def gestion_evenements_level(event):
     # Clic pour sélectionner une surface ou le bouton
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
-
-        if boutons["retour_de_page"][2].collidepoint(mouse_pos):
+        if clic_ellipse(mouse_pos, "retour_de_page"):
             variables_jeu["level_actu"] = 0
         
         # Vérification des blocs fixes pour créer des blocs déplaçables si besoin
@@ -170,7 +188,8 @@ def gestion_evenements_level(event):
     if event.type == pygame.MOUSEBUTTONUP:
         mouse_pos = pygame.mouse.get_pos()
         # Vérification du clic sur le bouton Envoi
-        if boutons["envoi"][2].collidepoint(mouse_pos):
+        if clic_ellipse(mouse_pos, "envoi"):
+        
             for element in elements["elem_deplacables"]:
                 if element[1].y > 520:
                     elements["elem_deplacables"].remove(element)
@@ -183,7 +202,7 @@ def gestion_evenements_level(event):
                 variables_jeu["nb_tentatives"] += 1
 
         # Vérification du clic sur le bouton Reset
-        if boutons["reset"][2].collidepoint(mouse_pos):
+        if clic_ellipse(mouse_pos, "reset"):
             variables_jeu["genere_lst_elements"] = False
             variables_jeu["file_mvt"].clear()
             elements["elem_deplacables"] = []
