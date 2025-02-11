@@ -8,8 +8,16 @@ from init_fonctions import *
 pygame.init()
 pygame.display.set_caption("Zeta Jeu de la muerta")
 
+sprite = {
+    "niveau_1" : "Shrek-1.png",
+    "niveau_2" : "Shrek-1.png",
+    "niveau_3" : "Shrek-1.png",
+    "niveau_4" : "Shrek-1.png",
+    "niveau_5" : "Shrek-1.png",    
+}
+
 entites = {
-    "Joueur" : Player()
+    "Joueur" : Player(sprite["niveau_1"])
 }
 
 pygame_screen = {

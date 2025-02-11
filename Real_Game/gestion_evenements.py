@@ -80,7 +80,7 @@ def gestion_evenements_choix_niveau(event):
         else:
             for i in range(0, variables_jeu["nb_level"]):
                 if variables_jeu["levels_info"][i][1].collidepoint(mouse_pos) and variables_jeu["levels_info"][i][3]:
-                    entites["Joueur"] = Player()
+                    entites["Joueur"] = Player(sprite["niveau_" + str(i + 1)]) # Pour choisir le Sprite
                     entites["Joueur"].update_pos_start(variables_jeu["levels_info"][i][4])
                     variables_jeu["level_actu"] = i + 1
                     charge_map(i)

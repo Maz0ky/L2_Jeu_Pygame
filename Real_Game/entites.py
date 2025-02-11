@@ -34,9 +34,9 @@ class Finish_Block(Tile):
         super().__init__(pos = pos, surf = surf, groups = groups)
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, sprite):
         super().__init__()
-        self.image = pygame.image.load(os.path.join(BASE_DIR, "Tuile/Image/Player_Sprite", "Shrek-1.png"))
+        self.image = pygame.image.load(os.path.join(BASE_DIR, "Tuile/Image/Player_Sprite",sprite))
         self.rect = self.image.get_rect()
         self.start_pos = (0, 0)
         self.rect.bottomleft = (0, 0)
