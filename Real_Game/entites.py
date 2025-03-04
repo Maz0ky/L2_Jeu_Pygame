@@ -172,10 +172,6 @@ class Player(pygame.sprite.Sprite):
     def respawn(self):
         self.game_over = False
         self.rect.bottomleft = self.start_pos
-    
-    def touch_hurting_block(self,sprite_grp):
-        if self.get_hit(sprite_grp):
-            self.game_over = True
             
     def is_dead(self):
         return self.game_over
