@@ -210,15 +210,24 @@ class Camera:
 
         offset_x = 800
 
-        seuil_gauche = offset_x + (self.largeur - offset_x) * (1 / 3)
-        seuil_droit = offset_x + (self.largeur - offset_x) * (2 / 3)
+        seuil_gauche = offset_x + (self.largeur * (1 / 3))
+        seuil_droit = offset_x + (self.largeur * (2 / 3))
+        seuil_haut = self.hauteur * (1/3)
+        seuil_bas = self.hauteur * (2/3)
 
         # Si le joueur dépasse les seuils, la caméra se déplace
         if target.rect.left > -x + seuil_droit:
             x = -(target.rect.left - seuil_droit)
         elif target.rect.left < -x + seuil_gauche:
             x = -(target.rect.left - seuil_gauche)
+
+        if target.rect.top > -y + seuil_bas:
+            y = -(target.rect.top - seuil_bas)
+        elif target.rect.top < -y + seuil_haut:
+            y = -(target.rect.top - seuil_haut)
     
-        x = min(offset_x, max(-(self.map_largeur - self.largeur) + offset_x, x))
+        x = min(0, max(-(self.map_largeur - self.largeur) + offset_x, x))
+        y = min(0, max(-(self.map_hauteur - self.hauteur), y))
 
         self.camera.x = x
+        self.camera.y = y
