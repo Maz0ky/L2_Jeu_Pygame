@@ -23,7 +23,8 @@ entites = {
 pygame_screen = {
     "fps" : 60,
     "clock" : pygame.time.Clock(),
-    "screen" : pygame.display.set_mode((1600, 672))
+    "screen" : pygame.display.set_mode((1600, 672)),
+    "camera" : Camera(largeur = 800, hauteur = 672)
 }
 
 variables_jeu = {

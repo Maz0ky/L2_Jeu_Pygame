@@ -78,7 +78,26 @@ def mise_a_jour_page_level(elem_actuel):
 
     mise_a_jour_page_base_debut()
 
-    # Séparation des deux interfaces
+    # Calculer la largeur totale de la map
+    map_largeur = max(tile.rect.right for tile in tuiles_map["sprite_group"])  # Récupérer la largeur réelle de la map
+    map_hauteur = max(tile.rect.bottom for tile in tuiles_map["sprite_group"])
+
+    # Mise à jour de la caméra
+    pygame_screen["camera"].update(entites["Joueur"], map_largeur, map_hauteur)
+
+    for tile in tuiles_map["sprite_group"]:
+        pos_x, pos_y = pygame_screen["camera"].apply(tile).topleft # Récupérer la position modifiée
+        screen.blit(tile.image, (pos_x, pos_y))
+
+
+    # Affichage du joueur
+    entites["Joueur"].show(screen, pygame_screen)
+    entites["Joueur"].update(tuiles_map["block_group"], tuiles_map["fatal_group"], tuiles_map["end_group"], tuiles_map)
+    if entites["Joueur"].is_dead():
+        variables_jeu["file_mvt"].clear()
+        entites["Joueur"].respawn()
+    
+    # Interface de gauche
     pygame.draw.rect(screen, (232,195,158), Rect(0, 0, 800, 800))
     
     # Met à jour les éléments sur la page
@@ -119,14 +138,5 @@ def mise_a_jour_page_level(elem_actuel):
         screen.blit(menu["option_plus"], (menu["menu_temps_rect"].x + 85, menu["menu_temps_rect"].y + 10))
         screen.blit(menu["option_plus_plus"], (menu["menu_temps_rect"].x + 115, menu["menu_temps_rect"].y + 10))
         screen.blit(menu["option_fermer_temps"], (menu["menu_temps_rect"].x + 10, menu["menu_temps_rect"].y - 20))
-
-    # Partie map
-
-    tuiles_map["sprite_group"].draw(screen)
-    entites["Joueur"].show(screen)
-    entites["Joueur"].update(tuiles_map["block_group"], tuiles_map["fatal_group"], tuiles_map["end_group"])
-    if entites["Joueur"].is_dead():
-        variables_jeu["file_mvt"].clear()
-        entites["Joueur"].respawn()
         
     mise_a_jour_page_base_fin()

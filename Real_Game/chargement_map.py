@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(__file__)
 def charge_map(num_map):
     mapa = load_pygame(os.path.join(BASE_DIR, "map", f"map_{num_map}.tmx"))
     # parcours toutes les couches
-
+    tuiles_map["sprite_group"].empty()
     tuiles_map["block_group"].empty()
     tuiles_map["fatal_group"].empty()
     tuiles_map["end_group"].empty()

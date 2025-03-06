@@ -1,6 +1,5 @@
 import os
 import pygame
-
 BASE_DIR = os.path.dirname(__file__)
 
 class Tile(pygame.sprite.Sprite):
@@ -51,16 +50,17 @@ class Player(pygame.sprite.Sprite):
         self.start_pos = start_pos
         self.rect.bottomleft = start_pos
 
-    def show(self, screen):
-        screen.blit(self.image, self.rect)
+    def show(self, screen, pygame_screen):
+        joueur_x, joueur_y = pygame_screen["camera"].apply(self).topleft
+        screen.blit(self.image, (joueur_x, joueur_y))
         
     def get_rect(self):
         return self.rect
         
-    def update(self,b_grp,fatal_grp,finish_grp):
+    def update(self, b_grp,fatal_grp, finish_grp, tuiles_map):
         self.collisionx(b_grp)
         self.collisiony(b_grp)
-        self.check_border_map()
+        self.check_border_map(tuiles_map)
         self.applique_vitesse(b_grp)
         self.touch_hurting_block(fatal_grp)
         self.touch_end(finish_grp)
@@ -108,11 +108,12 @@ class Player(pygame.sprite.Sprite):
     
     ########## COLLISIONS ##########
     
-    def check_border_map(self)->None:
+    def check_border_map(self, tuiles_map)->None:
+        map_largeur = max(tile.rect.right for tile in tuiles_map["sprite_group"])
         if self.rect.x + self.vitesse.x < 800:
             self.vitesse.x, self.rect.x = 0, 800
-        elif self.rect.right + self.vitesse.x > 1600:
-            self.vitesse.x, self.rect.right = 0, 1600
+        elif self.rect.right + self.vitesse.x > map_largeur:
+            self.vitesse.x, self.rect.right = 0, map_largeur
     
     def get_hit(self, sprite_grp):
         return pygame.sprite.spritecollide(self,sprite_grp,False)
@@ -188,3 +189,36 @@ class Player(pygame.sprite.Sprite):
     def reset(self):
         self.win = False
 
+class Camera:
+    def __init__(self, largeur, hauteur):
+        self.camera = pygame.Rect(0, 0, largeur, hauteur)
+        self.largeur = largeur
+        self.hauteur = hauteur
+        self.map_largeur = 0  # Taille totale de la map
+        self.map_hauteur = 0
+
+    def apply(self, entity):
+        """Applique le scrolling à une entité (le joueur ou autre)"""
+        return entity.rect.move(self.camera.topleft)
+
+    def update(self, target, map_largeur, map_hauteur):
+        """Met à jour la position de la caméra en déplaçant la map"""
+        self.map_largeur = map_largeur
+        self.map_hauteur = map_hauteur
+
+        x, y = self.camera.topleft # Position actuelle de la caméra
+
+        offset_x = 800
+
+        seuil_gauche = offset_x + (self.largeur - offset_x) * (1 / 3)
+        seuil_droit = offset_x + (self.largeur - offset_x) * (2 / 3)
+
+        # Si le joueur dépasse les seuils, la caméra se déplace
+        if target.rect.left > -x + seuil_droit:
+            x = -(target.rect.left - seuil_droit)
+        elif target.rect.left < -x + seuil_gauche:
+            x = -(target.rect.left - seuil_gauche)
+    
+        x = min(offset_x, max(-(self.map_largeur - self.largeur) + offset_x, x))
+
+        self.camera.x = x
